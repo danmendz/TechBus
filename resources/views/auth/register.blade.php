@@ -15,12 +15,12 @@
             </div>
 
             <div class="mt-4">
-                <x-label for="surnames" value="{{ __('Surnames') }}" />
+                <x-label for="surnames" value="{{ __('Apellidos') }}" />
                 <x-input id="surnames" class="block mt-1 w-full" type="text" name="surnames" :value="old('surnames')" required autofocus autocomplete="surnames" />
             </div>
 
             <div class="mt-4">
-                <x-label for="phone" value="{{ __('Phone') }}" />
+                <x-label for="phone" value="{{ __('Teléfono') }}" />
                 <x-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone')" required autofocus autocomplete="phone" />
             </div>
 

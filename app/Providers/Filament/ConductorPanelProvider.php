@@ -24,6 +24,7 @@ class ConductorPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->default()
             ->id('conductor')
             ->path('conductor')
             ->colors([

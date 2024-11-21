@@ -10,17 +10,16 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Jetstream\HasTwoFactorAuthentication;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
-
+    use HasFactory, Notifiable, HasRoles;
+    
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
+    use HasApiTokens;
     use HasProfilePhoto;
-    use Notifiable;
     use TwoFactorAuthenticatable;
-    use HasRoles;
 
     const ROL_ADMINISTRADOR =  1;
     const ROL_OPERATIVO = 2;
