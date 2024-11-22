@@ -9,9 +9,12 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', ])->group(function () {
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-});
 
-Route::post('/login', [LoginController::class, 'login'])->name('login');
+    Route::get('/admin/dashboard', function () { 
+        return redirect()->to('/administracion'); 
+    })->name('admin.dashboard');
+});
