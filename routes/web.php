@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,8 +14,4 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('dashboard');
 });
 
-// Route::middleware(['auth'])
-// ->group(function () { 
-//     Route::get('/dashboard', [DashboardController::class, 'index'])
-//     ->name('dashboard'); 
-// });
+Route::post('/login', [LoginController::class, 'login'])->name('login');

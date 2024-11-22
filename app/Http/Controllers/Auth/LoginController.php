@@ -17,19 +17,12 @@ class LoginController extends Controller
             $request->session()->regenerate(); 
             $user = Auth::user(); 
             
-            if ($user->role === User::ROL_ADMINISTRADOR)
+            if ($user->role === User::ROL_CLIENTE)
             { 
-                return redirect()->to('/admin'); 
-            } 
-            if ($user->role === User::ROL_OPERATIVO) 
-            { 
-                return redirect()->to('/operativo'); 
-            } 
-            if ($user->role === User::ROL_CONDUCTOR) { 
-                return redirect()->to('/conductor'); 
-            } 
-            if ($user->role === User::ROL_CLIENTE) { 
-                return redirect()->to('/dashboard'); 
+                return redirect()->to('/dashboard');
+
+            } else { 
+                return redirect()->to('/administracion'); 
             } 
         } 
         return back()->withErrors([ 'email' => 'The provided credentials do not match our records.', ]); 

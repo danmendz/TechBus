@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use Filament\Panel;
+
 return [
 
     /*
@@ -13,6 +16,9 @@ return [
     | This will allow your users to receive real-time notifications.
     |
     */
+    'auth' => [
+        'guard' => 'web',
+    ],
 
     'broadcasting' => [
 
