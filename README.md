@@ -19,7 +19,9 @@ php artisan migrate
 
 ### 2. Comandos para optimizar el proyecto
 ```bash
+Para produccion:
 composer dump-autoload -o
+
 php artisan optimize
 php artisan icons:cache
 php artisan config:clear
