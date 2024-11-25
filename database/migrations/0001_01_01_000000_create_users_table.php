@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('surnames');
             $table->string('phone');
-            $table->integer('role')->default(User::ROL_DEFAULT);
+            $table->string('type')->default(User::ROL_DEFAULT);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

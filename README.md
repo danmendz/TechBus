@@ -36,3 +36,12 @@ php artisan db:seed
 php artisan db:seed --class=Seeder
 php artisan make:filament-resource NameModel --generate
 ```
+### Configuracion de roles
+```bash
+
+php artisan tinker
+$user = User::find(1);
+$user->assignRole('role');
+$user->removeRole('role');
+$user->syncRoles([]);
+```

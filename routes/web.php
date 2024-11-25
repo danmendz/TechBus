@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,7 +14,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/admin/dashboard', function () { 
-        return redirect()->to('/administracion'); 
-    })->name('admin.dashboard');
 });
+
+Route::get('/home', [DashboardController::class, 'index']);
+
+// Route::get('/admin/login', function () {
+//     return redirect()->to('login');
+// })->name('filament.admin.auth.login');

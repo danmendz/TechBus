@@ -24,10 +24,10 @@ class User extends Authenticatable implements FilamentUser
     use HasProfilePhoto;
     use TwoFactorAuthenticatable;
 
-    const ROL_ADMINISTRADOR =  1;
-    const ROL_OPERATIVO = 2;
-    const ROL_CONDUCTOR = 3;
-    const ROL_CLIENTE = 4;
+    const ROL_ADMINISTRADOR = 'admin';
+    const ROL_OPERATIVO = 'operativo';
+    const ROL_CONDUCTOR = 'conductor';
+    const ROL_CLIENTE = 'cliente';
 
     const ROL_DEFAULT = self::ROL_CLIENTE;
 
@@ -38,9 +38,11 @@ class User extends Authenticatable implements FilamentUser
         self::ROL_CLIENTE => 'Cliente',
     ];
 
+    // ||
+
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->isAdmin() || $this->isOperativo() || $this->isConductor();
+        return $this->type === 'admin';
     }
 
     public function isAdmin()
@@ -48,23 +50,6 @@ class User extends Authenticatable implements FilamentUser
         return $this->role === self::ROL_ADMINISTRADOR;
 
     }
-
-    public function isOperativo()
-    {
-        return $this->role === self::ROL_OPERATIVO;
-        
-    }
-
-    public function isConductor()
-    {
-        return $this->role === self::ROL_CONDUCTOR;
-    }
-
-    public function isCliente()
-    {
-        return $this->role === self::ROL_CLIENTE;
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -74,7 +59,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'surnames',
         'phone',
-        'role',
+        'type',
         'email',
         'password',
     ];
