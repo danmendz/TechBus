@@ -13,11 +13,4 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
 });
-
-Route::get('/home', [DashboardController::class, 'index']);
-
-// Route::get('/admin/login', function () {
-//     return redirect()->to('login');
-// })->name('filament.admin.auth.login');
