@@ -16,18 +16,16 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AdministracionPanelProvider extends PanelProvider
+class GestionPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
-            ->id('administracion')
-            ->path('administracion')
-            ->profile()
+            ->id('gestion')
+            ->path('gestion')
             ->colors([
                 'primary' => Color::Blue,
                 'danger' => Color::Red,
@@ -37,14 +35,13 @@ class AdministracionPanelProvider extends PanelProvider
                 'warning' => Color::Amber,
             ])
             ->brandLogo(asset('images/enterprise/ADO-logo-blue.png'))
-            ->discoverResources(in: app_path('Filament/Administracion/Resources'), for: 'App\\Filament\\Administracion\\Resources')
-            ->discoverPages(in: app_path('Filament/Administracion/Pages'), for: 'App\\Filament\\Administracion\\Pages')
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Administracion/Widgets'), for: 'App\\Filament\\Administracion\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

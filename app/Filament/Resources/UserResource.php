@@ -17,34 +17,54 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $modelLabel = 'Usuarios';
+    
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
+        ->schema([
+            Forms\Components\Section::make('Personal data')
+                ->description('Enter the user personal data here')
+                ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(510),
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('surnames')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('phone')
+                    ->type('tel')
+                    ->required()
+                    ->maxLength(10),
+                Forms\Components\Select::make('type')
+                    ->options(User::ROLES)
+                    ->native(false)
+                    ->required(),
+                ])->columns(2),
+            Forms\Components\Section::make('Access data')
+                ->description('Enter the access data for the user here')
+                ->schema([
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
-                    ->maxLength(510),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(510),
-                Forms\Components\TextInput::make('current_team_id')
-                    ->numeric(),
-                Forms\Components\TextInput::make('profile_photo_path')
-                    ->maxLength(4096),
-                Forms\Components\Textarea::make('two_factor_secret')
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('two_factor_recovery_codes')
-                    ->columnSpanFull(),
-                Forms\Components\DateTimePicker::make('two_factor_confirmed_at'),
-            ]);
+                    ->maxLength(255),
+                    Forms\Components\TextInput::make('password') 
+                        ->password() 
+                        ->minLength(8) 
+                        ->revealable() 
+                        ->maxLength(255) 
+                        ->dehydrated(fn ($state) => !empty($state)) 
+                        ->dehydrateStateUsing(fn ($state) => !empty($state) ? bcrypt($state) : null) 
+                        ->helperText('Deja el campo vacío si no deseas cambiar la contraseña.'),
+
+                ])->columns(2),
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -53,27 +73,33 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('surnames')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('current_team_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('profile_photo_path')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('two_factor_confirmed_at')
-                    ->dateTime()
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('email_verified_at')
+                //     ->dateTime()
+                //     ->sortable(),
+                // Tables\Columns\TextColumn::make('current_team_id')
+                //     ->numeric()
+                //     ->sortable(),
+                // Tables\Columns\TextColumn::make('profile_photo_path')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('two_factor_confirmed_at')
+                //     ->dateTime()
+                //     ->sortable(),
             ])
             ->filters([
                 //

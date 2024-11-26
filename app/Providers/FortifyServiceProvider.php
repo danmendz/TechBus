@@ -14,7 +14,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Contracts\LoginResponse as ContractsLoginResponse;
 use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\TwoFactorLoginResponse;
 
@@ -38,7 +37,11 @@ class FortifyServiceProvider extends ServiceProvider
 
                 switch ($usertype) {
                     case 'admin':
-                        return redirect()->to('/administracion'); 
+                        return redirect()->to('/gestion'); 
+                    case 'operativo':
+                        return redirect()->to('/gestion'); 
+                    case 'conductor':
+                        return redirect()->to('/gestion'); 
                     case 'cliente':
                         return redirect()->route('dashboard');
                     default:
@@ -60,7 +63,7 @@ class FortifyServiceProvider extends ServiceProvider
 
                 switch ($usertype) {
                     case 'admin':
-                        return redirect()->to('/administracion'); 
+                        return redirect()->to('/gestion'); 
                     case 'cliente':
                         return redirect()->route('dashboard');
                     default:
