@@ -390,7 +390,7 @@
                     <div class="space-y-24 lg:hidden">
                         <section>
                             <div class="px-4 mb-4">
-                                <h2 class="text-lg leading-6 font-medium text-gray-800">Free</h2>
+                                <h2 class="text-lg leading-6 font-medium text-gray-800">Primera clase</h2>
                             </div>
     
                             <table class="w-full">
