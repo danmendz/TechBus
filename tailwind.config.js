@@ -27,6 +27,12 @@ export default {
             animation: {
                 marquee: 'marquee 20s linear infinite',
             },
+            backdropBlur: {
+                'sm': '4px',
+                'md': '8px',
+                'lg': '12px',
+                'xl': '16px',
+            },
         },
     },
 

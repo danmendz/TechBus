@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -26,6 +27,7 @@ class GestionPanelProvider extends PanelProvider
             ->default()
             ->id('gestion')
             ->path('gestion')
+            ->profile()
             ->colors([
                 'primary' => Color::Blue,
                 'danger' => Color::Red,
@@ -35,6 +37,7 @@ class GestionPanelProvider extends PanelProvider
                 'warning' => Color::Amber,
             ])
             ->brandLogo(asset('images/enterprise/ADO-logo-blue.png'))
+            ->homeUrl('/')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

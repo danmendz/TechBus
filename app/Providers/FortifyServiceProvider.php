@@ -37,7 +37,7 @@ class FortifyServiceProvider extends ServiceProvider
 
                 switch ($usertype) {
                     case 'admin':
-                        return redirect()->to('/gestion'); 
+                        return redirect()->to('/gestion');
                     case 'operativo':
                         return redirect()->to('/gestion'); 
                     case 'conductor':
