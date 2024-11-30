@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <x-authentication-card>
         <x-slot name="logo">
             {{-- <x-authentication-card-logo /> --}}
@@ -61,11 +62,15 @@
                                 </div>
 
                                 <div class="relative">
-                                    <input type="password" id="password" name="password"
+                                    <div class="flex items-center mt-1 border rounded-md">
+                                        <input type="password" id="password" name="password"
                                         autocomplete="off"
                                         class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                                         required>
+                                        <i class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+                                    </div>
                                 </div>
+                                
                             </div>
                             <!-- End Form Group -->
 
@@ -100,4 +105,5 @@
         </div>
 
     </x-authentication-card>
+    <script src="{{ asset('js/auth/toggle-password.js') }}"></script>
 </x-guest-layout>

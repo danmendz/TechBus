@@ -29,35 +29,41 @@ class UserResource extends Resource
     {
         return $form
         ->schema([
-            Forms\Components\Section::make('Personal data')
-                ->description('Enter the user personal data here')
+            Forms\Components\Section::make('Datos personales')
+                // ->description('Ingresa los datos personales')
                 ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Nombre')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('surnames')
+                    ->label('Apellidos')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
+                    ->label('Teléfono')
                     ->type('tel')
                     ->required()
                     ->maxLength(10),
                 Forms\Components\Select::make('type')
+                    ->label('Tipo')
                     ->options(User::ROLES)
                     ->native(false)
                     ->required(),
                 ])->columns(2),
-            Forms\Components\Section::make('Access data')
-                ->description('Enter the access data for the user here')
+            Forms\Components\Section::make('Datos de acceso')
+                // ->description('Ingresa los datos de acceso')
                 ->schema([
                 Forms\Components\TextInput::make('email')
+                    ->label('Correo')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                    Forms\Components\TextInput::make('password') 
+                    Forms\Components\TextInput::make('password')
+                        ->label('Contraseña')
                         ->password() 
-                        ->minLength(8) 
-                        ->revealable() 
+                        ->minLength(8)
+                        ->revealable()
                         ->maxLength(255) 
                         ->dehydrated(fn ($state) => !empty($state)) 
                         ->dehydrateStateUsing(fn ($state) => !empty($state) ? bcrypt($state) : null) 
@@ -72,14 +78,19 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('surnames')
+                    ->label('Apellidos')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Teléfono')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label('Tipo')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Correo')
                     ->searchable(),
                 // Tables\Columns\TextColumn::make('email_verified_at')
                 //     ->dateTime()
@@ -106,6 +117,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

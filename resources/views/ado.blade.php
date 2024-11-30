@@ -307,7 +307,7 @@
             <!-- Col -->
             <div class="relative ">
                 <img class="w-full h-full object-cover rounded-md"
-                    src="{{ asset('images/enterprise/ADO-font.jpeg') }}" alt="Hero Image">
+                    src="{{ asset('images/enterprise/ADO-font.jpg') }}" alt="Hero Image">
             </div>
             <!-- End Col -->
 
