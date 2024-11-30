@@ -30,37 +30,37 @@
                             <div>
                                 <x-label for="name" value="{{ __('Nombre(s)') }}" />
                                 <x-input id="name" class="block mt-1 w-full" type="text" name="name"
-                                    :value="old('name')" required autofocus autocomplete="name" />
+                                    required autofocus autocomplete="off" />
                             </div>
 
                             <div class="mt-4">
                                 <x-label for="surnames" value="{{ __('Apellido(s)') }}" />
                                 <x-input id="surnames" class="block mt-1 w-full" type="text" name="surnames"
-                                    :value="old('surnames')" required autofocus autocomplete="surnames" />
+                                    required autofocus autocomplete="off" />
                             </div>
 
                             <div class="mt-4">
                                 <x-label for="phone" value="{{ __('Teléfono') }}" />
                                 <x-input id="phone" class="block mt-1 w-full" type="tel" name="phone"
-                                    :value="old('phone')" required autofocus autocomplete="phone" />
+                                    required autofocus autocomplete="off" />
                             </div>
 
                             <div class="mt-4">
                                 <x-label for="email" value="{{ __('Email') }}" />
                                 <x-input id="email" class="block mt-1 w-full" type="email" name="email"
-                                    :value="old('email')" required autocomplete="username" />
+                                    required autocomplete="off" />
                             </div>
 
                             <div class="mt-4">
                                 <x-label for="password" value="{{ __('Password') }}" />
                                 <x-input id="password" class="block mt-1 w-full" type="password" name="password"
-                                    required autocomplete="new-password" />
+                                    required autocomplete="off" />
                             </div>
 
                             <div class="mt-4">
                                 <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
                                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                                    name="password_confirmation" required autocomplete="new-password" />
+                                    name="password_confirmation" required autocomplete="off" />
                             </div>
 
                             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())

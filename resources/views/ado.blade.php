@@ -112,7 +112,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
                                 </svg>
-                                Ayuda
+                                Acerca de
                                 <svg class="hs-dropdown-open:-rotate-180 md:hs-dropdown-open:rotate-0 duration-300 shrink-0 size-4 ms-auto md:ms-1"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -125,6 +125,16 @@
                                 role="menu" aria-orientation="vertical"
                                 aria-labelledby="hs-header-classic-dropdown">
                                 <div class="py-1 md:px-1 space-y-0.5">
+                                    <a class="py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
+                                        href="#">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor"
+                                            class="shrink-0 size-4 me-3 md:me-2 block md:hidden">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                                        </svg>
+                                        Nosotros
+                                    </a>
                                     <a class="py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
                                         href="#">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -234,7 +244,7 @@
                 </p>
 
                 <!-- Buttons -->
-                <div class="p-4 border border-gray-300 rounded-lg bg-black shadow-lg bg-cover bg-center backdrop-blur-lg text-white z-0">
+                <div class="p-4 border border-gray-300 rounded-lg bg-white shadow-lg bg-cover bg-center backdrop-blur-lg text-black z-0">
                     <h2 class="text-lg font-semibold mb-4">¿Adónde te vamos a llevar?</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Origen -->
@@ -242,7 +252,7 @@
                             <label for="origen" class="block text-sm font-medium mb-2">Origen</label>
                             <select id="origen"
                                 class="w-full h-10 px-3 border border-gray-400 rounded-md bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value=""></option>
+                                <option value="">Seleccionar</option>
                                 <option value="1">Puebla</option>
                                 <option value="2">CAPU</option>
                             </select>
@@ -252,7 +262,7 @@
                             <label for="destino" class="block text-sm font-medium mb-2">Destino</label>
                             <select id="destino"
                                 class="w-full h-10 px-3 border border-gray-400 rounded-md bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value=""></option>
+                                <option value="">Seleccionar</option>
                                 <option value="A">San Martín</option>
                                 <option value="B">CDMX</option>
                             </select>
@@ -309,13 +319,23 @@
     <!-- Carousel -->
     <div class="mt-12 overflow-hidden w-full bg-white rounded-lg shadow-md">
         <div class="flex items-center gap-5 animate-marquee whitespace-nowrap">
-            <img src="{{ asset('images/marquee/beach1.jpg') }}" alt="Image 1" class="h-24 rounded-lg">
-            <img src="{{ asset('images/marquee/beach2.jpg') }}" alt="Image 2" class="h-24 rounded-lg">
-            <img src="{{ asset('images/marquee/mexico.jpg') }}" alt="Image 3" class="h-24 rounded-lg">
-            <img src="{{ asset('images/marquee/newyork.jpg') }}" alt="Image 4" class="h-24 rounded-lg">
-            <img src="{{ asset('images/marquee/pyramid.jpg') }}" alt="Image 5" class="h-24 rounded-lg">
-            <img src="{{ asset('images/marquee/beach1.jpg') }}" alt="Image 1" class="h-24 rounded-lg">
-            <img src="{{ asset('images/marquee/beach1.jpg') }}" alt="Image 1" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/beach.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/atlixco.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/chichen-itza.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/maya.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/mexico.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/puebla.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/pueblo.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/pyramid.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+
+            <img src="{{ asset('images/marquee/beach.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/atlixco.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/chichen-itza.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/maya.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/mexico.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/puebla.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/pueblo.jpg') }}" alt="Destino" class="h-24 rounded-lg">
+            <img src="{{ asset('images/marquee/pyramid.jpg') }}" alt="Destino" class="h-24 rounded-lg">
         </div>
     </div>
     <!-- End Carousel -->
