@@ -23,34 +23,36 @@
                 <div class="mt-5">
 
                     <!-- Form -->
-                    <form method="POST" action="{{ route('register') }}" x-data="{ isSubmitting: false }"
+                    <form method="POST" action="{{ route('register') }}" x-data="{ isSubmitting: false }" autocomplete="off"
                         @submit="isSubmitting = true">
                         @csrf
 
                         <div class="grid gap-y-4">
 
+                            <input type="text" name="dummy-field" style="display: none;" autocomplete="off">
+
                             <div>
                                 <x-label for="name" value="{{ __('Nombre(s)') }}" />
                                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" required
-                                    autofocus autocomplete="off" />
+                                    autofocus autocomplete="new-name" />
                             </div>
 
                             <div class="mt-4">
                                 <x-label for="surnames" value="{{ __('Apellido(s)') }}" />
                                 <x-input id="surnames" class="block mt-1 w-full" type="text" name="surnames"
-                                    required autofocus autocomplete="off" />
+                                    required autofocus autocomplete="new-surnames" />
                             </div>
 
                             <div class="mt-4">
                                 <x-label for="phone" value="{{ __('Teléfono') }}" />
                                 <x-input id="phone" class="block mt-1 w-full" type="tel" name="phone" required
-                                    autofocus autocomplete="off" />
+                                    autofocus autocomplete="new-phone" />
                             </div>
 
                             <div class="mt-4">
                                 <x-label for="email" value="{{ __('Email') }}" />
                                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" required
-                                    autocomplete="off" />
+                                autocomplete="new-email" />
                             </div>
 
                             <div class="mt-4">
