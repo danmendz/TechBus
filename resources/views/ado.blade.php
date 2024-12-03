@@ -281,7 +281,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- End Buttons -->
 
                 <!-- Images -->
