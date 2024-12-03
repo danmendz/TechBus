@@ -1,9 +1,5 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-<h1>
-    Procedimiento de pago
-</h1>
-
 <!-- Stepper -->
 <div class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl mx-auto">
     <div data-hs-stepper='{"currentIndex": 2}'>
@@ -15,7 +11,7 @@
 				class="success"
                 style="display: none;">
                 <div
-                    class="p-4 h-48 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-xl">
+                    class="p-4 h-3/6 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-xl">
                     <h3 class="text-gray-500">
                         First content
                     </h3>
@@ -27,7 +23,7 @@
             <div data-hs-stepper-content-item='{"index": 2}' 	
 				class="active">
                 <div
-                    class="p-4 h-48 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-xl">
+                    class="p-4 h-3/6 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-xl">
                     <h3 class="text-gray-500">
                         Second content
                     </h3>
@@ -39,7 +35,7 @@
             <div data-hs-stepper-content-item='{"index": 3}' 
 				style="display: none;">
                 <div
-                    class="p-4 h-48 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-xl">
+                    class="p-4 h-3/6 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-xl">
                     <h3 class="text-gray-500">
                         Third content
                     </h3>
@@ -51,7 +47,7 @@
             <div data-hs-stepper-content-item='{"isFinal": true}' 
 				style="display: none;">
                 <div
-                    class="p-4 h-48 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-xl">
+                    class="p-4 h-3/6 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-xl">
                     <h3 class="text-gray-500">
                         Final content
                     </h3>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StripeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
@@ -17,5 +18,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 });
 
 Route::get('/pasarela-pago', function() {
-    return view('paypal.payment');
+    return view('payment.stepper');
 })->name('payment');
+
+Route::get('/stripe', function() {
+    return view('payment.stripe');
+});
+
+// STRIPE
+Route::post('stripe', [StripeController::class, 'stripe'])->name('stripe');
+Route::get('success', [StripeController::class, 'success'])->name('success');
+Route::get('cancel', [StripeController::class, 'cancel'])->name('cancel');
