@@ -261,4 +261,5 @@
         </div>
     </x-authentication-card>
     <script src="{{ asset('js/auth/toggle-password.js') }}"></script>
+    <script src="{{ asset('js/auth/dev-tools.js') }}"></script>
 </x-guest-layout>

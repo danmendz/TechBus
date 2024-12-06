@@ -17,11 +17,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('dashboard');
 });
 
-Route::get('/pasarela-pago', function() {
+Route::get('/stepper', function() {
     return view('payment.stepper');
 })->name('payment');
 
-Route::get('/stripe', function() {
+Route::get('/stripe-form', function() {
     return view('payment.stripe');
 });
 
