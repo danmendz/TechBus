@@ -10,10 +10,17 @@
         <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm">
             <div class="p-4 sm:p-7">
                 <div class="text-center">
+                    <a 
+                    class="decoration-2 font-medium"
+                    href="/">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>                                           
+                    </a>
                     <h1 class="block text-2xl font-bold text-gray-800">Crear cuenta</h1>
                     <p class="mt-2 text-sm text-gray-600">
                         ¿Ya tienes una cuenta?
-                        <a class="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium"
+                        <a class="text-blue-600 decoration-2 focus:outline-none font-medium"
                             href="/login">
                             Inicia sesión aquí
                         </a>
@@ -75,14 +82,14 @@
                                                 data-hs-strong-password='{
                                                 "target": "#password",
                                                 "hints": "#hs-strong-password-popover",
-                                                "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-teal-500 h-2 flex-auto rounded-full bg-blue-500 opacity-50 mx-1",
+                                                {{-- "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-teal-500 h-2 flex-auto rounded-full bg-blue-500 opacity-50 mx-1", --}}
                                                 "mode": "popover",
                                                  "minLength": "8"
                                                 }'
-                                                class="flex mt-2 -mx-1">
+                                                class="flex -mx-1">
                                             </div>
 
-                                            <h4 class="mt-3 text-sm font-semibold text-gray-800">
+                                            <h4 class="text-sm font-semibold text-gray-800">
                                                 La contraseña debe contener:
                                             </h4>
 
@@ -224,13 +231,13 @@
                                                     'terms_of_service' =>
                                                         '<a target="_blank" href="' .
                                                         route('terms.show') .
-                                                        '" class="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">' .
+                                                        '" class="text-blue-600 decoration-2 focus:outline-none font-medium">' .
                                                         __('Terms of Service') .
                                                         '</a>',
                                                     'privacy_policy' =>
                                                         '<a target="_blank" href="' .
                                                         route('policy.show') .
-                                                        '" class="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">' .
+                                                        '" class="text-blue-600 decoration-2 focus:outline-none font-medium">' .
                                                         __('Privacy Policy') .
                                                         '</a>',
                                                 ]) !!}
@@ -261,5 +268,5 @@
         </div>
     </x-authentication-card>
     <script src="{{ asset('js/auth/toggle-password.js') }}"></script>
-    <script src="{{ asset('js/auth/dev-tools.js') }}"></script>
+    {{-- <script src="{{ asset('js/auth/dev-tools.js') }}"></script> --}}
 </x-guest-layout>

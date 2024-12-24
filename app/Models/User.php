@@ -80,6 +80,8 @@ class User extends Authenticatable implements FilamentUser
         'type',
         'email',
         'password',
+        'auth_provider',
+        'auth_provider_id',
     ];
 
     /**

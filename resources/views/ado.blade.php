@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div class="absolute top-0 inset-x-0 h-12 bg-[#0061a0] z-10"></div>
+    <div class="bg-[#0061a0] absolute top-0 inset-x-0 h-12 z-10"></div>
 
     <!-- HEADER -->
     <header
@@ -52,7 +52,7 @@
                             <path d="M18 6 6 18" />
                             <path d="m6 6 12 12" />
                         </svg>
-                        <span class="sr-only">Toggle navigation</span>
+                        <span class="sr-only">Botón de navegación</span>
                     </button>
                 </div>
                 <!-- End Collapse Button -->
@@ -960,7 +960,7 @@
         <!-- End Grid -->
     </footer>
     <!-- ========== END FOOTER ========== -->
+
     <script src="./node_modules/preline/dist/preline.js"></script>
 </body>
-
 </html>
