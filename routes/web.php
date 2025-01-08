@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SocialiteController;
-use App\Http\Controllers\StripeController;
+use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\Payment\StripeController;
+use App\Http\Controllers\Notifications\WhatsappController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
@@ -25,7 +26,9 @@ Route::controller(SocialiteController::class)->group(function() {
     Route::get('/auth/{provider}/callback', 'socialAuthentication')->name('auth.callback');
 });
 
-// STRIPE
+/**
+ * Stripe
+ */
 Route::post('stripe', [StripeController::class, 'stripe'])->name('stripe');
 Route::get('success', [StripeController::class, 'success'])->name('success');
 Route::get('cancel', [StripeController::class, 'cancel'])->name('cancel');
@@ -41,3 +44,8 @@ Route::get('/stripe-form', function() {
 Route::get('/profile-information', function() {
     return view('profile.show-options');
 });
+
+/**
+ * Whatsapp
+ */
+Route::get('/send-message', [WhatsappController::class, 'sendMessage'])->name('send.message');

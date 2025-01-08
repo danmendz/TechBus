@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
+use App\Http\Controllers\Controller;
 
 use App\Models\User;
 use Exception;
@@ -63,7 +64,7 @@ class SocialiteController extends Controller
                         'name' => $name,
                         'surnames' => $surnames,
                         'email' => $socialUser->email,
-                        'password' => Hash::make('Password@1234'),
+                        'password' => Hash::make('P@SSw0Rd0'),
                         'auth_provider_id' => $socialUser->id,
                         'auth_provider' => $provider,
                     ],
