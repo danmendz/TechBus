@@ -304,9 +304,8 @@
             </div>
 
             <!-- Col -->
-            <div class="relative ">
-                <img class="w-full h-full object-cover rounded-md"
-                    src="{{ asset('images/enterprise/ADO-font.jpg') }}" alt="Hero Image">
+            <div class="relative" id="container3D">
+                <img class="w-full h-full object-cover rounded-md" src="{{ asset('images/enterprise/ADO-font.jpg') }}" alt="Hero Image">
             </div>
             <!-- End Col -->
 
@@ -962,5 +961,6 @@
     <!-- ========== END FOOTER ========== -->
 
     <script src="./node_modules/preline/dist/preline.js"></script>
+    <script type="module" src="{{ asset('js/app/bus-animation.js') }} "></script>
 </body>
 </html>

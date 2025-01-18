@@ -42,6 +42,8 @@ return [
     ],
 
     'whatsapp' => [
-        'whatsapp_tk' => env('WHATSAPP_TK')
+        'whatsapp_tk' => env('WHATSAPP_TK'),
+        'whatsapp_phone_id' => env('WHATSAPP_PHONE_ID'),
+        'whatsapp_version' => env('WHATSAPP_VERSION'),
     ],
 ];

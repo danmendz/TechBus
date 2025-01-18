@@ -48,4 +48,4 @@ Route::get('/profile-information', function() {
 /**
  * Whatsapp
  */
-Route::get('/send-message', [WhatsappController::class, 'sendMessage'])->name('send.message');
+Route::get('/send-message', [WhatsappController::class, 'sendMessages'])->name('send.message');
