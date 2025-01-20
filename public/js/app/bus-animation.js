@@ -70,8 +70,8 @@ const reRender3D = () => {
     targetY += (mouseY - targetY) * 0.1;
 
     if (object) {
-        object.rotation.y = targetX * Math.PI * 0.05; // Rotación en Y
-        object.rotation.x = targetY * Math.PI * 0.05; // Rotación en X
+        object.rotation.y = targetX * Math.PI * 0.04; // Rotación en Y
+        object.rotation.x = targetY * Math.PI * 0.04; // Rotación en X
     }
 
     renderer.render(scene, camera);

@@ -4,6 +4,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Payment\StripeController;
 use App\Http\Controllers\Notifications\WhatsappController;
+use App\Livewire\PaymentStep;
+use App\Livewire\RegisterForm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
@@ -49,3 +51,9 @@ Route::get('/profile-information', function() {
  * Whatsapp
  */
 Route::get('/send-message', [WhatsappController::class, 'sendMessages'])->name('send.message');
+
+/**
+ * Livewire
+ */
+Route::get('/register-form', RegisterForm::class);
+Route::get('/payment-step', PaymentStep::class);
