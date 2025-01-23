@@ -4,11 +4,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Payment\StripeController;
 use App\Http\Controllers\Notifications\WhatsappController;
+use App\Livewire\Navigation;
 use App\Livewire\PaymentStep;
 use App\Livewire\RegisterForm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
+use Livewire\Livewire;
 
 Route::get('/', function () {
     return view('ado');
@@ -35,6 +37,11 @@ Route::post('stripe', [StripeController::class, 'stripe'])->name('stripe');
 Route::get('success', [StripeController::class, 'success'])->name('success');
 Route::get('cancel', [StripeController::class, 'cancel'])->name('cancel');
 
+/**
+ * Livewire
+ */
+Route::get('/register-form', RegisterForm::class)->name('register.form');
+
 Route::get('/stepper', function() {
     return view('payment.stepper.stepper');
 })->name('stepper');
@@ -55,5 +62,4 @@ Route::get('/send-message', [WhatsappController::class, 'sendMessages'])->name('
 /**
  * Livewire
  */
-Route::get('/register-form', RegisterForm::class);
 Route::get('/payment-step', PaymentStep::class);

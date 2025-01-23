@@ -1,6 +1,6 @@
-.color-bg-theme {
-	background-color: #0061a0;
-}
+  .color-bg-theme {
+    background-color: #0061a0;
+  }
 
   #container3D {
     margin: auto;
@@ -40,15 +40,3 @@
       aspect-ratio: 1 / 1; /* Proporción cuadrada para pantallas muy pequeñas */
     }
   }
-
-.custom-shape-divider-bottom-1737349912 .shape-fill {
-    fill: #005baf;
-}
-
-/** For mobile devices **/
-@media (max-width: 767px) {
-    .custom-shape-divider-bottom-1737349912 svg {
-        width: calc(150% + 1.3px);
-        height: 45px;
-    }
-}

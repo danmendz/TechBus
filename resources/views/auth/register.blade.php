@@ -79,8 +79,7 @@
                                 <div class="flex items-center mt-1 border rounded-md">
                                     <x-input id="password" class="flex-1 px-3 py-2 border-none focus:ring-0"
                                         type="password" name="password" required autocomplete="off" />
-                                    <i class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword"
-                                        onclick="togglePasswordVisibility()"></i>
+                                        <i class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword" onclick="togglePasswordVisibility()"></i>
                                 </div>
                             </div>
 

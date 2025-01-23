@@ -28,6 +28,7 @@ class GestionPanelProvider extends PanelProvider
             ->id('gestion')
             ->path('gestion')
             ->profile()
+            // ->darkMode(true)
             ->colors([
                 'primary' => Color::Blue,
                 'danger' => Color::Red,

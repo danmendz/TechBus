@@ -27,7 +27,7 @@
                     <p class="mt-2 text-sm text-gray-600">
                         ¿No tienes una cuenta?
                         <a class="text-blue-600 decoration-2 focus:outline-none font-medium"
-                            href="/register">
+                            href="{{ route('register.form') }}">
                             Regístrate aquí
                         </a>
                     </p>

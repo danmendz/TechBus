@@ -21,4 +21,12 @@
 
 body {
     background-color: #ffffff;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+@media (max-width: 639px) {
+    .bg-custom-triangle {
+        background-color: #ffffff;
+    }
 }

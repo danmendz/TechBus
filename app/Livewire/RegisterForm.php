@@ -6,6 +6,11 @@ use App\Actions\Fortify\PasswordValidationRules as FortifyPasswordValidationRule
 use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Jetstream;
 use Livewire\Component;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class RegisterForm extends Component
 {
@@ -24,11 +29,11 @@ class RegisterForm extends Component
 
     public function render()
     {
-        return view('livewire.register-form');
+        return view('livewire.auth.register-form');
     }
 
     public function incrementStep() {
-        $this->validateForm();
+        $this->validateFirstForm();
         if ($this->currentStep < $this->totalSteps) {
             $this->currentStep ++;
         }
@@ -40,7 +45,7 @@ class RegisterForm extends Component
         }
     }
 
-    public function submit() {
+    public function validateSecondForm() {
         Validator::make(
             [
                 'email' => $this->email,
@@ -57,10 +62,30 @@ class RegisterForm extends Component
                 'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
             ]
         )->validate();
-        $this->reset();
     }
 
-    public function validateForm() {
+    public function submit() {
+        $this->validateSecondForm();
+    
+        $userCreated = User::create([
+            'name' => $this->name,
+            'surnames' => $this->surnames,
+            'phone' => $this->phone,
+            'type' => User::ROL_DEFAULT,
+            'email' => $this->email,
+            'password' => Hash::make($this->password),
+        ]);
+    
+        if ($userCreated) {
+            // event(new Registered($userCreated));
+    
+            Auth::login($userCreated);
+    
+            return $this->redirect(route('dashboard'), navigate: true);
+        }
+    }    
+
+    public function validateFirstForm() {
         switch ($this->currentStep) {
             case 1:
                 Validator::make(
@@ -77,7 +102,6 @@ class RegisterForm extends Component
                 )->validate();
                 break;
             default:
-                // Puedes manejar otros pasos aquí si es necesario
                 break;
         }
     }    
