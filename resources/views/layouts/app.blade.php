@@ -44,5 +44,11 @@
         @stack('modals')
         
         @livewireScripts
+        <script src="./node_modules/preline/dist/preline.js"></script>
+        <script>
+            document.addEventListener('livewire:load', function () {
+                HSStaticMethods.autoInit();
+            });
+        </script>
     </body>
 </html>

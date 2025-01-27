@@ -17,7 +17,7 @@ class Navigation extends Component
         // Especificar el guard web explícitamente
         Auth::guard('web')->logout();
 
-        return $this->redirect('/', navigate: true);
+        return $this->redirect('/');
     }
 
     public function render()
