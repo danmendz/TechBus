@@ -3,13 +3,13 @@
   }
 
   #container3D {
+    border-radius: 50px;
     margin: auto;
     align-items: center;
     width: 100%; /* Asegura que ocupe todo el ancho disponible */
     max-width: 900px; /* Tamaño máximo para pantallas más grandes */
     aspect-ratio: 16 / 16; /* Mantiene una proporción de aspecto */
     overflow: hidden; /* Evita que los elementos internos se desborden */
-    margin: auto; /* Centra el contenedor */
     position: relative; /* Permite el posicionamiento absoluto de elementos internos */
   }
 
@@ -18,7 +18,7 @@
   }
   
   /* Media queries para pantallas medianas */
-  @media (max-width: 1000px) { 
+  @media (max-width: 1270px) { 
     #container3D img {
       display: block; /* Muestra la imagen en pantallas medianas */
     }
@@ -36,6 +36,7 @@
     }
   
     #container3D {
+      border-radius: 0px;
       max-width: 100%; /* Ocupa todo el ancho disponible */
       aspect-ratio: 1 / 1; /* Proporción cuadrada para pantallas muy pequeñas */
     }

@@ -90,7 +90,7 @@ class RegisterForm extends Component
             Auth::login($user);
             return redirect()->to('/dashboard');
         }
-    }    
+    }
 
     public function validateFirstForm() {
         switch ($this->currentStep) {

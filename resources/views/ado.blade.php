@@ -230,7 +230,7 @@
     <!-- END HEADER -->
 
     <!-- Hero -->
-    <div class="min-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <!-- Grid -->
         <div class="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
             <div>
@@ -305,6 +305,8 @@
 
             <!-- Col -->
             <div class="relative" id="container3D">
+                {{-- <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.59/build/spline-viewer.js"></script>
+                <spline-viewer url="https://prod.spline.design/GEYeSkosKoiK5ivj/scene.splinecode"></spline-viewer> --}}
                 <img class="w-full h-full object-cover rounded-md" src="{{ asset('images/enterprise/ADO-font.jpg') }}" alt="Hero Image">
             </div>
             <!-- End Col -->

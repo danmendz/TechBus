@@ -1,5 +1,4 @@
 <x-guest-layout>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <x-authentication-card>
         <x-slot name="logo">
             {{-- <x-authentication-card-logo /> --}}
@@ -278,6 +277,4 @@
             </div>
         </div>
     </x-authentication-card>
-    <script src="{{ asset('js/auth/toggle-password.js') }}"></script>
-    {{-- <script src="{{ asset('js/auth/dev-tools.js') }}"></script> --}}
 </x-guest-layout>

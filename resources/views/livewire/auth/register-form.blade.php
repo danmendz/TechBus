@@ -1,13 +1,12 @@
 <div>
     <x-guest-layout>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <x-authentication-card>
             <x-slot name="logo">
             </x-slot>
             <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm">
                 <div class="px-4 py-2 sm:py-3">
                     <div class="text-center">
-                        <a class="decoration-2 font-medium" href="/">
+                        <a class="decoration-2 font-medium" href="/" title="Inicio">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -76,7 +75,6 @@
                                         <!-- Columna para el código de país -->
                                         <div class="w-1/2">
                                             <select wire:model="countryCode" id="countryCode" required class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                                {{-- <option value="52">MX (52)</option> --}}
                                                 @foreach ($countryCodes as $code => $prefix)
                                                     <option value="{{ $prefix }}">{{ $code }} ({{ $prefix }})</option>
                                                 @endforeach
@@ -116,8 +114,7 @@
                                         <x-input wire:model="password" id="password"
                                             class="flex-1 px-3 py-2 border-none focus:ring-0" type="password"
                                             name="password" required autocomplete="off" />
-                                        <i class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword"
-                                            onclick="togglePasswordVisibility()"></i>
+                                        <i class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword"></i>
                                     </div>
                                     @error('password')
                                         <span class="text-rose-600">{{ $message }}</span>

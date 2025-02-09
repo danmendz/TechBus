@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class StripeController extends Controller
 {
-
     /**
      * Store a newly created resource in storage.
      */

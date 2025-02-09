@@ -14,14 +14,32 @@ class Navigation extends Component
      */
     public function logout()
     {
-        // Especificar el guard web explícitamente
         Auth::guard('web')->logout();
-
         return $this->redirect('/');
     }
 
     public function render()
     {
-        return view('livewire.navigation');
+        $breadcrumbMap = [
+            'dashboard' => 'Panel',
+            'profile' => 'Perfil',
+            'settings' => 'Configuración'
+        ];
+
+        // Obtiene el nombre de la ruta actual
+        $currentRoute = request()->route()->getName();
+        $breadcrumb = [];
+
+        // Divide la ruta en partes
+        $routeParts = explode('.', $currentRoute);
+
+        // Construye el breadcrumb dinámicamente
+        foreach ($routeParts as $part) {
+            if (array_key_exists($part, $breadcrumbMap)) {
+                $breadcrumb[] = $breadcrumbMap[$part];
+            }
+        }
+        
+        return view('livewire.navigation', ['breadcrumb' => $breadcrumb]);
     }
 }
