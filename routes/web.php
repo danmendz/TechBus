@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Payment\StripeController;
 use App\Http\Controllers\Notifications\WhatsappController;
+use App\Livewire\BusTicketStepper;
 use App\Livewire\Navigation;
 use App\Livewire\PaymentStep;
 use App\Livewire\RegisterForm;
@@ -41,7 +42,16 @@ Route::get('cancel', [StripeController::class, 'cancel'])->name('cancel');
  * Livewire
  */
 Route::get('/register-form', RegisterForm::class)->name('register.form');
+Route::get('/ticket-stepper', BusTicketStepper::class)->name('ticket.stepper');
 
+/**
+ * Whatsapp
+ */
+Route::get('/send-message', [WhatsappController::class, 'sendMessages'])->name('send.message');
+
+/**
+ * Complements
+ */
 Route::get('/stepper', function() {
     return view('payment.stepper.stepper');
 })->name('stepper');
@@ -53,13 +63,3 @@ Route::get('/stripe-form', function() {
 Route::get('/profile-information', function() {
     return view('profile.show-options');
 });
-
-/**
- * Whatsapp
- */
-Route::get('/send-message', [WhatsappController::class, 'sendMessages'])->name('send.message');
-
-/**
- * Livewire
- */
-Route::get('/payment-step', PaymentStep::class);

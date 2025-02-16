@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ubicaciones', function (Blueprint $table) {
+        Schema::create('categorias_autobuses', function (Blueprint $table) {
             $table->id();
-            $table->string('estado', 50);
-            $table->string('ciudad', 100);
-            $table->string('municipio', 100);
-            $table->string('nombre_ubicacion', 150)->unique();
+            $table->string('nombre', 100);
+            $table->string('descripcion', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ubicaciones');
+        Schema::dropIfExists('categorias_autobuses');
     }
 };

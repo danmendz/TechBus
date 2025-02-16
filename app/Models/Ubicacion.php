@@ -12,9 +12,11 @@ class Ubicacion extends Model
     protected $table = 'ubicaciones';
 
     protected $fillable = [
-        'estado',
+        'nombre',
+        'calle',
+        'numero',
         'ciudad',
-        'municipio',
-        'nombre_ubicacion',
+        'estado',
+        'codigo_postal'
     ];
 }

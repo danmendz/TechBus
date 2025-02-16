@@ -15,16 +15,18 @@ class FlotaAutobusSeeder extends Seeder
     {
         FlotaAutobus::insert([
             [
+                
                 'marca' => 'Volvo',
                 'dueño' => 'AU',
                 'numero_asientos' => 30,
-                'clase' => 'Primera clase',
+                'id_categoria' => 1,
             ],
             [
+                
                 'marca' => 'Mercedes-Benz',
                 'dueño' => 'OCC',
                 'numero_asientos' => 45,
-                'clase' => 'Económico',
+                'id_categoria' => 2,
             ],
         ]);
     }

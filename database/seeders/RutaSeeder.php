@@ -15,22 +15,25 @@ class RutaSeeder extends Seeder
     {
         Ruta::insert([
             [
+                
                 'id_origen' => 1,
                 'id_destino' => 2,
                 'distancia' => 23.5,
-                'duracion_estimada' => 35,
+                'duracion_aproximada' => 35,
             ],
             [
+                
                 'id_origen' => 1,
                 'id_destino' => 2,
                 'distancia' => 23.5,
-                'duracion_estimada' => 35,
+                'duracion_aproximada' => 35,
             ],
             [
+                
                 'id_origen' => 1,
                 'id_destino' => 3,
                 'distancia' => 50.5,
-                'duracion_estimada' => 75,
+                'duracion_aproximada' => 75,
             ],
         ]);
     }

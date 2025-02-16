@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_origen');
             $table->unsignedBigInteger('id_destino');
             $table->decimal('distancia', 5, 2)->nullable();
-            $table->bigInteger('duracion_estimada')->nullable();
+            $table->decimal('duracion_aproximada', 8, 2);
             $table->timestamps();
 
             $table->foreign('id_origen')->references('id')->on('ubicaciones');

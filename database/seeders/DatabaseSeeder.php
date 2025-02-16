@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Horario;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,10 +22,16 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            FlotaAutobusSeeder::class,
-            AutobusSeeder::class,
             UbicacionesSeeder::class,
             RutaSeeder::class,
+            HorarioSeeder::class,
+            CategoriaSeeder::class,
+            FlotaAutobusSeeder::class,
+            AutobusSeeder::class,
+            AsientoSeeder::class,
+            CorridaSeeder::class,
+            TiposBoletosSeeder::class,
+            PrecioSeeder::class,
         ]);
     }
 }

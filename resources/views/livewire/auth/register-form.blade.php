@@ -1,4 +1,4 @@
-<div>
+<div x-init="HSStaticMethods.autoInit()">
     <x-guest-layout>
         <x-authentication-card>
             <x-slot name="logo">

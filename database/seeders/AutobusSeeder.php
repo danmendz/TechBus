@@ -15,6 +15,7 @@ class AutobusSeeder extends Seeder
     {
         Autobus::insert([
             [
+                
                 'id_usuario' => null,
                 'id_flota' => 1,
                 'numero_serie' => '1234567890',
@@ -23,6 +24,7 @@ class AutobusSeeder extends Seeder
                 'estatus_autobus' => 'Disponible',
             ],
             [
+                
                 'id_usuario' => null,
                 'id_flota' => 2,
                 'numero_serie' => '0987654321',

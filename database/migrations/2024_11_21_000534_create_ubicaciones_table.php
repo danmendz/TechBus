@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('flota_autobuses', function (Blueprint $table) {
+        Schema::create('ubicaciones', function (Blueprint $table) {
             $table->id();
-            $table->string('marca', 255);
-            $table->string('dueño', 255)->nullable();
-            $table->bigInteger('numero_asientos');
-            $table->foreignId('id_categoria')->references('id')->on('categorias_autobuses');
+            $table->string('nombre', 255);
+            $table->string('calle', 255)->nullable();
+            $table->string('numero', 50)->nullable();
+            $table->string('ciudad', 100);
+            $table->string('estado', 100);
+            $table->string('codigo_postal', 20)->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('flota_autobuses');
+        Schema::dropIfExists('ubicaciones');
     }
 };

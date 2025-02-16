@@ -20,18 +20,7 @@ class FlotaAutobus extends Model
         'marca',
         'dueño',
         'numero_asientos',
-        'clase',
+        'id_categoría',
     ];
-
-    public static $clasesPermitidas = ['Primera clase', 'Económico'];
-
-    // Validar clase antes de guardar
-    public function setClaseAttribute($value)
-    {
-        if (!in_array($value, self::$clasesPermitidas)) {
-            throw new \InvalidArgumentException('Clase inválida.');
-        }
-
-        $this->attributes['clase'] = $value;
-    }
+    
 }
