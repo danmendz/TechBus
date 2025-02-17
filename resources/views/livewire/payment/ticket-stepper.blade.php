@@ -30,9 +30,9 @@
                         @endforeach
                     </select>
 
-                    <button wire:click="loadPartidasDisponibles"
+                    <button wire:click="loadCorridasDisponibles"
                         class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                        Buscar Partidas
+                        Buscar Corridas
                     </button>
                 </div>
             </div>
@@ -43,22 +43,23 @@
             <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
                 <h2 class="text-2xl font-bold mb-6 text-center">Corridas Disponibles</h2>
 
-                @if ($partidasDisponibles->isEmpty())
+                @if ($corridasDisponibles->isEmpty())
                     <div class="mt-6 p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded-lg">
-                        No se encontraron corridas con las características seleccionadas. Por favor, intenta con otros filtros.
+                        No se encontraron corridas con las características seleccionadas. Por favor, intenta con otros
+                        filtros.
                     </div>
                 @else
                     <ul class="mt-6 space-y-2">
-                        @foreach ($partidasDisponibles as $partida)
-                            <li wire:click="selectPartida({{ $partida->id }})"
+                        @foreach ($corridasDisponibles as $corrida)
+                            <li wire:click="selectCorrida({{ $corrida->id }})"
                                 class="p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
                                 <div class="flex justify-between items-center">
                                     <div>
-                                        <p class="font-semibold">{{ $partida->ruta->origen->nombre }} →
-                                            {{ $partida->ruta->destino->nombre }}</p>
+                                        <p class="font-semibold">{{ $corrida->ruta->origen->nombre }} →
+                                            {{ $corrida->ruta->destino->nombre }}</p>
                                         <p class="text-sm text-gray-600">
-                                            {{ \Carbon\Carbon::parse($partida->fecha)->format('d/m/Y') }} -
-                                            {{ \Carbon\Carbon::parse($partida->horario->hora)->format('h:i A') }}</p>
+                                            {{ \Carbon\Carbon::parse($corrida->fecha)->format('d/m/Y') }} -
+                                            {{ \Carbon\Carbon::parse($corrida->horario->hora)->format('h:i A') }}</p>
                                     </div>
                                     <span class="text-blue-500 font-bold">Seleccionar</span>
                                 </div>
@@ -159,12 +160,20 @@
             </div>
         @endif
 
-        <!-- Paso 4: Resumen de la Compra -->
+        <!-- Paso 5: Resumen de la Compra -->
         @if ($currentStep == 5)
             <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
                 <h2 class="text-2xl font-bold mb-6 text-center">Resumen de tu Compra</h2>
                 <div class="space-y-4">
-                    <p><strong>Partida:</strong> {{ $resumenPartida }}</p>
+                    <!-- Detalle de la partida -->
+                    <div>
+                        <p class="font-semibold">{{ $resumenCorrida['origen'] }} → {{ $resumenCorrida['destino'] }}
+                        </p>
+                        <p class="text-sm text-gray-600">
+                            {{ \Carbon\Carbon::parse($resumenCorrida['fecha'])->format('d/m/Y') }} -
+                            {{ \Carbon\Carbon::parse($resumenCorrida['hora'])->format('h:i A') }}
+                        </p>
+                    </div>
 
                     <!-- Resumen de boletos y asientos -->
                     <div>

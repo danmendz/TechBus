@@ -9,43 +9,6 @@ use Illuminate\Support\Facades\Http;
 
 class WhatsappController extends Controller
 {
-    // public function sendMessage()
-    // {
-    //     try {
-    //         $token = config('services.whatsapp.whatsapp_tk');
-    //         $phoneId = '523188307547107';
-    //         $version = config('services.whatsapp.whatsapp_version');
-
-    //         $payload = [
-    //             'messaging_product' => 'whatsapp',
-    //             'to' => '522216075444',
-    //             'type' => 'template',
-    //             'template' => [
-    //                 'name' => 'hello_world',
-    //                 'language' => [
-    //                     'code' => 'en_US',
-    //                 ],
-    //             ],
-    //         ];
-
-    //         $message = Http::withToken($token)
-    //                 ->post('https://graph.facebook.com/'.$version.'/'. $phoneId.'/messages', $payload)
-    //                 ->throw()
-    //                 ->json();
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'data' => $message,
-    //         ], 200);
-
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'data' => $e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
-
     public function sendMessages()
     {
         try {
@@ -82,14 +45,6 @@ class WhatsappController extends Controller
      */
     private function getPhoneNumbersFromDatabase(): array
     {
-        // // Consulta la base de datos para obtener números válidos
-        // return DB::table('users')
-        //     ->select('phone') // Columna que contiene los números de teléfono
-        //     ->whereNotNull('phone') // Evitar teléfonos nulos
-        //     ->pluck('phone') // Obtener solo los valores de la columna 'phone'
-        //     ->toArray();
-
-        // Array de números de teléfono aleatorios para pruebas
         return [
             '522216075444',
         ];

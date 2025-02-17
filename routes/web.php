@@ -1,17 +1,14 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Payment\StripeController;
 use App\Http\Controllers\Notifications\WhatsappController;
 use App\Livewire\BusTicketStepper;
-use App\Livewire\Navigation;
-use App\Livewire\PaymentStep;
 use App\Livewire\RegisterForm;
-use Illuminate\Support\Facades\Auth;
+use App\Livewire\SendNotifications;
 use Illuminate\Support\Facades\Route;
-use Filament\Facades\Filament;
-use Livewire\Livewire;
+use App\Mail\NotificationEmail;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('ado');
@@ -48,6 +45,7 @@ Route::get('/ticket-stepper', BusTicketStepper::class)->name('ticket.stepper');
  * Whatsapp
  */
 Route::get('/send-message', [WhatsappController::class, 'sendMessages'])->name('send.message');
+Route::get('/send-notifications', SendNotifications::class)->name('send.whatsapp');
 
 /**
  * Complements

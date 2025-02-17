@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Mail\NotificationEmail;
 use Livewire\Component;
 use App\Models\Ubicacion;
 use App\Models\FlotaAutobuses;
@@ -10,18 +11,22 @@ use App\Models\Corrida;
 use App\Models\TipoBoleto;
 use App\Models\Precio;
 use App\Models\Asiento;
+use App\Models\User;
+use App\Services\WhatsappService;
+use Illuminate\Support\Facades\Mail;
 
 class BusTicketStepper extends Component
 {
     // Paso actual del stepper
     public $currentStep = 1;
+    protected $whatsappService;
 
-    // Datos para el Paso 1: Selección de la Partida
+    // Datos para el Paso 1: Selección de la Corrida
     public $origen;
     public $destino;
     public $horario;
     public $fecha;
-    public $partidasDisponibles = [];
+    public $corridasDisponibles = [];
 
     // Datos para el Paso 2: Selección del Número de Boletos
     public $tipoBoleto;
@@ -31,13 +36,18 @@ class BusTicketStepper extends Component
     // Datos para el Paso 3: Selección de Asientos
     public $asientosDisponibles = [];
     public $asientosSeleccionados = [];
-    public $boletoActual = 0; // Índice del boleto que se está seleccionand
+    public $boletoActual = 0; // Índice del boleto que se está seleccionando
 
     // Datos para el Paso 4: Resumen de la Compra
-    public $resumenPartida;
+    public $resumenCorrida;
     public $resumenBoletos = [];
     public $resumenAsientos;
-    public $partidaSeleccionada;
+    public $corridaSeleccionada;
+
+    public function __construct()
+    {
+        $this->whatsappService = new WhatsappService();
+    }
 
     // Método para avanzar al siguiente paso
     public function nextStep()
@@ -55,8 +65,8 @@ class BusTicketStepper extends Component
         $this->currentStep--;
     }
 
-    // Método para cargar las partidas disponibles (Paso 1)
-    public function loadPartidasDisponibles()
+    // Método para cargar las corridas disponibles (Paso 1)
+    public function loadCorridasDisponibles()
     {
         $query = Corrida::with(['ruta.origen', 'ruta.destino', 'horario'])
             ->whereIn('id_ruta', function ($query) {
@@ -76,17 +86,22 @@ class BusTicketStepper extends Component
             $query->where('id_horario', $this->horario);
         }
 
-        $this->partidasDisponibles = $query->get();
+        $this->corridasDisponibles = $query->get();
         $this->nextStep();
     }
 
-    // Método para seleccionar una partida (Paso 1)
-    public function selectPartida($partidaId)
+    // Método para seleccionar una corrida (Paso 1)
+    public function selectCorrida($corridaId)
     {
-        $this->partidaSeleccionada = Corrida::find($partidaId);
-        $this->resumenPartida = $this->partidaSeleccionada->fecha . ' - ' . $this->partidaSeleccionada->hora;
+        $this->corridaSeleccionada = Corrida::find($corridaId);
+        $this->resumenCorrida = [
+            'origen' => $this->corridaSeleccionada->ruta->origen->nombre,
+            'destino' => $this->corridaSeleccionada->ruta->destino->nombre,
+            'fecha' => $this->corridaSeleccionada->fecha,
+            'hora' => $this->corridaSeleccionada->horario->hora
+        ];
 
-        // Cargar los asientos disponibles después de seleccionar la partida
+        // Cargar los asientos disponibles después de seleccionar la corrida
         $this->loadAsientosDisponibles();
 
         $this->nextStep();
@@ -158,7 +173,7 @@ class BusTicketStepper extends Component
         $this->asientosDisponibles = Asiento::where('id_autobus', function ($query) {
             $query->select('id_autobus')
                 ->from('corridas')
-                ->where('id', $this->partidaSeleccionada->id);
+                ->where('id', $this->corridaSeleccionada->id);
         })
         ->get()
         ->map(function ($asiento) {
@@ -198,12 +213,38 @@ class BusTicketStepper extends Component
         }
     }
 
+    //Enviar notificación de whatsapp
+    public function sendWhatsappNotification()
+    {
+        $phoneNumber = '522216075444';
+
+        try {
+            $this->whatsappService->sendMessage($phoneNumber);
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+        }
+    }
+
+    //Enviar notificación de email
+    public function sendEmailNotification()
+    {
+        $user = 'dan@gmail.com';
+        $messageBody = "Este es un mensaje de prueba para los usuarios.";
+
+        if (!empty($user)) {
+            Mail::to('admin@miempresa.com')
+                ->bcc($user)
+                ->send(new NotificationEmail('Usuario', $messageBody));
+        }
+
+        // return response()->json(['message' => 'Correos enviados con éxito']);
+    }
+
     // Método para confirmar la compra (Paso 4)
     public function confirmarCompra()
     {
-        // Lógica para guardar la compra en la base de datos
-        // Redireccionar a una página de confirmación
-        return redirect()->route('confirmacion');
+        // $this->sendWhatsappNotification();
+        $this->sendEmailNotification();
     }
 
     // Renderizar la vista del componente
