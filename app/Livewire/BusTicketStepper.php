@@ -13,6 +13,7 @@ use App\Models\Precio;
 use App\Models\Asiento;
 use App\Models\User;
 use App\Services\WhatsappService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class BusTicketStepper extends Component
@@ -216,12 +217,30 @@ class BusTicketStepper extends Component
     //Enviar notificación de whatsapp
     public function sendWhatsappNotification()
     {
-        $phoneNumber = '522216075444';
+        $userName = Auth::user()->name;
+        $phoneUser = '522216075444';
 
         try {
-            $this->whatsappService->sendMessage($phoneNumber);
+            $templateName = 'notificacion_de_incidencias';
+            $languageCode = 'es';
+
+            $parameters = [
+                (string) $userName,
+                'Ciudad de Puebla',
+                'Ciudad de México',
+                '2025-01-01',
+                '17:00',
+                'cancelado',
+                'El autobús se ha descompuesto'
+            ];
+
+            $image = 'https://i.postimg.cc/MGMfKfsV/landpage.png';
+
+            $this->whatsappService->sendMessage($phoneUser, $templateName, $parameters, $image, $languageCode);
+            session()->flash('message', 'Mensajes enviados correctamente.');
+
         } catch (\Exception $e) {
-            session()->flash('error', $e->getMessage());
+            session()->flash('error', "Error enviando mensaje a {$phoneUser}: " . $e->getMessage());
         }
     }
 
@@ -236,15 +255,13 @@ class BusTicketStepper extends Component
                 ->bcc($user)
                 ->send(new NotificationEmail('Usuario', $messageBody));
         }
-
-        // return response()->json(['message' => 'Correos enviados con éxito']);
     }
 
     // Método para confirmar la compra (Paso 4)
     public function confirmarCompra()
     {
-        // $this->sendWhatsappNotification();
-        $this->sendEmailNotification();
+        $this->sendWhatsappNotification();
+        // $this->sendEmailNotification();
     }
 
     // Renderizar la vista del componente

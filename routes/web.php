@@ -20,6 +20,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('dashboard');
 });
 
+Route::get('/buy-tickets', function() {
+    return view('payment.buy-tickets');
+})->name('buy.tickets');
+
 /**
  * Google Login
  */

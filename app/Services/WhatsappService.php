@@ -7,44 +7,76 @@ use Exception;
 
 class WhatsappService
 {
+    protected $apiUrl;
+    protected $token;
+    protected $phoneId;
+
+    public function __construct()
+    {
+        $this->apiUrl = config('services.whatsapp.whatsapp_version');
+        $this->token = config('services.whatsapp.whatsapp_tk');
+        $this->phoneId = config('services.whatsapp.whatsapp_phone_id');
+    }
+
     /**
-     * Envía un mensaje de WhatsApp a un número de teléfono.
+     * Envía un mensaje de WhatsApp utilizando una plantilla de Meta
      *
      * @param string $phoneNumber Número de teléfono destinatario
+     * @param string $templateName Nombre de la plantilla en Meta
+     * @param array $parameters Datos dinámicos para la plantilla
      * @return array Respuesta de la API
      * @throws Exception Si ocurre un error en la solicitud
      */
-    public function sendMessage($phoneNumber)
+    public function sendMessage($phoneNumber, $templateName, array $parameters, $image = null, $languageCode = 'es')
     {
         try {
-            $token = config('services.whatsapp.whatsapp_tk');
-            $phoneId = config('services.whatsapp.whatsapp_phone_id');
-            $apiVersion = config('services.whatsapp.whatsapp_version');
+            $components = [];
 
+            // Agregar imagen al header si se proporciona
+            if ($image) {
+                $components[] = [
+                    'type' => 'header',
+                    'parameters' => [
+                        [
+                            'type' => 'image',
+                            'image' => ['link' => $image]
+                        ]
+                    ]
+                ];
+            }
+
+            // Agregar los parámetros del cuerpo del mensaje
+            $bodyParameters = array_map(fn($param) => [
+                'type' => 'text',
+                'text' => (string) $param
+            ], $parameters);
+
+            if (!empty($bodyParameters)) {
+                $components[] = [
+                    'type' => 'body',
+                    'parameters' => $bodyParameters
+                ];
+            }
+
+            // Construir la solicitud
             $payload = [
                 'messaging_product' => 'whatsapp',
                 'to' => $phoneNumber,
                 'type' => 'template',
                 'template' => [
-                    'name' => 'hello_world',
-                    'language' => [
-                        'code' => 'en_US',
-                    ],
-                ],
+                    'name' => $templateName,
+                    'language' => ['code' => $languageCode],
+                    'components' => $components
+                ]
             ];
 
-            $response = Http::withToken($token)
-                ->post("https://graph.facebook.com/{$apiVersion}/{$phoneId}/messages", $payload)
+            $response = Http::withToken($this->token)
+                ->post("https://graph.facebook.com/{$this->apiUrl}/{$this->phoneId}/messages", $payload)
                 ->throw()
                 ->json();
 
-            // Puedes registrar la respuesta si lo deseas
-            // \Log::info("Mensaje enviado a {$phoneNumber}: " . json_encode($response));
-
             return $response;
-
         } catch (Exception $e) {
-            // \Log::error("Error enviando mensaje a {$phoneNumber}: " . $e->getMessage());
             throw new Exception("Error enviando mensaje a {$phoneNumber}: " . $e->getMessage());
         }
     }

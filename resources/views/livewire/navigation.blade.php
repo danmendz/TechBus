@@ -63,7 +63,7 @@
                 <!-- Logo -->
                 <a class="flex-none rounded-xl text-xl inline-block font-semibold focus:outline-none focus:opacity-80 text-wrap"
                     href="/" aria-label="Preline">
-                    <span class="text-gray-700 dark:text-gray-200">Bienvenido, </span>
+                    <span class="text-gray-700 dark:text-gray-200">Bienvenido(a), </span>
                     <span class="text-blue-500 dark:text-blue-400 font-bold text-2xl" x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
                         x-text="name" x-on:profile-updated.window="name = $event.detail.name">
                     </span>
@@ -134,6 +134,18 @@
                             </svg>
                             <x-nav-link :href="route('dashboard')" wire:navigate :active="request()->routeIs('dashboard')">
                                 {{ __('Dashboard') }}
+                            </x-nav-link>
+                        </li>
+                        <li
+                            class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg>
+                            <x-nav-link :href="route('buy.tickets')" wire:navigate :active="request()->routeIs('buy.tickets')">
+                                {{ __('Comprar boletos') }}
                             </x-nav-link>
                         </li>
 

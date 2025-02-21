@@ -3,41 +3,35 @@
   }
 
   #container3D {
-    border-radius: 50px;
-    margin: auto;
-    align-items: center;
-    width: 100%; /* Asegura que ocupe todo el ancho disponible */
-    max-width: 900px; /* Tamaño máximo para pantallas más grandes */
-    aspect-ratio: 16 / 16; /* Mantiene una proporción de aspecto */
-    overflow: hidden; /* Evita que los elementos internos se desborden */
-    position: relative; /* Permite el posicionamiento absoluto de elementos internos */
+    border-radius: 20px;
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 16 / 12;
+    overflow: hidden;
+    position: relative;
   }
 
   #container3D img {
     display: none; /* Oculta la imagen por defecto */
   }
   
-  /* Media queries para pantallas medianas */
-  @media (max-width: 1270px) { 
+  /* Media queries para teléfonos (pantallas pequeñas) */
+  @media (max-width: 767px) {
     #container3D img {
-      display: block; /* Muestra la imagen en pantallas medianas */
-    }
-  
-    #container3D {
-      max-width: 100%; /* Ocupa todo el ancho disponible */
-      aspect-ratio: 4 / 3; /* Ajusta la proporción para pantallas más pequeñas */
+      display: block; /* Muestra la imagen en teléfonos */
     }
   }
-  
-  /* Media queries para pantallas muy pequeñas */
-  @media (max-width: 480px) {
+
+  /* Media queries para tablets (pantallas medianas) */
+  @media (max-width: 1024px) {
     #container3D img {
-      display: block; /* Muestra la imagen en pantallas pequeñas */
+      display: block; /* Muestra la imagen en tablets */
     }
-  
-    #container3D {
-      border-radius: 0px;
-      max-width: 100%; /* Ocupa todo el ancho disponible */
-      aspect-ratio: 1 / 1; /* Proporción cuadrada para pantallas muy pequeñas */
+  }
+
+  /* Media queries para PCs (pantallas grandes) */
+  @media (min-width: 1025px) {
+    #container3D img {
+      display: none; /* Oculta la imagen en PC */
     }
   }

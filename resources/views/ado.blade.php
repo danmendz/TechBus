@@ -229,91 +229,59 @@
     </header>
     <!-- END HEADER -->
 
-    <!-- Hero -->
-    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <!-- Grid -->
-        <div class="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
-            <div>
-                <h1 class="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight">
-                    Comienza tu viaje con
-                    <span class="text-blue-600">ADO</span>
-                </h1>
-                <p class="mt-3 text-lg text-gray-800">"Realiza el viaje de tus sueños con tu familia, disfrutando de
-                    comodidad y
-                    seguridad en cada kilómetro. ¡Aprovecha nuestras ofertas exclusivas y viaja con confianza!".
-                </p>
+    <!-- Hero Rediseñado -->
+<div class="relative max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 mt-8 overflow-hidden">
+    <div class="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
+        <!-- Columna de texto -->
+        <div>
+            <div class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full shadow">
+                ⭐ 100% Seguridad y Comodidad en tu viaje
+            </div>
+            <h1 class="mt-4 text-4xl font-bold text-gray-900 sm:text-5xl lg:text-6xl leading-tight">
+                Encuentra tu mejor <span class="text-blue-600">destino</span> con <span class="text-blue-600">ADO</span>
+            </h1>
+            <p class="mt-3 text-lg text-gray-700">"Viaja con comodidad, seguridad y aprovecha nuestras ofertas exclusivas. Descubre nuevos destinos con la confianza que solo ADO puede ofrecerte".</p>
 
-                <!-- Buttons -->
-                <div class="p-4 border border-gray-300 rounded-lg bg-white shadow-lg bg-cover bg-center backdrop-blur-lg text-black z-0">
-                    <h2 class="text-lg font-semibold mb-4">¿Adónde te vamos a llevar?</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Origen -->
-                        <div>
-                            <label for="origen" class="block text-sm font-medium mb-2">Origen</label>
-                            <select id="origen"
-                                class="w-full h-10 px-3 border border-gray-400 rounded-md bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="">Seleccionar</option>
-                                <option value="1">Puebla</option>
-                                <option value="2">CAPU</option>
-                            </select>
-                        </div>
-                        <!-- Destino -->
-                        <div>
-                            <label for="destino" class="block text-sm font-medium mb-2">Destino</label>
-                            <select id="destino"
-                                class="w-full h-10 px-3 border border-gray-400 rounded-md bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="">Seleccionar</option>
-                                <option value="A">San Martín</option>
-                                <option value="B">CDMX</option>
-                            </select>
-                        </div>
-                        <!-- Botón -->
-                        <div class="flex items-end">
-                            <button type="button"
-                                class="w-full h-10 flex justify-center items-center px-4 text-sm font-medium rounded-md border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                Buscar viaje
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                                </svg>
-                            </button>
-                        </div>
+            <!-- Formulario de búsqueda -->
+            <div class="mt-6 p-4 border border-gray-300 rounded-lg bg-white shadow-lg backdrop-blur-lg">
+                <h2 class="text-lg font-semibold mb-4">¿A dónde te llevamos?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="origen" class="block text-sm font-medium text-gray-700">Origen</label>
+                        <select id="origen" class="w-full h-10 px-3 border border-gray-400 rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-blue-500">
+                            <option value="">Seleccionar</option>
+                            <option value="1">Puebla</option>
+                            <option value="2">CAPU</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="destino" class="block text-sm font-medium text-gray-700">Destino</label>
+                        <select id="destino" class="w-full h-10 px-3 border border-gray-400 rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-blue-500">
+                            <option value="">Seleccionar</option>
+                            <option value="A">San Martín</option>
+                            <option value="B">CDMX</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button type="button" class="w-full h-10 flex justify-center items-center px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
+                            Buscar viaje
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
-                <!-- End Buttons -->
-
-                <!-- Images -->
-                <div class="mt-4 grid grid-cols-3 gap-x-5">
-                    <div class="py-2">
-                        <img class="w-full h-48 object-cover rounded-lg" src="{{ asset('images/hero/playa.jpg') }}"
-                            alt="Playa">
-                    </div>
-
-                    <div class="py-2">
-                        <img class="w-full h-48 object-cover rounded-lg" src="{{ asset('images/hero/piramide.jpg') }}"
-                            alt="Pirámide">
-                    </div>
-
-                    <div class="py-2">
-                        <img class="w-full h-48 object-cover rounded-lg" src="{{ asset('images/hero/pueblo.jpg') }}"
-                            alt="Pirámide">
-                    </div>
-                </div>
-                <!-- End images -->
             </div>
-
-            <!-- Col -->
-            <div class="relative" id="container3D">
-                {{-- <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.59/build/spline-viewer.js"></script>
-                <spline-viewer url="https://prod.spline.design/GEYeSkosKoiK5ivj/scene.splinecode"></spline-viewer> --}}
-                <img class="w-full h-full object-cover rounded-md" src="{{ asset('images/enterprise/ADO-font.jpg') }}" alt="Hero Image">
-            </div>
-            <!-- End Col -->
         </div>
-        <!-- End Grid -->
+
+        <!-- Contenedor del objeto 3D -->
+        <div class="relative" id="container3D">
+            <canvas class="absolute top-0 left-0 w-full h-full"></canvas>
+            <img class="w-full h-full object-cover rounded-md" src="{{ asset('images/enterprise/ADO-font.jpg') }}" alt="Hero Image">
+        </div>
     </div>
-    <!-- End Hero -->
+</div>
+
 
     <!-- Carousel -->
     <div class="mt-12 overflow-hidden w-full bg-white rounded-lg shadow-md">

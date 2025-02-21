@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -14,20 +16,36 @@ class UserSeeder extends Seeder
     {
         User::insert([
             [
-                'name' => 'Admiinistrador1',
+                'name' => 'Daniel',
                 'surnames' => 'Mendez',
-                'phone' => '22222222',
+                'phone' => '522216075444',
                 'type' => 'admin',
-                'email' => 'admin@gmail.com',
-                'password' => 'admin123',
+                'email' => 'admin1@gmail.com',
+                'password' => Hash::make('admin123'),
             ],
             [
-                'name' => 'Cliente1',
-                'surnames' => 'Mendez',
-                'phone' => '22222222',
+                'name' => 'Nancy',
+                'surnames' => 'Paleta',
+                'phone' => '522226348266',
                 'type' => 'cliente',
-                'email' => 'cliente@gmail.com',
-                'password' => 'cliente123',
+                'email' => 'cliente1@gmail.com',
+                'password' => Hash::make('cliente123'),
+            ],
+            [
+                'name' => 'Denisse',
+                'surnames' => 'Patiño',
+                'phone' => '528444975248',
+                'type' => 'admin',
+                'email' => 'admin2@gmail.com',
+                'password' => Hash::make('admin123'),
+            ],
+            [
+                'name' => 'Emili',
+                'surnames' => 'Amaro',
+                'phone' => '522212326923',
+                'type' => 'cliente',
+                'email' => 'cliente2@gmail.com',
+                'password' => Hash::make('cliente123'),
             ],
         ]);
     }
