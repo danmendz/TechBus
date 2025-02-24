@@ -36,8 +36,8 @@ Route::controller(SocialiteController::class)->group(function() {
  * Stripe
  */
 Route::post('stripe', [StripeController::class, 'stripe'])->name('stripe');
-Route::get('success', [StripeController::class, 'success'])->name('success');
-Route::get('cancel', [StripeController::class, 'cancel'])->name('cancel');
+Route::get('success', [StripeController::class, 'success'])->name('stripe.success');
+Route::get('cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 
 /**
  * Livewire

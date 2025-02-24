@@ -71,7 +71,7 @@ class SendNotifications extends Component
                         'El autobús se ha descompuesto'
                     ];
 
-                    $image = 'https://i.postimg.cc/MGMfKfsV/landpage.png';
+                    $image = 'https://i.ibb.co/fYydz30N/landpage.png';
 
                     $this->whatsappService->sendMessage($user['phone'], $templateName, $parameters, $image, $languageCode);
                     session()->flash('message', 'Mensajes enviados correctamente.');

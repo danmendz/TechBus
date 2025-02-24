@@ -12,8 +12,11 @@ use App\Models\TipoBoleto;
 use App\Models\Precio;
 use App\Models\Asiento;
 use App\Models\User;
+use App\Services\StripeService;
 use App\Services\WhatsappService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class BusTicketStepper extends Component
@@ -21,6 +24,7 @@ class BusTicketStepper extends Component
     // Paso actual del stepper
     public $currentStep = 1;
     protected $whatsappService;
+    protected $stripeService;
 
     // Datos para el Paso 1: Selección de la Corrida
     public $origen;
@@ -42,12 +46,15 @@ class BusTicketStepper extends Component
     // Datos para el Paso 4: Resumen de la Compra
     public $resumenCorrida;
     public $resumenBoletos = [];
+    public $cantidadTotal = 0;
+    public $tiposBoletos = [];
     public $resumenAsientos;
     public $corridaSeleccionada;
 
     public function __construct()
     {
         $this->whatsappService = new WhatsappService();
+        $this->stripeService = new StripeService();
     }
 
     // Método para avanzar al siguiente paso
@@ -190,6 +197,8 @@ class BusTicketStepper extends Component
     public function generarResumenBoletosYAsientos()
     {
         $this->resumenBoletos = [];
+        $this->cantidadTotal = 0; // Inicializar el total de boletos
+        $this->tiposBoletos = []; // Lista de tipos de boletos
 
         // Obtener los tipos de boleto
         $tiposBoleto = TipoBoleto::whereIn('id', array_keys($this->cantidadBoletos))->get();
@@ -211,6 +220,14 @@ class BusTicketStepper extends Component
 
                 $index++;
             }
+
+            // Sumar la cantidad total de boletos
+            $this->cantidadTotal += $cantidad;
+
+            // Guardar el tipo de boleto (evitando duplicados)
+            if (!in_array($tipoBoleto->tipo, $this->tiposBoletos)) {
+                $this->tiposBoletos[] = $tipoBoleto->tipo;
+            }
         }
     }
 
@@ -218,20 +235,15 @@ class BusTicketStepper extends Component
     public function sendWhatsappNotification()
     {
         $userName = Auth::user()->name;
-        $phoneUser = '522216075444';
+        $phoneUser = Auth::user()->phone;
 
         try {
-            $templateName = 'notificacion_de_incidencias';
-            $languageCode = 'es';
+            $templateName = 'confirmar_compra';
+            $languageCode = 'es_MX';
 
             $parameters = [
                 (string) $userName,
-                'Ciudad de Puebla',
-                'Ciudad de México',
-                '2025-01-01',
-                '17:00',
-                'cancelado',
-                'El autobús se ha descompuesto'
+                'ADEO.com'
             ];
 
             $image = 'https://i.postimg.cc/MGMfKfsV/landpage.png';
@@ -241,6 +253,7 @@ class BusTicketStepper extends Component
 
         } catch (\Exception $e) {
             session()->flash('error', "Error enviando mensaje a {$phoneUser}: " . $e->getMessage());
+            $this->sendEmailNotification();
         }
     }
 
@@ -260,8 +273,31 @@ class BusTicketStepper extends Component
     // Método para confirmar la compra (Paso 4)
     public function confirmarCompra()
     {
-        $this->sendWhatsappNotification();
-        // $this->sendEmailNotification();
+        $this->generarResumenBoletosYAsientos();
+
+        $productData = [
+            'product_name' => implode(', ', $this->tiposBoletos),
+            'quantity' => 1,
+            'price' => $this->precioTotal,
+        ];
+
+        // Log::info('Datos enviados a StripeService:', $productData);
+
+        $session = $this->stripeService->createCheckoutSession($productData);
+
+        if (isset($session->url)) {
+            session([
+                'product_name' => $productData['product_name'],
+                'quantity' => $productData['quantity'],
+                'price' => $productData['price'],
+            ]);
+
+            // Log::info('Datos almacenados en la sesión:', session()->all());
+
+            return redirect()->away($session->url);
+        } else {
+            session()->flash('error', 'Error al procesar el pago.');
+        }
     }
 
     // Renderizar la vista del componente

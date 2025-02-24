@@ -4,85 +4,57 @@ namespace App\Http\Controllers\Payment;
 use App\Http\Controllers\Controller;
 
 use App\Models\Payment;
+use App\Services\StripeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StripeController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function stripe(Request $request)
+    protected $stripeService;
+
+    public function __construct(StripeService $stripeService)
     {
-        $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
-
-        $response = $stripe->checkout->sessions->create([
-            'line_items' => [
-                [
-                    'price_data' => [
-                        'currency' => 'mxn',
-                        'product_data' => [
-                            'name' => $request->product_name,
-                        ],
-                        'unit_amount' => $request->price*100,
-                    ],
-                    'quantity' => $request->quantity,
-                ],
-            ],
-            'mode' => 'payment',
-            'success_url' => route('success').'?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('cancel'),
-        ]);
-        // dd($response);
-
-        if (isset($response->id) && $response->id != '') {
-            session()->put('product_name', $request->product_name);
-            session()->put('quantity', $request->quantity);
-            session()->put('price', $request->price);
-            return redirect($response->url);
-
-        } else {
-            return redirect()->route('cancel');
-        }
+        $this->stripeService = $stripeService;
     }
 
     /**
-     * Display success resource.
+     * Maneja la respuesta de éxito de Stripe.
      */
     public function success(Request $request)
     {
-        // return "Success";
+        if ($request->session_id) {
+            $session = $this->stripeService->retrieveCheckoutSession($request->session_id);
+            // Log::info('Sesión recuperada:', (array) $session);
+            // Log::info('Datos en la sesión:', session()->all());
 
-        if (isset($request->session_id)) {
-            
-            $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
-            $response = $stripe->checkout->sessions->retrieve($request->session_id);
-
-            // dd($response);
+            if (!session()->has('product_name') || !session()->has('quantity') || !session()->has('price')) {
+                // Log::error('Datos de pago no encontrados en la sesión.');
+                return redirect()->route('stripe.cancel')->with('error', 'Datos de pago no encontrados.');
+            }
 
             $payment = new Payment();
-            $payment->payment_id = $response->id;
-            $payment->product_name = session()->get('product_name');
-            $payment->quantity = session()->get('quantity');
-            $payment->amount = session()->get('price');
-            $payment->currency = $response->currency;
-            $payment->payer_name = $response->customer_details->name;
-            $payment->payer_email = $response->customer_details->email;
-            $payment->payment_status = $response->status;
+            $payment->payment_id = $session->id;
+            $payment->product_name = session('product_name');
+            $payment->quantity = session('quantity');
+            $payment->amount = session('price');
+            $payment->currency = $session->currency;
+            $payment->payer_name = $session->customer_details->name;
+            $payment->payer_email = $session->customer_details->email;
+            $payment->payment_status = $session->status;
             $payment->payment_method = "Stripe";
             $payment->save();
 
-            return "El pago fue completado";
+            // Log::info('Registro creado:', (array) $payment);
 
-            session()->forget('product_name');
-            session()->forget('quantity');
-            session()->forget('price');
+            session()->forget(['product_name', 'quantity', 'price']);
+            return "El pago fue completado";
         } else {
-            return redirect()->route('cancel');
+            return redirect()->route('stripe.cancel');
         }
     }
 
     /**
-     * Display cancel resource.
+     * Maneja la respuesta de cancelación de Stripe.
      */
     public function cancel()
     {
