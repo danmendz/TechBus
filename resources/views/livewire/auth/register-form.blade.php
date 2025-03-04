@@ -1,4 +1,4 @@
-<div x-init="HSStaticMethods.autoInit()">
+<div>
     <x-guest-layout>
         <x-authentication-card>
             <x-slot name="logo">
@@ -114,15 +114,15 @@
                                         <x-input wire:model="password" id="password"
                                             class="flex-1 px-3 py-2 border-none focus:ring-0" type="password"
                                             name="password" required autocomplete="off" />
-                                        <i class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword"></i>
+                                            <i wire:ignore class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword" onclick="togglePasswordVisibility()"></i>
                                     </div>
                                     @error('password')
                                         <span class="text-rose-600">{{ $message }}</span>
                                     @enderror
                                 </div>
-
+                                
                                 <!-- Strong Password -->
-                                <div class="max-w-sm">
+                                <div class="max-w-sm" x-data="{}" x-init="HSStrongPassword.autoInit()" wire:ignore>
                                     <div class="flex">
                                         <div class="relative flex-1">
                                             <div id="hs-strong-password-popover"
@@ -131,17 +131,16 @@
                                                     data-hs-strong-password='{
                                                     "target": "#password",
                                                     "hints": "#hs-strong-password-popover",
-                                                    {{-- "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-teal-500 h-2 flex-auto rounded-full bg-blue-500 opacity-50 mx-1", --}}
                                                     "mode": "popover",
                                                     "minLength": "8"
                                                     }'
                                                     class="flex -mx-1">
                                                 </div>
-
+                                
                                                 <h4 class="text-sm font-semibold text-gray-800">
                                                     La contraseña debe contener:
                                                 </h4>
-
+                                
                                                 <ul class="space-y-1 text-sm text-gray-500">
                                                     <li data-hs-strong-password-hints-rule-text="min-length"
                                                         class="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
@@ -263,7 +262,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- End Strong Password -->
 
                                 <div class="mt-4">
                                     <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
@@ -321,36 +319,33 @@
 
                 @if ($currentStep < $totalSteps)
                     <div class="w-full text-right">
-                        <button wire:click="incrementStep"
-                            class="mr-4 mt-3 inline-block rounded-full border border-blue-600 bg-blue-600 p-3 text-white hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
-                            <span class="sr-only">Siguiente</span>
-
-                            <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                        <x-filament::button
+                            wire:click="incrementStep"
+                            icon="heroicon-m-arrow-right"
+                            icon-position="after"
+                            class="mr-4 mt-3 inline-block rounded-full border border-blue-600 bg-blue-600 p-3 hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-500 hover:text-white focus:outline-none focus:ring active:text-blue-500">
+                            Siguiente
+                        </x-filament::button>
                     </div>
                 @endif
                 <div class="w-full flex justify-between items-center my-3">
                     @if ($currentStep > 1)
-                        <button wire:click="decrementStep"
-                            class="ml-5 inline-block rounded-full border border-blue-600 bg-blue-600 p-3 text-white hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
-                            <span class="sr-only">Atrás</span>
-                            <svg style="transform: rotate(180deg);" class="size-5" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                        <x-filament::button
+                            wire:click="decrementStep"
+                            icon="heroicon-m-arrow-left"
+                            icon-position="before"
+                            class="ml-5 mt-3 inline-block rounded-full border border-blue-600 bg-blue-600 p-3 hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-500 hover:text-white focus:outline-none focus:ring active:text-blue-500">
+                            Atrás
+                        </x-filament::button>
                     @endif
 
                     @if ($currentStep === $totalSteps)
-                        <button wire:click="submit"
-                            class="mt-0 mr-5 py-2 px-4 inline-block rounded-lg border border-blue-600 bg-blue-600 text-white hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                        <x-filament::button
+                            wire:click="submit"
+                            icon-position="after"
+                            class="mt-1 mr-5 py-2 px-4 inline-block rounded-lg border border-blue-600 bg-blue-600 text-white hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
                             Registrar
-                        </button>
+                        </x-filament::button>
                     @endif
                 </div>
             </div>

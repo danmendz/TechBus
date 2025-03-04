@@ -23,6 +23,7 @@ return new class extends Migration
 
             $table->date('fecha');
             $table->boolean('is_ida_vuelta');
+            $table->string('estatus_corrida', 15);
             $table->timestamps();
         });
     }

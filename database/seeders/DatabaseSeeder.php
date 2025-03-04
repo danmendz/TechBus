@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
             CorridaSeeder::class,
             TiposBoletosSeeder::class,
             PrecioSeeder::class,
+            NotificacionesSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

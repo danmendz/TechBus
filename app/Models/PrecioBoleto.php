@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Precio extends Model
+class PrecioBoleto extends Model
 {
     use HasFactory;
-    protected $table = 'precios';
+    protected $table = 'precios_boletos';
     protected $fillable = ['id_tipo_boleto', 'precio'];
     public function precios()
     {
-        return $this->hasMany(Precio::class, 'id_tipo_boleto');
+        return $this->hasMany(PrecioBoleto::class, 'id_tipo_boleto');
     }
 }

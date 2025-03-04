@@ -111,12 +111,17 @@
                         
                                 <!-- Contenido del acordeón -->
                                 <div id="account-accordion-child"
-                                    class="hs-accordion-content w-44 h-10 overflow-hidden transition-[height] duration-300 hidden absolute top-full right-0 bg-white shadow-md rounded-lg mt-1 z-10"
+                                    class="hs-accordion-content w-44 h-22 overflow-hidden transition-[height] duration-300 hidden absolute top-full right-0 bg-white shadow-md rounded-lg mt-1 z-10"
                                     role="region" aria-labelledby="account-accordion">
                                     <ul class="ps-8 pt-1 space-y-1">
                                         <li class="w-full">
                                             <x-nav-link :href="route('profile.show')" wire:navigate :active="request()->routeIs('profile.show')">
                                                 {{ __('Profile') }}
+                                            </x-nav-link>
+                                        </li>
+                                        <li class="w-full">
+                                            <x-nav-link href="/gestion">
+                                                {{ __('Panel de administración') }}
                                             </x-nav-link>
                                         </li>
                                     </ul>
@@ -167,9 +172,13 @@
                             Calendario
                         </li>
                         <li class="flex items-center justify-center gap-x-3.5 py-2 px-2.5">
-                            <x-danger-button wire:click="logout" wire:loading.attr="disabled" class="w-full">
-                                {{ __('Finalizar sesión') }}
-                            </x-danger-button>
+                            <x-filament::button
+                                wire:click="logout"
+                                icon="heroicon-m-arrow-left-start-on-rectangle"
+                                icon-position="after"
+                                class="bg-red-600 text-white hover:bg-red-700 w-full">
+                                Finalizar sesión
+                            </x-filament::button>
                         </li>
                         
                     </ul>

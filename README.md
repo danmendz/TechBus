@@ -1,5 +1,15 @@
 
-- **PHP >= 8.1** (habilitar las siguientes extenciones: `BCMath`, `Ctype`, `Fileinfo`, `JSON`, `Mbstring`, `OpenSSL`, `PDO`, `Tokenizer`, `XML`)
+- **PHP >= 8.1** (habilitar las siguientes extenciones: 
+`mbstring`,
+`pdo_mysql`,
+`mysqli`,
+`php_pdo_sqlsrv_82_ts_x64.dll`,
+`php_sqlsrv_82_ts_x64.dll`,
+`gd`,
+`fileinfo`,
+`zip`,
+`curl`,
+`intl`)
 
 ### 1. Instalar dependencias
 ```bash

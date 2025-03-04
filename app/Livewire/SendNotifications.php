@@ -2,8 +2,10 @@
 namespace App\Livewire;
 
 use App\Mail\NotificationEmail;
+use App\Models\Notificacion;
 use App\Models\User;
 use App\Services\WhatsappService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -17,10 +19,18 @@ class SendNotifications extends Component
     public $message = '';
     protected $whatsappService;
 
+    public $notifications = [];
+    public $selectedNotificationId;
+    public $notificationForm = [
+        'estatus_notificacion' => '',
+        'motivo' => '',
+        'imagen' => '',
+    ];
+
     public function mount()
     {
-        // Obtener los usuarios desde la base de datos
         $this->users = User::select('id', 'name', 'surnames', 'phone', 'email')->get()->toArray();
+        $this->notifications = Notificacion::all();
     }
 
     public function __construct()
@@ -46,6 +56,32 @@ class SendNotifications extends Component
         }
     }
 
+    // Se ejecuta cuando cambia el select
+    public function loadNotificationData()
+    {
+        if ($this->selectedNotificationId) {
+            $notification = Notificacion::find($this->selectedNotificationId);
+            if ($notification) {
+                $this->notificationForm = [
+                    'estatus_notificacion' => $notification->estatus_notificacion,
+                    'motivo' => $notification->motivo,
+                    'imagen' => $notification->imagen,
+                ];
+            }
+        } else {
+            $this->resetForm();
+        }
+    }
+
+    public function resetForm()
+    {
+        $this->notificationForm = [
+            'estatus_notificacion' => '',
+            'motivo' => '',
+            'imagen' => '',
+        ];
+    }
+
     public function sendMessagesWhatsapp()
     {
         if (empty($this->selectedNumbers)) {
@@ -67,11 +103,11 @@ class SendNotifications extends Component
                         'Ciudad de México',
                         '2025-01-01',
                         '17:00',
-                        'cancelado',
-                        'El autobús se ha descompuesto'
+                        $this->notificationForm['estatus_notificacion'],
+                        $this->notificationForm['motivo']
                     ];
 
-                    $image = 'https://i.ibb.co/fYydz30N/landpage.png';
+                    $image = $this->notificationForm['imagen'];
 
                     $this->whatsappService->sendMessage($user['phone'], $templateName, $parameters, $image, $languageCode);
                     session()->flash('message', 'Mensajes enviados correctamente.');

@@ -20,7 +20,7 @@ return new class extends Migration
             
             $table->foreign('id_corrida')->references('id')->on('corridas');
             $table->foreign('id_asiento')->references('id')->on('asientos');
-            $table->foreign('id_precio')->references('id')->on('precios');
+            $table->foreign('id_precio')->references('id')->on('precios_boletos');
             $table->foreign('id_usuario')->references('id')->on('users');
             
             $table->timestamps();            

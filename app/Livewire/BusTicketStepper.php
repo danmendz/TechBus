@@ -9,7 +9,7 @@ use App\Models\FlotaAutobuses;
 use App\Models\Horario;
 use App\Models\Corrida;
 use App\Models\TipoBoleto;
-use App\Models\Precio;
+use App\Models\PrecioBoleto;
 use App\Models\Asiento;
 use App\Models\User;
 use App\Services\StripeService;
@@ -81,7 +81,8 @@ class BusTicketStepper extends Component
                 $query->select('id')
                     ->from('rutas')
                     ->where('id_origen', $this->origen)
-                    ->where('id_destino', $this->destino);
+                    ->where('id_destino', $this->destino)
+                    ->where('estatus_corrida', 'programada');
             });
 
         // Filtrar por fecha si está presente
@@ -141,7 +142,7 @@ class BusTicketStepper extends Component
     {
         $this->precioTotal = 0;
         foreach ($this->cantidadBoletos as $tipoBoletoId => $cantidad) {
-            $precio = Precio::where('id_tipo_boleto', $tipoBoletoId)
+            $precio = PrecioBoleto::where('id_tipo_boleto', $tipoBoletoId)
                 ->first()
                 ->precio;
             $this->precioTotal += $precio * $cantidad;

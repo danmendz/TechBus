@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Precio;
+use App\Models\PrecioBoleto;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class PrecioSeeder extends Seeder
      */
     public function run(): void
     {
-        Precio::insert([
+        PrecioBoleto::insert([
             [
                 'id_tipo_boleto' => 1,
                 'precio' => 78.56

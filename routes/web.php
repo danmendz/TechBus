@@ -65,3 +65,7 @@ Route::get('/stripe-form', function() {
 Route::get('/profile-information', function() {
     return view('profile.show-options');
 });
+
+use App\Http\Controllers\PDFController;
+
+Route::get('/generate-ticket', [PDFController::class, 'generatePdf']);
