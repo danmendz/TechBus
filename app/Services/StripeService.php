@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Services;
 
+use App\Models\Payment;
 use Stripe\StripeClient;
 use Illuminate\Support\Facades\Session;
 
@@ -52,5 +52,50 @@ class StripeService
     public function retrieveCheckoutSession(string $sessionId)
     {
         return $this->stripe->checkout->sessions->retrieve($sessionId);
+    }
+
+    /**
+     * Valida los datos de la sesión.
+     *
+     * @return bool
+     */
+    public function validateSessionData()
+    {
+        return Session::has('product_name') && Session::has('quantity') && Session::has('price');
+    }
+
+    /**
+     * Guarda el pago en la base de datos.
+     *
+     * @param \Stripe\Checkout\Session $session
+     * @return Payment
+     */
+    public function savePayment($session)
+    {
+        $payment = Payment::create([
+            'payment_id' => $session->id,
+            'product_name' => Session::get('product_name'),
+            'quantity' => Session::get('quantity'),
+            'amount' => Session::get('price'),
+            'currency' => $session->currency,
+            'payer_name' => $session->customer_details->name,
+            'payer_email' => $session->customer_details->email,
+            'payment_status' => $session->status,
+            'payment_method' => "Stripe",
+        ]);
+        // Session::put('payment_id', $payment->id);
+
+        return $payment;
+    }
+
+    /**
+     * Limpia los datos de la sesión.
+     */
+    public function clearSession()
+    {
+        Session::forget([
+            'product_name', 'quantity', 'price', 'corrida_id',
+            'cantidad_boletos', 'asientos_seleccionados', 'precios_detallados', 'payment_id'
+        ]);
     }
 }

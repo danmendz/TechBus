@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_transactions', function (Blueprint $table) {
+        Schema::create('purchase_history', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_ticket');
+
+            $table->unsignedBigInteger('id_usuario');
             $table->unsignedBigInteger('id_payment');
-            
-            $table->foreign('id_ticket')->references('id')->on('tickets');
+            $table->unsignedBigInteger('id_ticket');
+            $table->timestamps();
+
+            $table->foreign('id_usuario')->references('id')->on('users');
             $table->foreign('id_payment')->references('id')->on('payments');
-            
-            $table->dateTime('date_transaction');
-            $table->timestamps();            
+            $table->foreign('id_ticket')->references('id')->on('tickets');
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_transactions');
+        Schema::dropIfExists('purchase_history');
     }
 };

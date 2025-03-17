@@ -35,6 +35,11 @@ class PDFController extends Controller
             'cantidad' => $request->input('cantidad'),
             'precio' => $request->input('precio'),
             'precioTotal' => $request->input('precioTotal'),
+            'nombrePasajero' => 'Daniel',
+            'numeroTicket' => $request->input('numeroTicket'),
+            'asiento' => $request->input('asiento'),
+            'metodoPago' => $request->input('metodoPago'),
+            'numeroTransaccion' => $request->input('numeroTransaccion'),
         ];
 
         // Clave secreta (NO compartir públicamente)
@@ -84,4 +89,4 @@ class PDFController extends Controller
         return response()->json(['message' => 'PDF generado y enviado por correo electrónico.']);
     }
 }
-// /generate-ticket?fecha=2023-10-01&hora=14:00&autobus=Autobús%201&origen=Ciudad%20A&destino=Ciudad%20B&tipoBoleto=Normal&cantidad=2&precio=50&precioTotal=100
+//http://127.0.0.1:8000/generate-ticket?fecha=2025-03-17&hora=14:00&autobus=Autob%C3%BAs%201&origen=Ciudad%20A&destino=Ciudad%20B&tipoBoleto=Normal&cantidad=2&precio=50&precioTotal=100&nombrePasajero=Juan%20Perez&numeroTicket=987654&asiento=12A&metodoPago=Tarjeta&numeroTransaccion=TXN123456

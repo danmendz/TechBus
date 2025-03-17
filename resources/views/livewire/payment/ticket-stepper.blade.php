@@ -115,13 +115,21 @@
                 <!-- Indicador del boleto actual -->
                 @if ($boletoActual < array_sum($cantidadBoletos))
                     @php
-                        // Usar la variable $tiposBoleto que se pasa desde el componente Livewire
-                        $tipoBoletoActual = $tiposBoleto->firstWhere('id', array_keys($cantidadBoletos)[$boletoActual]);
+                        $tiposExpandido = [];
+                        foreach ($cantidadBoletos as $tipoId => $cantidad) {
+                            for ($i = 0; $i < $cantidad; $i++) {
+                                $tiposExpandido[] = $tipoId;
+                            }
+                        }
+                    
+                        $tipoBoletoActual = isset($tiposExpandido[$boletoActual]) ? $tiposBoleto->firstWhere('id', $tiposExpandido[$boletoActual]) : null;
                     @endphp
-                    <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
-                        Seleccionando asiento para el boleto {{ $boletoActual + 1 }} de tipo
-                        {{ $tipoBoletoActual->tipo }}.
-                    </div>
+                    @if ($tipoBoletoActual)
+                        <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
+                            Seleccionando asiento para el boleto {{ $boletoActual + 1 }} de tipo
+                            {{ $tipoBoletoActual->tipo }}.
+                        </div>
+                    @endif
                 @else
                     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                         Todos los asientos han sido seleccionados.
@@ -191,10 +199,13 @@
                     <p><strong>Precio Total:</strong> ${{ $precioTotal }}</p>
                 </div>
 
-                <button wire:click="confirmarCompra"
-                    class="w-full mt-6 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+                <x-filament::button
+                    wire:click="confirmarCompra"
+                    icon="heroicon-m-check"
+                    icon-position="after"
+                    class="mt-3 w-full inline-block rounded-full border border-green-600 bg-green-500 p-3 hover:bg-gradient-to-r hover:from-green-600 hover:to-green-500 hover:text-white focus:outline-none focus:ring active:text-green-500">
                     Confirmar Compra
-                </button>
+                </x-filament::button>
             </div>
         @endif
 

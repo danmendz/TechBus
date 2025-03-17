@@ -36,11 +36,11 @@
             font-size: 14px;
             color: #555;
         }
-        .details {
+        .details, .passenger-info {
             margin-bottom: 15px;
             text-align: left;
         }
-        .details p {
+        .details p, .passenger-info p {
             margin: 5px 0;
             font-size: 14px;
         }
@@ -81,12 +81,21 @@
             <p>Ticket de Viaje</p>
         </div>
 
+        <!-- Información del pasajero -->
+        <div class="passenger-info">
+            <p><strong>Pasajero:</strong> {{ $nombrePasajero }}</p>
+            <p><strong>Número de Ticket:</strong> #{{ $numeroTicket }}</p>
+            <p><strong>Asiento:</strong> {{ $asiento }}</p>
+        </div>
+
         <!-- Detalles del boleto -->
         <div class="details">
             <p><strong>Fecha y Hora:</strong> {{ $fecha }} - {{ $hora }}</p>
             <p><strong>Autobús:</strong> {{ $autobus }}</p>
-            <p><strong>Trayecto:</strong> {{ $origen }} - {{ $destino }}</p>
+            <p><strong>Trayecto:</strong> {{ $origen }} → {{ $destino }}</p>
             <p><strong>Boleto:</strong> {{ $tipoBoleto }} | <strong>Cantidad:</strong> {{ $cantidad }}</p>
+            <p><strong>Método de Pago:</strong> {{ $metodoPago }}</p>
+            <p><strong>Número de Transacción:</strong> {{ $numeroTransaccion }}</p>
             <p><strong>Precio Unitario:</strong> ${{ number_format($precio, 2) }}</p>
             <p><strong>Total:</strong> <span style="font-size: 16px; font-weight: bold;">${{ number_format($precioTotal, 2) }}</span></p>
         </div>
@@ -98,6 +107,10 @@
 
         <!-- Pie de página -->
         <div class="footer">
+            <p>*Este boleto no es reembolsable después de la fecha de salida.*</p>
+            <p>En caso de dudas, contáctenos:</p>
+            <p><strong>Teléfono:</strong> +52 123 456 7890</p>
+            <p><strong>Email:</strong> soporte@adeo.com</p>
             <p>¡Gracias por viajar con nosotros!</p>
             <p>www.adeo.com</p>
         </div>

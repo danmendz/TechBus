@@ -14,17 +14,16 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_corrida');
-            $table->unsignedBigInteger('id_asiento');
-            $table->unsignedBigInteger('id_precio');
             $table->unsignedBigInteger('id_usuario');
-            
+            $table->string('codigo_referencia');
+            $table->json('detalles_compra');
+        
             $table->foreign('id_corrida')->references('id')->on('corridas');
-            $table->foreign('id_asiento')->references('id')->on('asientos');
-            $table->foreign('id_precio')->references('id')->on('precios_boletos');
             $table->foreign('id_usuario')->references('id')->on('users');
-            
-            $table->timestamps();            
+        
+            $table->timestamps();
         });
+        
     }
 
     /**

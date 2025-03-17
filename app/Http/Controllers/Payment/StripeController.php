@@ -1,20 +1,30 @@
 <?php
-
 namespace App\Http\Controllers\Payment;
-use App\Http\Controllers\Controller;
 
-use App\Models\Payment;
+use App\Http\Controllers\Controller;
 use App\Services\StripeService;
+use App\Services\TicketService;
+use App\Services\NotificationService;
+use App\Services\PurchaseHistoryService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class StripeController extends Controller
 {
     protected $stripeService;
+    protected $ticketService;
+    protected $historyService;
+    protected $notificationService;
 
-    public function __construct(StripeService $stripeService)
-    {
+    public function __construct(
+        StripeService $stripeService,
+        TicketService $ticketService,
+        PurchaseHistoryService $historyService,
+        NotificationService $notificationService
+    ) {
         $this->stripeService = $stripeService;
+        $this->ticketService = $ticketService;
+        $this->historyService = $historyService;
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -22,34 +32,38 @@ class StripeController extends Controller
      */
     public function success(Request $request)
     {
-        if ($request->session_id) {
-            $session = $this->stripeService->retrieveCheckoutSession($request->session_id);
-            // Log::info('Sesión recuperada:', (array) $session);
-            // Log::info('Datos en la sesión:', session()->all());
+        if (!$request->session_id) {
+            return redirect()->route('stripe.cancel')->with('error', 'Sesión no encontrada.');
+        }
 
-            if (!session()->has('product_name') || !session()->has('quantity') || !session()->has('price')) {
-                // Log::error('Datos de pago no encontrados en la sesión.');
-                return redirect()->route('stripe.cancel')->with('error', 'Datos de pago no encontrados.');
-            }
+        // Recuperar la sesión de Stripe
+        $session = $this->stripeService->retrieveCheckoutSession($request->session_id);
 
-            $payment = new Payment();
-            $payment->payment_id = $session->id;
-            $payment->product_name = session('product_name');
-            $payment->quantity = session('quantity');
-            $payment->amount = session('price');
-            $payment->currency = $session->currency;
-            $payment->payer_name = $session->customer_details->name;
-            $payment->payer_email = $session->customer_details->email;
-            $payment->payment_status = $session->status;
-            $payment->payment_method = "Stripe";
-            $payment->save();
+        // Validar datos de la sesión
+        if (!$this->stripeService->validateSessionData()) {
+            return redirect()->route('stripe.cancel')->with('error', 'Datos de pago no encontrados.');
+        }
 
-            // Log::info('Registro creado:', (array) $payment);
+        // Guardar el pago
+        $payment = $this->stripeService->savePayment($session);
 
-            session()->forget(['product_name', 'quantity', 'price']);
-            return "El pago fue completado";
+        // Guardar el ticket
+        $ticket = $this->ticketService->saveTicket();
+
+        
+        if ($payment && $ticket) {
+            // Guardar en el historial
+            $ticket = $this->historyService->saveHistory($payment->id, $ticket->id);
+
+            // Enviar notificaciones
+            $this->notificationService->sendNotifications();
+    
+            // Limpiar la sesión
+            $this->stripeService->clearSession();
+            
+            return redirect()->route('dashboard')->with('success', 'Pago procesado correctamente.');
         } else {
-            return redirect()->route('stripe.cancel');
+            return redirect()->route('stripe.cancel')->with('error', 'Los datos no se guardaron correctamente.');
         }
     }
 

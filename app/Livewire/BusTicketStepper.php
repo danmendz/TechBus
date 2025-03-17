@@ -2,28 +2,21 @@
 
 namespace App\Livewire;
 
-use App\Mail\NotificationEmail;
 use Livewire\Component;
 use App\Models\Ubicacion;
-use App\Models\FlotaAutobuses;
 use App\Models\Horario;
 use App\Models\Corrida;
 use App\Models\TipoBoleto;
 use App\Models\PrecioBoleto;
 use App\Models\Asiento;
-use App\Models\User;
 use App\Services\StripeService;
 use App\Services\WhatsappService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class BusTicketStepper extends Component
 {
     // Paso actual del stepper
     public $currentStep = 1;
-    protected $whatsappService;
     protected $stripeService;
 
     // Datos para el Paso 1: Selección de la Corrida
@@ -37,6 +30,7 @@ class BusTicketStepper extends Component
     public $tipoBoleto;
     public $cantidadBoletos = [];
     public $precioTotal = 0;
+    public $preciosTotales = [];
 
     // Datos para el Paso 3: Selección de Asientos
     public $asientosDisponibles = [];
@@ -53,7 +47,6 @@ class BusTicketStepper extends Component
 
     public function __construct()
     {
-        $this->whatsappService = new WhatsappService();
         $this->stripeService = new StripeService();
     }
 
@@ -149,6 +142,27 @@ class BusTicketStepper extends Component
         }
     }
 
+    public function calcularPreciosTotales()
+    {
+        // Obtener los precios desde la tabla precios_boletos
+        $precios = PrecioBoleto::whereIn('id_tipo_boleto', array_keys($this->cantidadBoletos))
+            ->pluck('precio', 'id_tipo_boleto');
+
+        // Obtener el mapa de IDs a nombres de tipos de boletos
+        $tipoBoletoMap = TipoBoleto::pluck('tipo', 'id');
+
+        foreach ($this->cantidadBoletos as $idTipo => $cantidad) {
+            if (isset($tipoBoletoMap[$idTipo]) && isset($precios[$idTipo])) {
+                $this->preciosTotales[$tipoBoletoMap[$idTipo]] = [
+                    'precio_unitario' => $precios[$idTipo],
+                    'precio_total' => $precios[$idTipo] * $cantidad
+                ];
+            }
+        }
+
+        return $this->preciosTotales;
+    }
+
     // Método que se ejecuta cuando se actualiza la cantidad de boletos
     public function updatedCantidadBoletos()
     {
@@ -168,7 +182,9 @@ class BusTicketStepper extends Component
                 $this->asientosSeleccionados[] = $asientoId;
 
                 // Avanzar al siguiente boleto
-                $this->boletoActual++;
+                if ($this->boletoActual < array_sum($this->cantidadBoletos)) {
+                    $this->boletoActual++;
+                }
             } else {
                 // Mostrar un mensaje de error o notificación
                 session()->flash('error', 'No puedes seleccionar más asientos que la cantidad de boletos comprados.');
@@ -232,49 +248,11 @@ class BusTicketStepper extends Component
         }
     }
 
-    //Enviar notificación de whatsapp
-    public function sendWhatsappNotification()
-    {
-        $userName = Auth::user()->name;
-        $phoneUser = Auth::user()->phone;
-
-        try {
-            $templateName = 'confirmar_compra';
-            $languageCode = 'es_MX';
-
-            $parameters = [
-                (string) $userName,
-                'ADEO.com'
-            ];
-
-            $image = 'https://i.postimg.cc/MGMfKfsV/landpage.png';
-
-            $this->whatsappService->sendMessage($phoneUser, $templateName, $parameters, $image, $languageCode);
-            session()->flash('message', 'Mensajes enviados correctamente.');
-
-        } catch (\Exception $e) {
-            session()->flash('error', "Error enviando mensaje a {$phoneUser}: " . $e->getMessage());
-            $this->sendEmailNotification();
-        }
-    }
-
-    //Enviar notificación de email
-    public function sendEmailNotification()
-    {
-        $user = 'dan@gmail.com';
-        $messageBody = "Este es un mensaje de prueba para los usuarios.";
-
-        if (!empty($user)) {
-            Mail::to('admin@miempresa.com')
-                ->bcc($user)
-                ->send(new NotificationEmail('Usuario', $messageBody));
-        }
-    }
-
     // Método para confirmar la compra (Paso 4)
     public function confirmarCompra()
     {
         $this->generarResumenBoletosYAsientos();
+        $this->calcularPreciosTotales();
 
         $productData = [
             'product_name' => implode(', ', $this->tiposBoletos),
@@ -291,6 +269,10 @@ class BusTicketStepper extends Component
                 'product_name' => $productData['product_name'],
                 'quantity' => $productData['quantity'],
                 'price' => $productData['price'],
+                'corrida_id' => $this->corridaSeleccionada->id,
+                'cantidad_boletos' => $this->cantidadBoletos,
+                'asientos_seleccionados' => $this->asientosSeleccionados,
+                'precios_detallados' => $this->preciosTotales,
             ]);
 
             // Log::info('Datos almacenados en la sesión:', session()->all());
