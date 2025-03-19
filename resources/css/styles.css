@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.gsc-control-cse {
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+.gsc-input-box {
+    border: 1px solid #d1d5db !important;
+    border-radius: 0.25rem !important;
+}
+.gsc-input {
+    font-size: 1rem !important;
+    color: #1f2937 !important;
+}
+.gsc-search-button {
+    background-color: #2563eb !important;
+    border: none !important;
+    border-radius: 0.25rem !important;
+    color: white !important;
+    padding: 0.5rem 1rem !important;
+    cursor: pointer !important;
+}
+.gsc-search-button:hover {
+    background-color: #1d4ed8 !important;
+}
+.gsc-results {
+    margin-top: 1rem;
+}
+.gsc-result {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+}
+.gsc-result:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-search-bar {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /* Agrega más estilos según necesites */
+}

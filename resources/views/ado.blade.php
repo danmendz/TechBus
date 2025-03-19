@@ -10,11 +10,20 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <!-- Styles -->
     <link href="{{ asset('css/general/styles.css') }}" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+     <!-- Google CSE Script -->
+     <script async src="https://cse.google.com/cse.js?cx=b4f2947b021ac4b02"></script>
+     <!-- Tailwind CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+     
 </head>
 
 <body>
@@ -67,7 +76,7 @@
                     class="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
                     <div class="py-2 md:py-0 flex flex-col md:flex-row md:items-center md:justify-end gap-0.5 md:gap-1">
                         <a class="p-2 flex items-center text-sm text-blue-600 focus:outline-none focus:text-blue-600"
-                            href="#" aria-current="page">
+                        href="{{ route('ado') }}" aria-current="page">
                             <svg class="shrink-0 size-4 me-3 md:me-2 block md:hidden" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -89,20 +98,10 @@
                             Destinos
                         </a>
 
-                        <a class="p-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
-                            href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor"
-                                class="shrink-0 size-4 me-3 md:me-2 block md:hidden">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
-                            </svg>
-                            Mis viajes
-                        </a>
-
                         <!-- Dropdown -->
                         <div
-                            class="hs-dropdown [--strategy:static] md:[--strategy:fixed] [--adaptive:none] [--is-collapse:true] md:[--is-collapse:false] ">
+                            class="hs-dropdown [--strategy:static] md:[--strategy:fixed] [--adaptive:none] [--is-collapse:true] md:[--is-collapse:false] "
+                            href="/acerca-de">
                             <button id="hs-header-classic-dropdown" type="button"
                                 class="hs-dropdown-toggle w-full p-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
                                 aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
@@ -126,7 +125,7 @@
                                 aria-labelledby="hs-header-classic-dropdown">
                                 <div class="py-1 md:px-1 space-y-0.5">
                                     <a class="py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
-                                        href="#">
+                                        href="/nosotros">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor"
                                             class="shrink-0 size-4 me-3 md:me-2 block md:hidden">
@@ -136,7 +135,7 @@
                                         Nosotros
                                     </a>
                                     <a class="py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
-                                        href="#">
+                                        href="/metodo-pago">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor"
                                             class="shrink-0 size-4 me-3 md:me-2 block md:hidden">
@@ -149,7 +148,6 @@
                             </div>
                         </div>
                         <!-- End Dropdown -->
-
 
                         <!-- Dropdown Account -->
                         <div
@@ -220,6 +218,9 @@
                                 @endauth
                             @endif
                         </div>
+                        <!-- Barra de búsqueda de Google -->
+                        <div class="gcse-search"></div>
+
                         <!-- End Dropdown account -->
                     </div>
                 </div>
@@ -228,91 +229,128 @@
         </nav>
     </header>
     <!-- END HEADER -->
-
-    <!-- Hero -->
-    <div class="min-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <!-- Grid -->
-        <div class="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
-            <div>
-                <h1 class="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight">
+    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <!-- Grid Container -->
+        <div class="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 items-stretch">
+            <!-- Columna 1: Texto y Formulario -->
+            <div class="flex flex-col">
+                <h1 class="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight animate__animated" data-animation="animate__fadeInLeft">
                     Comienza tu viaje con
                     <span class="text-blue-600">ADO</span>
                 </h1>
-                <p class="mt-3 text-lg text-gray-800">"Realiza el viaje de tus sueños con tu familia, disfrutando de
-                    comodidad y
-                    seguridad en cada kilómetro. ¡Aprovecha nuestras ofertas exclusivas y viaja con confianza!".
+                <p class="mt-3 text-lg text-gray-800 animate__animated" data-animation="animate__fadeInLeft">
+                    "Realiza el viaje de tus sueños con tu familia, disfrutando de comodidad y seguridad en cada kilómetro. ¡Aprovecha nuestras ofertas exclusivas y viaja con confianza!".
                 </p>
-
-                <!-- Buttons -->
-                <div class="p-4 border border-gray-300 rounded-lg bg-white shadow-lg bg-cover bg-center backdrop-blur-lg text-black z-0">
-                    <h2 class="text-lg font-semibold mb-4">¿Adónde te vamos a llevar?</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Origen -->
+                
+                <div class="mt-6 animate__animated" data-animation="animate__fadeInLeft">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        De tu teléfono a tu destino favorito
+                    </h2>
+                </div>
+    
+                <div class="bg-white p-6 rounded-lg shadow-lg mt-6 h-full" id="formulario-boletos">
+                    <!-- Formulario siempre visible -->
+                    <form id="search-form" class="space-y-4 animate__animated" data-animation="animate__fadeInUp">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="origin" class="block text-sm font-medium text-gray-700">Origen</label>
+                                <select id="origin" name="origin" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                                    <option value="ciudad-mexico">Ciudad de México</option>
+                                    <option value="puebla">Puebla</option>
+                                    <option value="guadalajara">Guadalajara</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="destination" class="block text-sm font-medium text-gray-700">Destino</label>
+                                <select id="destination" name="destination" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                                    <option value="oaxaca">Oaxaca</option>
+                                    <option value="veracruz">Veracruz</option>
+                                    <option value="monterrey">Monterrey</option>
+                                </select>
+                            </div>
+                        </div>
                         <div>
-                            <label for="origen" class="block text-sm font-medium mb-2">Origen</label>
-                            <select id="origen"
-                                class="w-full h-10 px-3 border border-gray-400 rounded-md bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="">Seleccionar</option>
-                                <option value="1">Puebla</option>
-                                <option value="2">CAPU</option>
+                            <label for="departure-date" class="block text-sm font-medium text-gray-700">Fecha</label>
+                            <input type="date" id="departure-date" name="departure_date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="time" class="block text-sm font-medium text-gray-700">Horario</label>
+                            <select id="time" name="time" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                                <option value="08:00">08:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="12:00">12:00 PM</option>
+                                <option value="14:00">02:00 PM</option>
+                                <option value="16:00">04:00 PM</option>
+                                <option value="18:00">06:00 PM</option>
                             </select>
                         </div>
-                        <!-- Destino -->
-                        <div>
-                            <label for="destino" class="block text-sm font-medium mb-2">Destino</label>
-                            <select id="destino"
-                                class="w-full h-10 px-3 border border-gray-400 rounded-md bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="">Seleccionar</option>
-                                <option value="A">San Martín</option>
-                                <option value="B">CDMX</option>
-                            </select>
-                        </div>
-                        <!-- Botón -->
-                        <div class="flex items-end">
-                            <button type="button"
-                                class="w-full h-10 flex justify-center items-center px-4 text-sm font-medium rounded-md border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                Buscar viaje
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                                </svg>
+                        <div class="mt-6">
+                            <button type="button" id="search-button" class="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Buscar Viaje
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
-                <!-- End Buttons -->
-
-                <!-- Images -->
-                <div class="mt-4 grid grid-cols-3 gap-x-5">
-                    <div class="py-2">
-                        <img class="w-full h-48 object-cover rounded-lg" src="{{ asset('images/hero/playa.jpg') }}"
-                            alt="Playa">
-                    </div>
-
-                    <div class="py-2">
-                        <img class="w-full h-48 object-cover rounded-lg" src="{{ asset('images/hero/piramide.jpg') }}"
-                            alt="Pirámide">
-                    </div>
-
-                    <div class="py-2">
-                        <img class="w-full h-48 object-cover rounded-lg" src="{{ asset('images/hero/pueblo.jpg') }}"
-                            alt="Pirámide">
-                    </div>
-                </div>
-                <!-- End images -->
+                <!-- End Formulario de Búsqueda -->
             </div>
-
-            <!-- Col -->
-            <div class="relative" id="container3D">
+            <!-- End Contenido Principal -->
+    
+            <!-- Columna 2: Imagen 3D -->
+            <div class="relative animate__animated" id="container3D" data-animation="animate__fadeInRight">
                 <img class="w-full h-full object-cover rounded-md" src="{{ asset('images/enterprise/ADO-font.jpg') }}" alt="Hero Image">
             </div>
-            <!-- End Col -->
         </div>
-        <!-- End Grid -->
     </div>
-    <!-- End Hero -->
+    
+    <!-- Scripts para manejar las fechas y el formulario -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchButton = document.getElementById('search-button');
+    
+            if (searchButton) {
+                searchButton.addEventListener('click', function () {
+                    // Verificar si el usuario está autenticado
+                    const isAuthenticated = {{ auth()->check() ? 'true' : 'false' }};
+    
+                    if (!isAuthenticated) {
+                        alert('Debes iniciar sesión para realizar una búsqueda.');
+                        window.location.href = "{{ route('login') }}";
+                        return;
+                    }
+    
+                    // Obtener los valores del formulario
+                    const origin = document.getElementById('origin').value;
+                    const destination = document.getElementById('destination').value;
+                    const departureDate = document.getElementById('departure-date').value;
+                    const time = document.getElementById('time').value;
+    
+                    // Validar que todos los campos estén llenos
+                if (!origin || !destination || !departureDate || !time) {
+                    alert('Por favor, rellena todos los campos obligatorios.');
+                    return;
+                }
 
+                // Crear un objeto con los datos de búsqueda
+                const searchData = {
+                    origin,
+                    destination,
+                    departureDate,
+                    time,
+                };
+
+                // Guardar en Local Storage
+                localStorage.setItem('searchData', JSON.stringify(searchData));
+
+    
+                    // Redirigir a la página de resultados con los parámetros de búsqueda
+                    window.location.href = `/resultados?origin=${origin}&destination=${destination}&departureDate=${departureDate}&time=${time}`;
+                });
+            }
+        });
+    </script>
+    </body>
+
+    </html>
     <!-- Carousel -->
     <div class="mt-12 overflow-hidden w-full bg-white rounded-lg shadow-md">
         <div class="flex items-center gap-5 animate-marquee whitespace-nowrap">
@@ -337,568 +375,447 @@
     </div>
     <!-- End Carousel -->
 
-    <!-- Pricing -->
-    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        <!-- Title -->
-        <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-            <h2 class="text-2xl font-bold md:text-4xl md:leading-tight">Encuentra tu boleto ideal</h2>
-            <p class="mt-1 text-gray-600">Paga con la tarjeta de credito de tu preferencia.</p>
+   <!-- Destinos populares -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h2 class="text-3xl font-bold text-gray-800 text-center animate__animated animate__flipInX">
+        Explora nuestros destinos más populares
+    </h2>
+
+    <style>
+        .card {
+          transition: transform 0.3s ease-in-out;
+        }
+      
+        .card:hover {
+          transform: scale(1.05);
+        }
+    </style>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Destino 1: Oaxaca -->
+        <div class="bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+            <img src="{{ asset('images/destinations/oaxaca.jpg') }}" alt="Oaxaca" class="w-full h-48 object-cover rounded-lg">
+            <h3 class="mt-4 text-xl font-semibold text-gray-800">Oaxaca</h3>
+            <p class="mt-2 text-gray-600">Descubre la riqueza cultural y gastronómica de Oaxaca.</p>
+            <button onclick="openModal('oaxaca')" class="mt-4 inline-block text-blue-600 hover:underline">Ver más</button>
         </div>
-        <!-- End Title -->
-
-        <!-- Grid -->
-        <div
-            class="relative before:absolute before:inset-0 before:-z-[1] before:bg-[radial-gradient(closest-side,theme(colors.gray.300),transparent)] mt-12">
-            <div class="grid gap-px sm:grid-cols-2 lg:grid-cols-4 lg:items-center">
-
-                <!-- Card -->
-                <div class="flex flex-col h-full text-center">
-                    <div class="bg-white pt-8 pb-5 px-8">
-                        <h4 class="font-bold font-medium text-lg text-gray-800">Niño</h4>
-                    </div>
-
-                    <!-- Select -->
-                    <div class="bg-white px-6 py-2">
-                        <select
-                            class="w-32 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg py-1 px-3 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
-                            <option class="text-gray-800" value="1user">Económico</option>
-                            <option class="text-gray-800" value="planfeatures">Primera clase</option>
-                        </select>
-                    </div>
-
-                    <div class="h-full bg-white lg:mt-px lg:py-5 px-8">
-                        <span class="mt-7 font-bold text-5xl text-gray-800">
-                            <span class="font-bold text-2xl -me-2">$</span>
-                            40
-                        </span>
-                    </div>
-
-                    <!-- Contador y botón "+" -->
-                    <div class="bg-white py-4 px-8 flex justify-center items-center">
-                        <button id="addButton2" class="text-xl text-gray-800 bg-gray-200 rounded-full px-2 py-1">
-                            +
-                        </button>
-                        <p id="counter2" class="ml-3 text-gray-800">Cantidad: 0</p>
-                    </div>
-
-                    <!-- Botón "comprar" -->
-                    <div class="bg-white py-8 px-8">
-                        <a class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-blue-600 text-blue-600 hover:border-blue-500 hover:text-blue-500 focus:outline-none focus:border-blue-500 focus:text-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                            href="#">
-                            Comprar
-                        </a>
-                    </div>
-                </div>
-                <!-- End Card -->
-
-                <!-- Card 2 -->
-                <div class="flex flex-col h-full text-center">
-                    <div class="bg-white pt-8 pb-5 px-8">
-                        <h4 class="font-bold font-medium text-lg text-gray-800">Tercera edad</h4>
-                    </div>
-
-                    <!-- Select -->
-                    <div class="bg-white px-6 py-2">
-                        <select
-                            class="w-32 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg py-1 px-3 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
-                            <option class="text-gray-800" value="1user">Económico</option>
-                            <option class="text-gray-800" value="planfeatures">Primera clase</option>
-                        </select>
-                    </div>
-
-                    <div class="h-full bg-white lg:mt-px lg:py-5 px-8">
-                        <span class="mt-7 font-bold text-5xl text-gray-800">
-                            <span class="font-bold text-2xl -me-2">$</span>
-                            55
-                        </span>
-                    </div>
-
-                    <!-- Contador y botón "+" -->
-                    <div class="bg-white py-4 px-8 flex justify-center items-center">
-                        <button id="addButton2" class="text-xl text-gray-800 bg-gray-200 rounded-full px-2 py-1">
-                            +
-                        </button>
-                        <p id="counter2" class="ml-3 text-gray-800">Cantidad: 0</p>
-                    </div>
-
-                    <!-- Botón "comprar" -->
-                    <div class="bg-white py-8 px-8">
-                        <a class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-blue-600 text-blue-600 hover:border-blue-500 hover:text-blue-500 focus:outline-none focus:border-blue-500 focus:text-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                            href="#">
-                            Comprar
-                        </a>
-                    </div>
-                </div>
-                <!-- End Card -->
-
-                <!-- Card 2 -->
-                <div class="flex flex-col h-full text-center">
-                    <div class="bg-white pt-8 pb-5 px-8">
-                        <h4 class="font-bold font-medium text-lg text-gray-800">Estudiante</h4>
-                    </div>
-
-                    <!-- Select -->
-                    <div class="bg-white px-6 py-2">
-                        <select
-                            class="w-32 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg py-1 px-3 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
-                            <option class="text-gray-800" value="1user">Económico</option>
-                            <option class="text-gray-800" value="planfeatures">Primera clase</option>
-                        </select>
-                    </div>
-
-                    <div class="h-full bg-white lg:mt-px lg:py-5 px-8">
-                        <span class="mt-7 font-bold text-5xl text-gray-800">
-                            <span class="font-bold text-2xl -me-2">$</span>
-                            70
-                        </span>
-                    </div>
-
-                    <!-- Contador y botón "+" -->
-                    <div class="bg-white py-4 px-8 flex justify-center items-center">
-                        <button id="addButton2" class="text-xl text-gray-800 bg-gray-200 rounded-full px-2 py-1">
-                            +
-                        </button>
-                        <p id="counter2" class="ml-3 text-gray-800">Cantidad: 0</p>
-                    </div>
-
-                    <!-- Botón "comprar" -->
-                    <div class="bg-white py-8 px-8">
-                        <a class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-blue-600 text-blue-600 hover:border-blue-500 hover:text-blue-500 focus:outline-none focus:border-blue-500 focus:text-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                            href="#">
-                            Comprar
-                        </a>
-                    </div>
-                </div>
-                <!-- End Card -->
-
-                <!-- Card 2 -->
-                <div class="flex flex-col h-full text-center">
-                    <div class="bg-white pt-8 pb-5 px-8">
-                        <h4 class="font-bold font-medium text-lg text-gray-800">Adulto</h4>
-                    </div>
-
-                    <!-- Select -->
-                    <div class="bg-white px-6 py-2">
-                        <select
-                            class="w-32 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg py-1 px-3 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
-                            <option class="text-gray-800" value="1user">Económico</option>
-                            <option class="text-gray-800" value="planfeatures">Primera clase</option>
-                        </select>
-                    </div>
-
-                    <div class="h-full bg-white lg:mt-px lg:py-5 px-8">
-                        <span class="mt-7 font-bold text-5xl text-gray-800">
-                            <span class="font-bold text-2xl -me-2">$</span>
-                            120
-                        </span>
-                    </div>
-
-                    <!-- Contador y botón "+" -->
-                    <div class="bg-white py-4 px-8 flex justify-center items-center">
-                        <button id="addButton2" class="text-xl text-gray-800 bg-gray-200 rounded-full px-2 py-1">
-                            +
-                        </button>
-                        <p id="counter2" class="ml-3 text-gray-800">Cantidad: 0</p>
-                    </div>
-
-                    <!-- Botón "comprar" -->
-                    <div class="bg-white py-8 px-8">
-                        <a class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-blue-600 text-blue-600 hover:border-blue-500 hover:text-blue-500 focus:outline-none focus:border-blue-500 focus:text-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                            href="#">
-                            Comprar
-                        </a>
-                    </div>
-                </div>
-                <!-- End Card -->
-
-            </div>
+    
+        <!-- Destino 2: Veracruz -->
+        <div class="bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+            <img src="{{ asset('images/destinations/veracruz.jpg') }}" alt="Veracruz" class="w-full h-48 object-cover rounded-lg">
+            <h3 class="mt-4 text-xl font-semibold text-gray-800">Veracruz</h3>
+            <p class="mt-2 text-gray-600">Disfruta de las playas y la música tradicional de Veracruz.</p>
+            <button onclick="openModal('veracruz')" class="mt-4 inline-block text-blue-600 hover:underline">Ver más</button>
         </div>
-
-
-        <!-- Comparison table -->
-        <div class="mt-20">
-            <div id="hs-pricing-comparision-content"
-                class="hs-collapse hidden w-full overflow-hidden transition-[height] duration-300"
-                aria-labelledby="hs-pricing-comparision">
-                <!-- xs to lg -->
-                <div class="space-y-24 lg:hidden">
-                    <section>
-                        <div class="px-4 mb-4">
-                            <h2 class="text-lg leading-6 font-medium text-gray-800">Primera clase</h2>
-                        </div>
-
-                        <table class="w-full">
-                            <caption
-                                class="bg-gray-50 border-t border-gray-200 py-3 px-4 text-sm font-bold text-gray-800 text-start">
-                                Financial data
-                            </caption>
-
-                            <thead>
-                                <tr>
-                                    <th class="sr-only" scope="col">Feature</th>
-                                    <th class="sr-only" scope="col">Included</th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="divide-y divide-gray-200">
-                                <tr class="border-t border-gray-200">
-                                    <th class="py-5 px-4 text-sm font-normal text-gray-600 text-start whitespace-nowrap"
-                                        scope="row">Open/High/Low/Close</th>
-                                    <td class="py-5 pe-4">
-                                        <!-- Check -->
-                                        <svg class="shrink-0 ms-auto size-5 text-blue-600"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="20 6 9 17 4 12" />
-                                        </svg>
-                                        <!-- End Solid Check -->
-                                        <span class="sr-only">Yes</span>
-                                    </td>
-                                </tr>
-
-                                <tr class="border-t border-gray-200">
-                                    <th class="py-5 px-4 text-sm font-normal text-gray-600 text-start whitespace-nowrap"
-                                        scope="row">Price-volume difference indicator</th>
-                                    <td class="py-5 pe-4">
-                                        <!-- Minus -->
-                                        <svg class="shrink-0 ms-auto size-5 text-gray-400"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14" />
-                                        </svg>
-                                        <!-- Minus -->
-                                        <span class="sr-only">No</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-
-                        <table class="w-full">
-                            <caption
-                                class="bg-gray-50 border-t border-gray-200 py-3 px-4 text-sm font-bold text-gray-800 text-start">
-                                On-chain data
-                            </caption>
-
-                            <thead>
-                                <tr>
-                                    <th class="sr-only" scope="col">Feature</th>
-                                    <th class="sr-only" scope="col">Included</th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="divide-y divide-gray-200">
-                                <tr class="border-t border-gray-200">
-                                    <th class="py-5 px-4 text-sm font-normal text-gray-600 text-start whitespace-nowrap"
-                                        scope="row">Network growth</th>
-                                    <td class="py-5 pe-4">
-                                        <!-- Minus -->
-                                        <svg class="shrink-0 ms-auto size-5 text-gray-400"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14" />
-                                        </svg>
-                                        <!-- Minus -->
-                                        <span class="sr-only">No</span>
-                                    </td>
-                                </tr>
-
-                                <tr class="border-t border-gray-200">
-                                    <th class="py-5 px-4 text-sm font-normal text-gray-600 text-start whitespace-nowrap"
-                                        scope="row">Average token age consumed</th>
-                                    <td class="py-5 pe-4">
-                                        <!-- Check -->
-                                        <svg class="shrink-0 ms-auto size-5 text-blue-600"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="20 6 9 17 4 12" />
-                                        </svg>
-                                        <!-- End Solid Check -->
-                                        <span class="sr-only">Yes</span>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </section>
-                </div>
-                <!-- End xs to lg -->
-
-                <!-- lg+ -->
-                <div class="hidden lg:block">
-                    <table class="w-full h-px">
-                        <caption class="sr-only">
-                            Pricing plan comparison
-                        </caption>
-                        <thead class="sticky top-0 inset-x-0 bg-white">
-                            <tr>
-                                <th class="py-4 ps-6 pe-6 text-sm font-medium text-gray-800 text-start"
-                                    scope="col">
-                                    <span class="sr-only">Feature by</span>
-                                    <span class="">Plans</span>
-                                </th>
-
-                                <th class="w-1/4 py-4 px-6 text-lg leading-6 font-medium text-gray-800 text-center"
-                                    scope="col">Free</th>
-                                <th class="w-1/4 py-4 px-6 text-lg leading-6 font-medium text-gray-800 text-center"
-                                    scope="col">Startup</th>
-                                <th class="w-1/4 py-4 px-6 text-lg leading-6 font-medium text-gray-800 text-center"
-                                    scope="col">Team</th>
-                                <th class="w-1/4 py-4 px-6 text-lg leading-6 font-medium text-gray-800 text-center"
-                                    scope="col">Enterprise</th>
-                            </tr>
-                        </thead>
-                        <tbody class="border-t border-gray-200 divide-y divide-gray-200">
-                            <tr>
-                                <th class="py-3 ps-6 bg-gray-50 font-bold text-gray-800 text-start" colspan="5"
-                                    scope="colgroup">Financial data</th>
-                            </tr>
-
-                            <tr>
-                                <th class="py-5 ps-6 pe-6 text-sm font-normal text-gray-600 text-start whitespace-nowrap"
-                                    scope="row">Open/High/Low/Close</th>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Free</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Startup</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Team</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Enterprise</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th class="py-5 ps-6 pe-6 text-sm font-normal text-gray-600 text-start whitespace-nowrap"
-                                    scope="row">Price-volume difference indicator</th>
-
-                                <td class="py-5 px-6">
-                                    <!-- Minus -->
-                                    <svg class="mx-auto shrink-0 size-5 text-gray-400"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M5 12h14" />
-                                    </svg>
-                                    <!-- Minus -->
-                                    <span class="sr-only">Not included in Free</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Startup</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Team</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Enterprise</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th class="py-3 ps-6 bg-gray-50 font-bold text-gray-800 text-start" colspan="5"
-                                    scope="colgroup">On-chain data</th>
-                            </tr>
-
-                            <tr>
-                                <th class="py-5 ps-6 pe-6 text-sm font-normal text-gray-600 text-start whitespace-nowrap"
-                                    scope="row">Average token age consumed</th>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Not included in Free</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-gray-400"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M5 12h14" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Startup</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Team</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Enterprise</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th class="py-5 ps-6 pe-6 text-sm font-normal text-gray-600 text-start whitespace-nowrap"
-                                    scope="row">Exchange flow</th>
-
-                                <td class="py-5 px-6">
-                                    <!-- Minus -->
-                                    <svg class="mx-auto shrink-0 size-5 text-gray-400"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M5 12h14" />
-                                    </svg>
-                                    <!-- Minus -->
-                                    <span class="sr-only">Not included in Free</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-gray-400"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M5 12h14" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Startup</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Team</span>
-                                </td>
-
-                                <td class="py-5 px-6">
-                                    <!-- Check -->
-                                    <svg class="mx-auto shrink-0 size-5 text-blue-600"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <!-- End Solid Check -->
-                                    <span class="sr-only">Included in Enterprise</span>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-                <!-- End lg+ -->
-            </div>
-
-            <div class="text-center mt-12">
-                <button type="button"
-                    class="hs-collapse-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-                    id="hs-pricing-comparision" aria-expanded="false" aria-controls="hs-pricing-comparision-content"
-                    data-hs-collapse="#hs-pricing-comparision-content">
-                    <span class="hs-collapse-open:hidden block">Ver comparación de precios</span>
-                    <span class="hs-collapse-open:block hidden">Ocultar comparación de precios</span>
-                    <svg class="hs-collapse-open:rotate-180 shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m6 9 6 6 6-6" />
-                    </svg>
-                </button>
-            </div>
+    
+        <!-- Destino 3: Monterrey -->
+        <div class="bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+            <img src="{{ asset('images/destinations/monterrey.jpg') }}" alt="Monterrey" class="w-full h-48 object-cover rounded-lg">
+            <h3 class="mt-4 text-xl font-semibold text-gray-800">Monterrey</h3>
+            <p class="mt-2 text-gray-600">Vive la modernidad y la naturaleza en Monterrey.</p>
+            <button onclick="openModal('monterrey')" class="mt-4 inline-block text-blue-600 hover:underline">Ver más</button>
         </div>
-        <!-- End Comparison table -->
     </div>
-    <!-- End Pricing -->
+</section>
+
+<!-- Modal -->
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4 z-50">
+    <div class="bg-white rounded-lg w-full max-w-3xl p-6 overflow-y-auto max-h-[90vh] relative">
+        <!-- Botón para cerrar el modal -->
+        <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-600 hover:text-gray-800">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Contenido dinámico del modal -->
+        <div id="modal-content">
+            <!-- Carrusel -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!-- Las imágenes se cargarán dinámicamente aquí -->
+                </div>
+                <!-- Paginación y flechas de navegación -->
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+
+            <!-- Información del destino -->
+            <div id="modal-info" class="mt-6 text-center">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-800"></h3>
+                <p id="modal-description" class="mt-2 text-gray-600"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    // Datos de los destinos (puedes obtenerlos de una API o base de datos)
+    const destinations = {
+        oaxaca: {
+            title: "Oaxaca",
+            description: "Descubre la riqueza cultural y gastronómica de Oaxaca. Visita Monte Albán, el Templo de Santo Domingo y disfruta de sus deliciosos moles.",
+            images: [
+                "{{ asset('images/destinations/oaxaca1.jpg') }}",
+                "{{ asset('images/destinations/oaxaca2.jpg') }}",
+                "{{ asset('images/destinations/oaxaca3.jpg') }}",
+                "{{ asset('images/destinations/oaxaca4.jpg') }}"
+            ]
+        },
+        veracruz: {
+            title: "Veracruz",
+            description: "Disfruta de las playas y la música tradicional de Veracruz. Explora el puerto, el acuario y la hermosa costa veracruzana.",
+            images: [
+                "{{ asset('images/destinations/veracruz1.jpg') }}",
+                "{{ asset('images/destinations/veracruz2.jpg') }}",
+                "{{ asset('images/destinations/veracruz3.jpg') }}",
+                "{{ asset('images/destinations/veracruz4.jpg') }}"
+            ]
+        },
+        monterrey: {
+            title: "Monterrey",
+            description: "Vive la modernidad y la naturaleza en Monterrey. Visita el Cerro de la Silla, el Parque Fundidora y disfruta de su deliciosa carne asada.",
+            images: [
+                "{{ asset('images/destinations/monterrey1.jpg') }}",
+                "{{ asset('images/destinations/monterrey2.jpg') }}",
+                "{{ asset('images/destinations/monterrey3.jpg') }}",
+                "{{ asset('images/destinations/monterrey4.jpg') }}"
+            ]
+        }
+    };
+
+    // Función para abrir el modal con animación
+    function openModal(destination) {
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const swiperWrapper = document.querySelector('.swiper-wrapper');
+
+        // Cargar datos del destino
+        const data = destinations[destination];
+        modalTitle.textContent = data.title;
+        modalDescription.textContent = data.description;
+
+        // Limpiar el carrusel
+        swiperWrapper.innerHTML = '';
+
+        // Agregar imágenes al carrusel
+        data.images.forEach(image => {
+            swiperWrapper.innerHTML += `
+                <div class="swiper-slide">
+                    <img src="${image}" alt="${data.title}" class="w-full h-64 object-cover rounded-lg">
+                </div>
+            `;
+        });
+
+        // Aseguramos que la inicialización de Swiper se haga después de que las imágenes estén cargadas
+        setTimeout(() => {
+            // Inicializar Swiper con una sola imagen visible
+            new Swiper('.swiper-container', {
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                slidesPerView: 1, // Solo una imagen visible a la vez
+                spaceBetween: 10, // Espacio entre las imágenes
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+        }, 100);
+
+        // Mostrar el modal con animación
+        modal.classList.add('show');
+    }
+
+    // Función para cerrar el modal con animación
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.classList.remove('show');
+    }
+</script>
+
+<style>
+  /* Estilos para el modal */
+  #modal {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+      z-index: 1000; /* Asegura que esté por encima de otros elementos */
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  /* Caja del modal */
+  #modal .bg-white {
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+      max-width: 90%;
+      width: 600px;
+  }
+
+  /* Animación de entrada */
+  #modal.show {
+      opacity: 1;
+      visibility: visible;
+  }
+
+  #modal.show .bg-white {
+      transform: scale(1);
+  }
+
+  /* Estilos para el swiper */
+  .swiper-container {
+      width: 100%;
+      height: 100%;
+  }
+
+  .swiper-slide img {
+      width: 100%;
+      object-fit: cover;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+      color: #000;
+  }
+
+  /* Ajustes para el botón de cerrar */
+  .absolute.top-4.right-4 {
+      z-index: 10; /* Asegura que el botón esté encima de la imagen */
+  }
+</style>
+
+<!-- Beneficios -->
+<section class="bg-blue-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Título con animación -->
+        <h2 class="text-3xl font-bold text-gray-800 text-center animate__animated" data-animation="animate__zoomIn">
+            ¿Por qué elegir ADO?
+        </h2>
+
+        <!-- Grid de beneficios -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Beneficio 1: Seguridad -->
+            <div class="text-center animate__animated" data-animation="animate__flipInY">
+                <svg class="mx-auto size-12 text-blue-600 animate__animated" data-animation="animate__rubberBand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 class="mt-4 text-lg font-semibold text-gray-800 animate__animated" data-animation="animate__fadeInLeft">Seguridad</h3>
+                <p class="mt-2 text-gray-600 animate__animated" data-animation="animate__fadeInRight">Viaja con la tranquilidad de saber que estás en buenas manos.</p>
+            </div>
+
+            <!-- Beneficio 2: Confort -->
+            <div class="text-center animate__animated" data-animation="animate__flipInY" data-delay="1s">
+                <svg class="mx-auto size-12 text-blue-600 animate__animated" data-animation="animate__swing" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <h3 class="mt-4 text-lg font-semibold text-gray-800 animate__animated" data-animation="animate__fadeInLeft">Confort</h3>
+                <p class="mt-2 text-gray-600 animate__animated" data-animation="animate__fadeInRight">Disfruta de asientos cómodos y amplios en nuestros modernos autobuses.</p>
+            </div>
+
+            <!-- Beneficio 3: Puntualidad -->
+            <div class="text-center animate__animated" data-animation="animate__flipInY" data-delay="2s">
+                <svg class="mx-auto size-12 text-blue-600 animate__animated" data-animation="animate__tada" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
+                </svg>
+                <h3 class="mt-4 text-lg font-semibold text-gray-800 animate__animated" data-animation="animate__fadeInLeft">Puntualidad</h3>
+                <p class="mt-2 text-gray-600 animate__animated" data-animation="animate__fadeInRight">Nos aseguramos de que llegues a tu destino a tiempo.</p>
+            </div>
+
+            <!-- Beneficio 4: Accesibilidad -->
+            <div class="text-center animate__animated" data-animation="animate__flipInY" data-delay="3s">
+                <svg class="mx-auto size-12 text-blue-600 animate__animated" data-animation="animate__rubberBand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                <h3 class="mt-4 text-lg font-semibold text-gray-800 animate__animated" data-animation="animate__fadeInLeft">Accesibilidad</h3>
+                <p class="mt-2 text-gray-600 animate__animated" data-animation="animate__fadeInRight">Contamos con accesos y servicios especiales para personas con movilidad reducida.</p>
+            </div>
+
+            <!-- Beneficio 5: Servicio a Bordo -->
+            <div class="text-center animate__animated" data-animation="animate__flipInY">
+                <svg class="mx-auto size-12 text-blue-600 animate__animated" data-animation="animate__swing" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 3l-4 4m0 0l-4 4m4-4h-8m8 4v8h-8v-8" />
+                </svg>
+                <h3 class="mt-4 text-lg font-semibold text-gray-800 animate__animated" data-animation="animate__fadeInLeft">Servicio a Bordo</h3>
+                <p class="mt-2 text-gray-600 animate__animated" data-animation="animate__fadeInRight">Disfruta de snacks, bebidas y Wi-Fi durante tu viaje para hacer tu trayecto más placentero.</p>
+            </div>
+
+            <!-- Beneficio 6: Viaje Económico -->
+            <div class="text-center animate__animated" data-animation="animate__flipInY">
+                <svg class="mx-auto size-12 text-blue-600 animate__animated" data-animation="animate__tada" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5l7 7 7-7z" />
+                </svg>
+                <h3 class="mt-4 text-lg font-semibold text-gray-800 animate__animated" data-animation="animate__fadeInLeft">Viaje Económico</h3>
+                <p class="mt-2 text-gray-600 animate__animated" data-animation="animate__fadeInRight">Ofrecemos tarifas accesibles para que puedas viajar sin preocuparte por el presupuesto.</p>
+            </div>
+        </div>
+
+        <!-- Call-to-Action (CTA) -->
+        <div class="mt-12 text-center">
+            <a href="#formulario-boletos" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 animate__animated animate__pulse animate__infinite">
+                Reserva tu viaje ahora
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Selecciona todos los elementos con la clase animate__animated
+            const animatedElements = document.querySelectorAll('.animate__animated');
+    
+            // Configura el IntersectionObserver
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const animationClass = entry.target.dataset.animation;
+                        const delay = entry.target.dataset.delay || '0s'; // Obtiene el retraso o usa 0s por defecto
+    
+                        // Aplica la animación y el retraso
+                        entry.target.style.animationDelay = delay;
+                        entry.target.classList.add(animationClass);
+                    }
+                });
+            }, {
+                threshold: 0.5 // Activa la animación cuando el 50% del elemento está visible
+            });
+    
+            // Observa cada elemento
+            animatedElements.forEach((element) => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</section>
+
+ <!-- Estilos personalizados -->
+ <style>
+    .testimonio-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .testimonio-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .swiper-container {
+        padding: 20px 0;
+    }
+</style>
+
+ <!-- Testimonios -->
+ <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Título con animación -->
+    <h2 class="text-3xl font-bold text-gray-800 text-center animate__animated" data-animation="animate__fadeIn">
+        Lo que dicen nuestros clientes
+    </h2>
+
+    <!-- Grid de testimonios -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Testimonio 1 -->
+        <div class="bg-white p-6 rounded-lg shadow-lg testimonio-card animate__animated" data-animation="animate__fadeInUp">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/50" alt="Cliente 1" class="w-12 h-12 rounded-full">
+                <div class="ml-4">
+                    <p class="text-gray-600">"Excelente servicio, muy puntual y cómodo. ¡Volveré a viajar con ADO!"</p>
+                    <div class="mt-2 flex items-center">
+                        <span class="text-yellow-500">★★★★★</span>
+                        <span class="ml-2 text-gray-800">- Cliente 1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonio 2 -->
+        <div class="bg-white p-6 rounded-lg shadow-lg testimonio-card animate__animated" data-animation="animate__fadeInUp">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/50" alt="Cliente 2" class="w-12 h-12 rounded-full">
+                <div class="ml-4">
+                    <p class="text-gray-600">"El servicio a bordo es increíble. Me encantó la atención y la comodidad."</p>
+                    <div class="mt-2 flex items-center">
+                        <span class="text-yellow-500">★★★★★</span>
+                        <span class="ml-2 text-gray-800">- Cliente 2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonio 3 -->
+        <div class="bg-white p-6 rounded-lg shadow-lg testimonio-card animate__animated" data-animation="animate__fadeInUp">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/50" alt="Cliente 3" class="w-12 h-12 rounded-full">
+                <div class="ml-4">
+                    <p class="text-gray-600">"Viajar con ADO es siempre una experiencia agradable. Lo recomiendo."</p>
+                    <div class="mt-2 flex items-center">
+                        <span class="text-yellow-500">★★★★★</span>
+                        <span class="ml-2 text-gray-800">- Cliente 3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonio 4 -->
+        <div class="bg-white p-6 rounded-lg shadow-lg testimonio-card animate__animated" data-animation="animate__fadeInUp">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/50" alt="Cliente 4" class="w-12 h-12 rounded-full">
+                <div class="ml-4">
+                    <p class="text-gray-600">"Los precios son accesibles y el servicio es de primera. ¡Gracias ADO!"</p>
+                    <div class="mt-2 flex items-center">
+                        <span class="text-yellow-500">★★★★★</span>
+                        <span class="ml-2 text-gray-800">- Cliente 4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonio 5 -->
+        <div class="bg-white p-6 rounded-lg shadow-lg testimonio-card animate__animated" data-animation="animate__fadeInUp">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/50" alt="Cliente 5" class="w-12 h-12 rounded-full">
+                <div class="ml-4">
+                    <p class="text-gray-600">"La puntualidad es impresionante. Nunca he tenido problemas con los horarios."</p>
+                    <div class="mt-2 flex items-center">
+                        <span class="text-yellow-500">★★★★★</span>
+                        <span class="ml-2 text-gray-800">- Cliente 5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonio 6 -->
+        <div class="bg-white p-6 rounded-lg shadow-lg testimonio-card animate__animated" data-animation="animate__fadeInUp">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/50" alt="Cliente 6" class="w-12 h-12 rounded-full">
+                <div class="ml-4">
+                    <p class="text-gray-600">"El Wi-Fi a bordo es un gran plus. Me permite trabajar mientras viajo."</p>
+                    <div class="mt-2 flex items-center">
+                        <span class="text-yellow-500">★★★★★</span>
+                        <span class="ml-2 text-gray-800">- Cliente 6</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
 
     <!-- ========== FOOTER ========== -->
     <footer class="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
@@ -958,8 +875,45 @@
         <!-- End Grid -->
     </footer>
     <!-- ========== END FOOTER ========== -->
+        <!-- Scripts para Animaciones -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Selecciona todos los elementos con la clase animate__animated
+                const animatedElements = document.querySelectorAll('.animate__animated');
+                const container3D = document.getElementById('container3D');
+
+                // Configura el IntersectionObserver
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        // Si el elemento está en la vista, añade la clase de animación
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add(entry.target.dataset.animation);
+                            observer.unobserve(entry.target); // Deja de observar el elemento
+                        }
+                    });
+                }, {
+                    threshold: 0.5 // Activa la animación cuando el 50% del elemento está visible
+                });
+
+                // Observa el contenedor
+               if (container3D) {
+               observer.observe(container3D);
+               }
+    
+                // Observa cada elemento
+                animatedElements.forEach((element) => {
+                    observer.observe(element);
+                });
+            });
+        </script>
 
     <script src="./node_modules/preline/dist/preline.js"></script>
     <script type="module" src="{{ asset('js/app/bus-animation.js') }} "></script>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Swiper JS -->
+   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+   <script src="https://cdn.tailwindcss.com"></script>
+
 </body>
 </html>

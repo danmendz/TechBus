@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Payment\StripeController;
 use App\Http\Controllers\Notifications\WhatsappController;
+use App\Http\Controllers\ResultadoController;
 use App\Livewire\Navigation;
 use App\Livewire\PaymentStep;
 use App\Livewire\RegisterForm;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
+use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\MapaController;
 
 Route::get('/', function () {
     return view('ado');
@@ -63,3 +66,27 @@ Route::get('/send-message', [WhatsappController::class, 'sendMessages'])->name('
  * Livewire
  */
 Route::get('/payment-step', PaymentStep::class);
+
+Route::get('/nosotros', function () {
+    return view('auth.nosotros');
+})->name('nosotros');
+
+Route::get('/ado', function () {
+    return view('ado');
+})->name('ado');
+
+Route::get('/metodo-pago', function () {
+    return view('auth.metodo-pago');
+})->name('metodo_de _pago');
+
+// routes/web.php
+Route::get('/resultados.html', function () {
+    return view('resultados');
+});
+
+
+Route::get('/resultados', [ResultadoController::class, 'index']);
+
+Route::get('/formulario', [FormularioController::class, 'showForm'])
+    ->middleware('auth') // Protege la ruta para usuarios autenticados
+    ->name('formulario');
