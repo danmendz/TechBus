@@ -307,7 +307,6 @@
         </div>
     </div>
 
-
     <!-- Carousel -->
     <div class="mt-12 overflow-hidden w-full bg-white rounded-lg shadow-md">
         <div class="flex items-center gap-5 animate-marquee whitespace-nowrap">

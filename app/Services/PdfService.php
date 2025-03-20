@@ -6,9 +6,16 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PdfService
 {
-    public function generateTicket($data)
+    public function generatePdf(string $view, array $data)
     {
-        $pdf = Pdf::loadView('utilities.ticket-pdf', $data);
-        return $pdf->stream('ticket.pdf');
+        // Generar el PDF
+        $pdf = Pdf::loadView($view, $data);
+        $pdfContent = $pdf->output();
+
+        // Guardar el PDF temporalmente
+        $pdfPath = storage_path('app/public/ticket.pdf');
+        file_put_contents($pdfPath, $pdfContent);
+
+        return $pdfPath;
     }
 }

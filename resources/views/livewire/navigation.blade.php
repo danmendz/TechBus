@@ -113,17 +113,20 @@
                                 <div id="account-accordion-child"
                                     class="hs-accordion-content w-44 h-22 overflow-hidden transition-[height] duration-300 hidden absolute top-full right-0 bg-white shadow-md rounded-lg mt-1 z-10"
                                     role="region" aria-labelledby="account-accordion">
-                                    <ul class="ps-8 pt-1 space-y-1">
+                                    <ul class="ps-8 pb-3 pt-1 space-y-1">
                                         <li class="w-full">
                                             <x-nav-link :href="route('profile.show')" wire:navigate :active="request()->routeIs('profile.show')">
                                                 {{ __('Profile') }}
                                             </x-nav-link>
                                         </li>
-                                        <li class="w-full">
-                                            <x-nav-link href="/gestion">
-                                                {{ __('Panel de administración') }}
-                                            </x-nav-link>
-                                        </li>
+
+                                        @if(auth()->user() && auth()->user()->type !== 'cliente')
+                                            <li class="w-full">
+                                                <x-nav-link href="/gestion">
+                                                    {{ __('Panel de administración') }}
+                                                </x-nav-link>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>

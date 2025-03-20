@@ -273,6 +273,11 @@
                                     @enderror
                                 </div>
 
+                                <div>
+                                    <div class="g-recaptcha w-full" data-sitekey="6LdMwvcqAAAAALX85DtatHG0h4V1PmnDITItSqpx"></div>
+                                    <span id="captchaError" class="error"></span>
+                                </div>
+
                                 @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                                     <div class="mt-2">
                                         <x-label for="terms">
