@@ -85,18 +85,31 @@
         <div class="passenger-info">
             <p><strong>Pasajero:</strong> {{ $nombrePasajero }}</p>
             <p><strong>Número de Ticket:</strong> #{{ $numeroTicket }}</p>
-            <p><strong>Asiento:</strong> {{ $asiento }}</p>
+            <p><strong>Código de Referencia:</strong> {{ $codigoReferencia }}</p>
+            <p><strong>Número de asiento(s):</strong> {{ $asientos }}</p>
         </div>
 
         <!-- Detalles del boleto -->
         <div class="details">
-            <p><strong>Fecha y Hora:</strong> {{ $fecha }} - {{ $hora }}</p>
+            <p><strong>Fecha y Hora:</strong> 
+                {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y') }} -
+                {{ \Carbon\Carbon::parse($hora)->format('h:i A') }}
+            </p>
             <p><strong>Autobús:</strong> {{ $autobus }}</p>
-            <p><strong>Trayecto:</strong> {{ $origen }} → {{ $destino }}</p>
-            <p><strong>Boleto:</strong> {{ $tipoBoleto }} | <strong>Cantidad:</strong> {{ $cantidad }}</p>
+            <p><strong>Trayecto:</strong> {{ $origen }} - {{ $destino }}</p>
+
+            <!-- Detalles de los boletos -->
+            @foreach($tiposBoleto as $tipo => $detalles)
+                <p>
+                    <strong>Boleto:</strong> {{ $tipo }} |
+                    <strong>Cantidad:</strong> {{ $detalles['cantidad'] }} |
+                    <strong>Precio Unitario:</strong> ${{ number_format($detalles['precio_unitario'], 2) }} |
+                    <strong>Subtotal:</strong> ${{ number_format($detalles['precio_total'], 2) }}
+                </p>
+            @endforeach
+
             <p><strong>Método de Pago:</strong> {{ $metodoPago }}</p>
             <p><strong>Número de Transacción:</strong> {{ $numeroTransaccion }}</p>
-            <p><strong>Precio Unitario:</strong> ${{ number_format($precio, 2) }}</p>
             <p><strong>Total:</strong> <span style="font-size: 16px; font-weight: bold;">${{ number_format($precioTotal, 2) }}</span></p>
         </div>
 

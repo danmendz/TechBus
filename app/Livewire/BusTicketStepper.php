@@ -270,12 +270,18 @@ class BusTicketStepper extends Component
                 'quantity' => $productData['quantity'],
                 'price' => $productData['price'],
                 'corrida_id' => $this->corridaSeleccionada->id,
-                'cantidad_boletos' => $this->cantidadBoletos,
-                'asientos_seleccionados' => $this->asientosSeleccionados,
+                'corrida_details' => [
+                    'origen' => $this->resumenCorrida['origen'],
+                    'destino' => $this->resumenCorrida['destino'],
+                    'fecha' => $this->resumenCorrida['fecha'],
+                    'hora' => $this->resumenCorrida['hora'],
+                ],
                 'precios_detallados' => $this->preciosTotales,
+                'resumen_boletos' => $this->resumenBoletos,
             ]);
 
             // Log::info('Datos almacenados en la sesión:', session()->all());
+            // dd(session()->all());
 
             return redirect()->away($session->url);
         } else {

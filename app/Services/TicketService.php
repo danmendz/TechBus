@@ -12,17 +12,17 @@ class TicketService
 		$codigoReferencia = $this->generateInternalReference();
         $usuarioId = Auth::user()->id;
         $corridaId = Session::get('corrida_id');
-        $cantidadBoletos = Session::get('cantidad_boletos');
-        $asientosSeleccionados = Session::get('asientos_seleccionados');
+        $detallesCorrida = Session::get('corrida_details');
+        $resumenBoletos = Session::get('resumen_boletos');
         $preciosBoletos = Session::get('precios_detallados');
 
-        if (!$corridaId || !$usuarioId) {
+        if (!$corridaId || !$usuarioId || !$preciosBoletos) {
             throw new \Exception('Faltan datos obligatorios para guardar el ticket.');
         }
 
         $detallesCompra = [
-            'cantidad_boletos' => $cantidadBoletos,
-            'asientos' => $asientosSeleccionados,
+            'detalles_corrida' => $detallesCorrida,
+            'resumen_boletos' => $resumenBoletos,
             'precios' => $preciosBoletos,
         ];
 

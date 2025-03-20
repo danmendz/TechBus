@@ -94,8 +94,7 @@ class StripeService
     public function clearSession()
     {
         Session::forget([
-            'product_name', 'quantity', 'price', 'corrida_id',
-            'cantidad_boletos', 'asientos_seleccionados', 'precios_detallados', 'payment_id'
+            'payment_id', 'product_name','quantity', 'price','corrida_id','corrida_details', 'precios_detallados', 'resumen_boletos'
         ]);
     }
 }

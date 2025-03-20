@@ -2,11 +2,13 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PDFController;
 use App\Services\StripeService;
 use App\Services\TicketService;
 use App\Services\NotificationService;
 use App\Services\PurchaseHistoryService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StripeController extends Controller
 {
@@ -14,17 +16,20 @@ class StripeController extends Controller
     protected $ticketService;
     protected $historyService;
     protected $notificationService;
+    protected $pdfController;
 
     public function __construct(
         StripeService $stripeService,
         TicketService $ticketService,
         PurchaseHistoryService $historyService,
-        NotificationService $notificationService
+        NotificationService $notificationService,
+        PDFController $pdfController,
     ) {
         $this->stripeService = $stripeService;
         $this->ticketService = $ticketService;
         $this->historyService = $historyService;
         $this->notificationService = $notificationService;
+        $this->pdfController = $pdfController;
     }
 
     /**
@@ -45,18 +50,21 @@ class StripeController extends Controller
         }
 
         // Guardar el pago
-        $payment = $this->stripeService->savePayment($session);
+        $paymentInsert = $this->stripeService->savePayment($session);
 
         // Guardar el ticket
-        $ticket = $this->ticketService->saveTicket();
+        $ticketInsert = $this->ticketService->saveTicket();
 
         
-        if ($payment && $ticket) {
+        if ($paymentInsert && $ticketInsert) {
             // Guardar en el historial
-            $ticket = $this->historyService->saveHistory($payment->id, $ticket->id);
+            $this->historyService->saveHistory($paymentInsert->id, $ticketInsert->id);
+
+            // Llamar al método generatePdf del PDFController
+            $this->pdfController->generatePdf($ticketInsert);
 
             // Enviar notificaciones
-            $this->notificationService->sendNotifications();
+            $this->notificationService->sendNotifications($this->getUserName(), $this->getUserPhone());
     
             // Limpiar la sesión
             $this->stripeService->clearSession();
@@ -65,6 +73,16 @@ class StripeController extends Controller
         } else {
             return redirect()->route('stripe.cancel')->with('error', 'Los datos no se guardaron correctamente.');
         }
+    }
+
+    protected function getUserName() {
+        $userName = Auth::user()->name;
+        return $userName;
+    }
+
+    protected function getUserPhone() {
+        $userPhone = Auth::user()->phone;
+        return $userPhone;
     }
 
     /**

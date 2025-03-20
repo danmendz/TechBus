@@ -16,17 +16,14 @@ class NotificationService
         $this->whatsappService = $whatsappService;
     }
 
-    public function sendNotifications()
+    public function sendNotifications($userName, $userPhone)
     {
-        $this->whatsappPurchaseNotification();
-        $this->emailPurchaseNotification();
+        $this->whatsappPurchaseNotification($userName, $userPhone);
     }
 
-    private function whatsappPurchaseNotification()
+    private function whatsappPurchaseNotification($userName, $userPhone)
     {
         try {
-            $userName = Auth::user()->id;
-            $phoneUser = Auth::user()->phone;
             $templateName = 'confirmar_compra';
             $languageCode = 'es_MX';
 
@@ -35,11 +32,11 @@ class NotificationService
                 'ADEO.com'
             ];
 
-            $image = 'https://i.postimg.cc/MGMfKfsV/landpage.png';
+            $image = 'https://i.postimg.cc/zXT4t3jK/Whats-App-Image-2025-03-17-at-5-09-35-PM.jpg';
 
-            $this->whatsappService->sendMessage($phoneUser, $templateName, $parameters, $image, $languageCode);
+            $this->whatsappService->sendMessage($userPhone, $templateName, $parameters, $image, $languageCode);
         } catch (\Exception $e) {
-            Log::error("Error enviando mensaje a {$phoneUser}: " . $e->getMessage());
+            Log::error("Error enviando mensaje a {$userPhone}: " . $e->getMessage());
             $this->emailPurchaseNotification();
         }
     }
