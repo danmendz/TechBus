@@ -30,15 +30,16 @@
         <div class="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 items-stretch">
             <!-- Columna 1: Texto y Formulario -->
             <div class="flex flex-col">
-                <h1 class="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight animate__animated"
-                    data-animation="animate__fadeInLeft">
-                    Comienza tu viaje con
-                    <span class="text-blue-600">ADO</span>
+                <div
+                    class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full shadow">
+                    ⭐ 100% Seguridad y Comodidad en tu viaje
+                </div>
+                <h1 class="mt-4 text-4xl font-bold text-gray-900 sm:text-5xl lg:text-6xl leading-tight">
+                    Encuentra tu mejor <span class="text-blue-600">destino</span> con <span
+                        class="text-blue-600">ADO</span>
                 </h1>
-                <p class="mt-3 text-lg text-gray-800 animate__animated" data-animation="animate__fadeInLeft">
-                    "Realiza el viaje de tus sueños con tu familia, disfrutando de comodidad y seguridad en cada
-                    kilómetro. ¡Aprovecha nuestras ofertas exclusivas y viaja con confianza!".
-                </p>
+                <p class="mt-3 text-lg text-gray-700">"Viaja con comodidad, seguridad y aprovecha nuestras ofertas
+                    exclusivas. Descubre nuevos destinos con la confianza que solo ADO puede ofrecerte".</p>
 
                 <div class="mt-6 animate__animated" data-animation="animate__fadeInLeft">
                     <h2 class="text-2xl font-bold text-gray-800">
@@ -69,23 +70,28 @@
                                 </select>
                             </div>
                         </div>
-                        <div>
-                            <label for="departure-date" class="block text-sm font-medium text-gray-700">Fecha</label>
-                            <input type="date" id="departure-date" name="departure_date"
-                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        
+                        <!-- Nueva estructura para Fecha y Horario en la misma línea -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="departure-date" class="block text-sm font-medium text-gray-700">Fecha</label>
+                                <input type="date" id="departure-date" name="departure_date"
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                            </div>
+                            <div>
+                                <label for="time" class="block text-sm font-medium text-gray-700">Horario</label>
+                                <select id="time" name="time"
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                                    <option value="08:00">08:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="14:00">02:00 PM</option>
+                                    <option value="16:00">04:00 PM</option>
+                                    <option value="18:00">06:00 PM</option>
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            <label for="time" class="block text-sm font-medium text-gray-700">Horario</label>
-                            <select id="time" name="time"
-                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
-                                <option value="08:00">08:00 AM</option>
-                                <option value="10:00">10:00 AM</option>
-                                <option value="12:00">12:00 PM</option>
-                                <option value="14:00">02:00 PM</option>
-                                <option value="16:00">04:00 PM</option>
-                                <option value="18:00">06:00 PM</option>
-                            </select>
-                        </div>
+                
                         <div class="mt-6">
                             <button type="button" id="search-button"
                                 class="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -93,7 +99,7 @@
                             </button>
                         </div>
                     </form>
-                </div>
+                </div>                
                 <!-- End Formulario de Búsqueda -->
             </div>
             <!-- End Contenido Principal -->
