@@ -34,7 +34,7 @@ loader.load(
     '/models/indonesian_bus_ecoline.glb',
     function (gltf) {
         object = gltf.scene;
-        object.scale.set(2.5, 2.5, 2.5);
+        object.scale.set(2.5, 2.7, 2.5);
 
         const box = new THREE.Box3().setFromObject(object);
         const center = box.getCenter(new THREE.Vector3());
@@ -43,7 +43,7 @@ loader.load(
         
         scene.add(object);
         camera.lookAt(object.position);
-        object.position.y = -5;
+        object.position.y = -7;
         object.position.x -= 9.5;
     },
     function (xhr) {},
