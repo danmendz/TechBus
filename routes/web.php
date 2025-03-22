@@ -16,6 +16,7 @@ use Filament\Facades\Filament;
 use Livewire\Livewire;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\MapaController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('ado');
@@ -42,7 +43,6 @@ Route::controller(SocialiteController::class)->group(function() {
 /**
  * Stripe
  */
-// Route::post('stripe', [StripeController::class, 'stripe'])->name('stripe');
 Route::get('success', [StripeController::class, 'success'])->name('stripe.success');
 Route::get('cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 
@@ -50,13 +50,6 @@ Route::get('cancel', [StripeController::class, 'cancel'])->name('stripe.cancel')
  * Livewire
  */
 Route::get('/register-form', RegisterForm::class)->name('register.form');
-Route::get('/ticket-stepper', BusTicketStepper::class)->name('ticket.stepper');
-
-/**
- * Whatsapp
- */
-Route::get('/send-message', [WhatsappController::class, 'sendMessages'])->name('send.message');
-Route::get('/send-notifications', SendNotifications::class)->name('send.whatsapp');
 
 /**
  * Complements
@@ -65,17 +58,6 @@ Route::get('/stepper', function() {
     return view('payment.stepper.stepper');
 })->name('stepper');
 
-Route::get('/stripe-form', function() {
-    return view('payment.stripe');
-});
-
-Route::get('/profile-information', function() {
-    return view('profile.show-options');
-});
-
-use App\Http\Controllers\PDFController;
-
-Route::get('/generate-ticket', [PDFController::class, 'generatePdf']);
 /**
  * Livewire
  */
@@ -104,3 +86,5 @@ Route::get('/resultados', [ResultadoController::class, 'index']);
 Route::get('/formulario', [FormularioController::class, 'showForm'])
     ->middleware('auth') // Protege la ruta para usuarios autenticados
     ->name('formulario');
+
+Route::post('/update-phone', [UserController::class, 'updatePhone'])->name('update.phone');

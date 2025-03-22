@@ -13,7 +13,7 @@ class PurchaseHistoryService
         $paymentId = $idPayment;
         $ticketId = $idTicket;
 
-        $history= PurchaseHistory::create([
+        $history = PurchaseHistory::create([
             'id_usuario' => $userId,
             'id_payment' => $paymentId,
             'id_ticket' => $ticketId

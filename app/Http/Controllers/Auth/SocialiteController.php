@@ -64,7 +64,6 @@ class SocialiteController extends Controller
                         'name' => $name,
                         'surnames' => $surnames,
                         'email' => $socialUser->email,
-                        'password' => Hash::make('P@SSw0Rd0'),
                         'auth_provider_id' => $socialUser->id,
                         'auth_provider' => $provider,
                     ],

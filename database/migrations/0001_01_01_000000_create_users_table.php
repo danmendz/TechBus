@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('type')->default(User::ROL_DEFAULT);
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('auth_provider_id')->nullable();
             $table->string('auth_provider')->nullable();
             $table->timestamp('email_verified_at')->nullable();
