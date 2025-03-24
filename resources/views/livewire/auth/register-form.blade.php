@@ -2,7 +2,7 @@
     <x-guest-layout>
         <x-authentication-card>
             <x-validation-errors class="mb-4" />
-            
+
             <x-slot name="logo"></x-slot>
 
             <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm">
@@ -16,7 +16,8 @@
                     <h1 class="block text-2xl font-bold text-gray-800">Crear cuenta</h1>
                     <p class="mt-2 text-sm text-gray-600">
                         ¿Ya tienes una cuenta?
-                        <a class="text-blue-600 decoration-2 focus:outline-none font-medium" href="{{ route('login') }}">
+                        <a class="text-blue-600 decoration-2 focus:outline-none font-medium"
+                            href="{{ route('login') }}">
                             Inicia sesión aquí
                         </a>
                     </p>
@@ -24,7 +25,8 @@
 
                 <x-socialite-auth />
 
-                <h1 class="p-3 flex items-center text-sm text-gray-400 uppercase before:flex-1 before:me-6 after:flex-1 after:ms-6 dark:text-neutral-500">
+                <h1
+                    class="p-3 flex items-center text-sm text-gray-400 uppercase before:flex-1 before:me-6 after:flex-1 after:ms-6 dark:text-neutral-500">
                     Paso {{ $currentStep }} de {{ $totalSteps }}
                 </h1>
 
@@ -33,36 +35,38 @@
                         <div class="grid gap-y-4">
                             <div>
                                 <x-label for="name" value="Nombre(s)" />
-                                <x-input wire:model="name" id="name" class="block mt-1 w-full" type="text" required autocomplete="name" />
-                                @error('name')
-                                    <span class="text-red-500">{{ $message }}</span>
-                                @enderror
+                                <x-input wire:model.blur="registerCreate.name" id="name" class="block mt-1 w-full" type="text"
+                                    required autocomplete="name" />
+                                <x-input-error for="registerCreate.name" />
                             </div>
-                            
+
                             <div>
                                 <x-label for="surnames" value="Apellido(s)" />
-                                <x-input wire:model="surnames" id="surnames" class="block mt-1 w-full" type="text" required autocomplete="surnames" />
-                                @error('surnames')
-                                    <span class="text-red-500">{{ $message }}</span>
-                                @enderror
+                                <x-input wire:model="registerCreate.surnames" id="surnames" class="block mt-1 w-full" type="text"
+                                    required autocomplete="surnames" />
+                                <x-input-error for="registerCreate.surnames" />
                             </div>
 
                             <div>
                                 <x-label for="phone" value="Teléfono" />
                                 <div class="flex gap-4">
                                     <div class="w-1/3">
-                                        <select wire:model="countryCode" id="countryCode" required class="block mt-1 w-full rounded-md border-gray-300 shadow-sm">
-                                            @foreach ($countryCodes as $code => $prefix)
-                                                <option value="{{ $prefix }}">{{ $code }} ({{ $prefix }})</option>
+                                        <select wire:model="registerCreate.countryCode" id="countryCode" required
+                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm">
+                                            @foreach ($registerCreate->countryCodes as $code => $prefix)
+                                                <option value="{{ $prefix }}" @if($prefix == $registerCreate->countryCode) selected @endif>
+                                                    {{ $code }} ({{ $prefix }})
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     <div class="w-2/3">
-                                        <x-input wire:model="phone" id="phone" class="block mt-1 w-full" type="tel" required autocomplete="phone" />
+                                        <x-input wire:model="registerCreate.phone" id="phone" class="block mt-1 w-full"
+                                            type="tel" required autocomplete="phone" />
                                     </div>
                                 </div>
-                                @error('phone') <span class="text-red-500">{{ $message }}</span> @enderror
+                                <x-input-error for="registerCreate.phone" />
                             </div>
                         </div>
                     </div>
@@ -71,17 +75,22 @@
                         <div class="grid gap-y-4">
                             <div>
                                 <x-label for="email" value="Email" />
-                                <x-input wire:model="email" id="email" class="block mt-1 w-full" type="email" required autocomplete="off" />
-                                @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
+                                <x-input wire:model="registerCreate.email" id="email" class="block mt-1 w-full" type="email"
+                                    required autocomplete="off" />
+                                <x-input-error for="registerCreate.email" />
                             </div>
 
                             <div>
                                 <x-label for="password" value="Contraseña" />
                                 <div class="flex items-center border rounded-md">
-                                    <x-input wire:model="password" id="password" class="flex-1 px-3 py-2 border-none focus:ring-0" type="password" required autocomplete="off" />
-                                    <i wire:ignore class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword" onclick="togglePasswordVisibility()" aria-label="Mostrar u ocultar contraseña"></i>
+                                    <x-input wire:model="registerCreate.password" id="password"
+                                        class="flex-1 px-3 py-2 border-none focus:ring-0" type="password" required
+                                        autocomplete="off" />
+                                    <i wire:ignore class="bi bi-eye-slash cursor-pointer px-3 text-gray-500"
+                                        id="togglePassword" onclick="togglePasswordVisibility()"
+                                        aria-label="Mostrar u ocultar contraseña"></i>
                                 </div>
-                                @error('password') <span class="text-red-500">{{ $message }}</span> @enderror
+                                <x-input-error for="registerCreate.password" />
                             </div>
 
                             <!-- Strong Password -->
@@ -99,19 +108,18 @@
                                                 }'
                                                 class="flex -mx-1">
                                             </div>
-                            
+
                                             <h4 class="text-sm font-semibold text-gray-800">
                                                 La contraseña debe contener:
                                             </h4>
-                            
+
                                             <ul class="space-y-1 text-sm text-gray-500">
                                                 <li data-hs-strong-password-hints-rule-text="min-length"
                                                     class="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
                                                     <span class="hidden" data-check="">
-                                                        <svg class="shrink-0 size-4"
-                                                            xmlns="http://www.w3.org/2000/svg" width="24"
-                                                            height="24" viewBox="0 0 24 24" fill="none"
-                                                            stroke="currentColor" stroke-width="2"
+                                                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                                                            width="24" height="24" viewBox="0 0 24 24"
+                                                            fill="none" stroke="currentColor" stroke-width="2"
                                                             stroke-linecap="round" stroke-linejoin="round">
                                                             <polyline points="20 6 9 17 4 12"></polyline>
                                                         </svg>
@@ -228,18 +236,19 @@
 
                             <div>
                                 <x-label for="password_confirmation" value="Confirmar contraseña" />
-                                <x-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full" type="password" required autocomplete="off" />
-                                @error('password_confirmation') <span class="text-red-500">{{ $message }}</span> @enderror
+                                <x-input wire:model="registerCreate.password_confirmation" id="password_confirmation"
+                                    class="block mt-1 w-full" type="password" required autocomplete="off" />
+                                <x-input-error for="registerCreate.password_confirmation" />
                             </div>
 
-                            <div x-data x-init="grecaptcha.render($el)" class="g-recaptcha w-full" wire:ignore data-sitekey="6LdMwvcqAAAAALX85DtatHG0h4V1PmnDITItSqpx"></div>
+                            <div x-data x-init="grecaptcha.render($el)" class="g-recaptcha w-full"
+                                data-sitekey="6LdMwvcqAAAAALX85DtatHG0h4V1PmnDITItSqpx"></div>
 
                             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                                 <div class="mt-2">
                                     <x-label for="terms">
                                         <div class="flex items-center">
-                                            <x-checkbox wire:model="terms" name="terms" id="terms"
-                                                required />
+                                            <x-checkbox wire:model="registerCreate.terms" name="terms" id="terms" required />
 
                                             <div class="ms-2">
                                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
@@ -259,16 +268,15 @@
                                             </div>
                                         </div>
                                     </x-label>
-                                    @error('terms')
-                                        <span class="text-rose-600">{{ $message }}</span>
-                                    @enderror
+                                    <x-input-error for="registerCreate.terms" />
                                 </div>
                             @endif
 
                             <!-- Spinner -->
                             <div class="mx-auto w-1/2 p-4" wire:loading wire:target="submit">
                                 <div class="flex justify-center items-center h-full">
-                                    <div class="animate-spin inline-block size-7 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
+                                    <div class="animate-spin inline-block size-7 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500"
+                                        role="status" aria-label="loading">
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
@@ -277,17 +285,19 @@
                     </div>
                 @endif
 
-               <div class="w-full flex justify-between items-center my-3">
+                <div class="w-full flex justify-between items-center my-3">
                     @if ($currentStep > 1)
-                        <x-filament::button wire:click="decrementStep" icon="heroicon-m-arrow-left" class="ml-5 rounded-full border border-blue-600 bg-blue-600 p-3 text-white hover:bg-blue-500 focus:ring">
+                        <x-filament::button wire:click="decrementStep" icon="heroicon-m-arrow-left"
+                            class="ml-5 rounded-full border border-blue-600 bg-blue-600 p-3 text-white hover:bg-blue-500 focus:ring">
                             Atrás
                         </x-filament::button>
                     @endif
 
                     @if ($currentStep < $totalSteps)
                         <div class="w-full flex justify-end mr-4">
-                            <x-filament::button
-                                wire:click="incrementStep"
+                            <x-filament::button 
+                                wire:click.prevent="incrementStep"
+                                wire:loading.attr="disabled"
                                 icon="heroicon-m-arrow-right"
                                 icon-position="after"
                                 class="rounded-full border border-blue-600 bg-blue-600 p-3 text-white hover:bg-blue-500 focus:ring"
@@ -298,7 +308,8 @@
                     @endif
 
                     @if ($currentStep === $totalSteps)
-                        <x-filament::button wire:click="submit" class="mr-5 py-2 px-4 rounded-lg border border-blue-600 bg-blue-600 text-white hover:bg-transparent hover:text-blue-600 focus:ring">
+                        <x-filament::button wire:click="submit"
+                            class="mr-5 py-2 px-4 rounded-lg border border-blue-600 bg-blue-600 text-white hover:bg-transparent hover:text-blue-600 focus:ring">
                             Registrar
                         </x-filament::button>
                     @endif

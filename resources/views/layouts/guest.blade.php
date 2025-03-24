@@ -27,7 +27,7 @@
         @livewireScripts
         <script src="./node_modules/preline/dist/preline.js"></script>
         <script src="{{ asset('js/auth/toggle-password.js') }}"></script>
-        <script src="{{ asset('js/auth/login.js') }}"></script>
+        {{-- <script src="{{ asset('js/auth/login.js') }}"></script> --}}
         <script src="{{ asset('js/auth/dev-tools.js') }}"></script>
     </body>
 </html>

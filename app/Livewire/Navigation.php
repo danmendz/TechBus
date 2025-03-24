@@ -23,7 +23,8 @@ class Navigation extends Component
         $breadcrumbMap = [
             'dashboard' => 'Panel',
             'profile' => 'Perfil',
-            'settings' => 'Configuración'
+            'settings' => 'Configuración',
+            'buy-tickets' => 'Comprar boletos'
         ];
 
         // Obtiene el nombre de la ruta actual
