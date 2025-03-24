@@ -2,6 +2,11 @@
     <x-guest-layout>
         <x-authentication-card>
             <x-validation-errors class="mb-4" />
+            @session('status')
+                <div class="mb-4 font-medium text-sm text-green-600">
+                    {{ $value }}
+                </div>
+            @endsession
 
             <x-slot name="logo"></x-slot>
 
@@ -34,21 +39,21 @@
                     <div class="px-4 py-3">
                         <div class="grid gap-y-4">
                             <div>
-                                <x-label for="name" value="Nombre(s)" />
-                                <x-input wire:model.blur="registerCreate.name" id="name" class="block mt-1 w-full" type="text"
+                                <x-label for="name" class="required" value="Nombre(s)" />
+                                <x-input wire:model="registerCreate.name" id="name" class="block mt-1 w-full" type="text"
                                     required autocomplete="name" />
                                 <x-input-error for="registerCreate.name" />
                             </div>
 
                             <div>
-                                <x-label for="surnames" value="Apellido(s)" />
+                                <x-label for="surnames" class="required" value="Apellido(s)" />
                                 <x-input wire:model="registerCreate.surnames" id="surnames" class="block mt-1 w-full" type="text"
                                     required autocomplete="surnames" />
                                 <x-input-error for="registerCreate.surnames" />
                             </div>
 
                             <div>
-                                <x-label for="phone" value="Teléfono" />
+                                <x-label for="phone" class="required" value="Teléfono" />
                                 <div class="flex gap-4">
                                     <div class="w-1/3">
                                         <select wire:model="registerCreate.countryCode" id="countryCode" required
@@ -74,14 +79,14 @@
                     <div class="px-4 py-3">
                         <div class="grid gap-y-4">
                             <div>
-                                <x-label for="email" value="Email" />
+                                <x-label for="email" class="required" value="Email" />
                                 <x-input wire:model="registerCreate.email" id="email" class="block mt-1 w-full" type="email"
                                     required autocomplete="off" />
                                 <x-input-error for="registerCreate.email" />
                             </div>
 
                             <div>
-                                <x-label for="password" value="Contraseña" />
+                                <x-label for="password" class="required" value="Contraseña" />
                                 <div class="flex items-center border rounded-md">
                                     <x-input wire:model="registerCreate.password" id="password"
                                         class="flex-1 px-3 py-2 border-none focus:ring-0" type="password" required
@@ -235,7 +240,7 @@
                             </div>
 
                             <div>
-                                <x-label for="password_confirmation" value="Confirmar contraseña" />
+                                <x-label for="password_confirmation" class="required" value="Confirmar contraseña" />
                                 <x-input wire:model="registerCreate.password_confirmation" id="password_confirmation"
                                     class="block mt-1 w-full" type="password" required autocomplete="off" />
                                 <x-input-error for="registerCreate.password_confirmation" />

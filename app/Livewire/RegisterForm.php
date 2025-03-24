@@ -21,8 +21,6 @@ class RegisterForm extends Component
     public int $totalSteps = 2;
     public RegistrationCreateForm $registerCreate;
 
-    protected $queryString = ['currentStep'];
-
     public function mount()
     {
         $this->registerCreate->countryCodes = $this->loadCountryCodes();
@@ -45,7 +43,9 @@ class RegisterForm extends Component
             $this->registerCreate->validateFirstStep();
             $this->currentStep++;
         } catch (\Illuminate\Validation\ValidationException $e) {
-            throw $e;
+            // throw $e;
+            session()->flash('error', 'No se pudo registrar los datos. Por favor, inténtelo de nuevo.');
+            return redirect()->route('register.form');
         }
     }
 
