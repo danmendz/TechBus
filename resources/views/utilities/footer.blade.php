@@ -12,7 +12,7 @@
                     class="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium"
                     href="#">Technova</a>.</p>
             <p class="text-gray-500">
-                © Todos los derechos reservados 2024.
+                © Todos los derechos reservados 2025.
             </p>
         </div>
 

@@ -21,6 +21,7 @@ class SocialiteController extends Controller
      */
     public function authProviderRedirect($provider)
     {
+        // dd($provider);
         if ($provider) {
             return Socialite::driver($provider)->redirect();
         }
@@ -33,27 +34,26 @@ class SocialiteController extends Controller
      * @param NA
      * @return void
      */
-    public function socialAuthentication($provider)
-    {
+    public function socialAuthentication($provider) {
         try {
             if ($provider) {
-                $socialUser = Socialite::driver($provider)->user();
+                $socialUser = Socialite::driver($provider)->stateless()->user();
                 // dd($socialUser);
+
+                $name = $socialUser->name;
+                $surnames = null;
+                $avatarPath = $socialUser->avatar ?? null;
 
                 switch ($provider) {
                     case 'facebook':
-                        $name = $socialUser->user['first_name'];
-                        $surnames = $socialUser->user['last_name'];
+                        $avatarPath = $socialUser->attributes['avatar_original'] ?? null;
                         break;
 
                     case 'google':
-                        $name = $socialUser->user['given_name'];
-                        $surnames = $socialUser->user['family_name'];
+                        $name = $socialUser->user['given_name'] ?? $socialUser->name;
+                        $surnames = $socialUser->user['family_name'] ?? null;
+                        $avatarPath = $socialUser->avatar ?? null;
                         break;
-
-                    default:
-                        $name = $socialUser->name;
-                        $surnames = null;
                 }
 
                 $user = User::updateOrCreate(
@@ -66,16 +66,19 @@ class SocialiteController extends Controller
                         'email' => $socialUser->email,
                         'auth_provider_id' => $socialUser->id,
                         'auth_provider' => $provider,
+                        'profile_photo_path' => $avatarPath,
                     ],
                 );
 
                 Auth::login($user);
 
-                return redirect('/dashboard');
+                return redirect()->route('dashboard');
             }
             abort(404);
+
         } catch (Exception $e) {
-            dd($e);
+            // dd($e);
+            return redirect()->route('login')->withErrors(['error' => 'No se puede iniciar sesión con ' . ucfirst($provider) . '. Por favor, inténtelo de nuevo.']);
         }
     }
 }

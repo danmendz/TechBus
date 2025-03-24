@@ -26,6 +26,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::post('/update-phone', [UserController::class, 'updatePhone'])->name('update.phone');
 });
 
 Route::get('/buy-tickets', function() {
@@ -86,5 +88,3 @@ Route::get('/resultados', [ResultadoController::class, 'index']);
 Route::get('/formulario', [FormularioController::class, 'showForm'])
     ->middleware('auth') // Protege la ruta para usuarios autenticados
     ->name('formulario');
-
-Route::post('/update-phone', [UserController::class, 'updatePhone'])->name('update.phone');

@@ -20,7 +20,10 @@
     </head>
     <body class="font-sans antialiased">
         <x-banner />
-
+        @if (Auth::check() && Auth::user()->phone == null)
+            @livewire('phone-modal')
+        @endif
+        
         <div class="min-h-screen bg-gray-100">
             {{-- @livewire('navigation-menu') --}}
             @auth

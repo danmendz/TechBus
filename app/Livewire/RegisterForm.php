@@ -9,7 +9,6 @@ use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -17,19 +16,21 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 class RegisterForm extends Component
 {
     use FortifyPasswordValidationRules;
+
     public $currentStep = 1;
     public $totalSteps = 2;
 
-    public $name;
-    public $surnames;
-    public $phone;
+    public $name = '';
+    public $surnames = '';
+    public $phone = '';
+    public $email = '';
+    public $password = '';
+    public $password_confirmation = '';
     public $type;
-    public $email;
-    public $password;
-    public $password_confirmation;
     public $terms;
-    public $countryCode;
+    public $countryCode = '52';
     public $countryCodes = [];
+    public $recaptchaToken;
 
     public function render()
     {
@@ -38,16 +39,19 @@ class RegisterForm extends Component
         ]);
     }
 
-    public function incrementStep() {
+    public function incrementStep()
+    {
         $this->validateFirstForm();
+
         if ($this->currentStep < $this->totalSteps) {
-            $this->currentStep ++;
+            $this->currentStep++;
         }
     }
 
-    public function decrementStep() {
+    public function decrementStep()
+    {
         if ($this->currentStep > 1) {
-            $this->currentStep --;
+            $this->currentStep--;
         }
     }
 
@@ -88,7 +92,7 @@ class RegisterForm extends Component
         if ($user) {
             event(new Registered($user));
             Auth::login($user);
-            return redirect()->to('/dashboard');
+            return redirect()->route('dashboard');
         }
     }
 
@@ -100,13 +104,11 @@ class RegisterForm extends Component
                         'name' => $this->name,
                         'surnames' => $this->surnames,
                         'phone' => $this->phone,
-                        // 'countryCode' => $this->countryCode,
                     ],
                     [
-                        'name' => ['required', 'string', 'max:255'],
-                        'surnames' => ['required', 'string', 'max:255'],
-                        'phone' => ['required', 'string', 'max:10'],
-                        // 'countryCode' => ['required', 'string', 'max:255'],
+                        'name' => ['required', 'string', 'min:5', 'max:255'],
+                        'surnames' => ['required', 'string', 'min:5', 'max:255'],
+                        'phone' => ['required', 'string', 'digits:10'],
                     ]
                 )->validate();
                 break;
@@ -115,18 +117,14 @@ class RegisterForm extends Component
         }
     }
 
-    // Método para obtener los códigos de país desde la API
     public function loadCountryCodes()
     {
         $response = Http::get('https://country.io/phone.json');
 
         if ($response->successful()) {
-            $countryCodesObtained = $this->countryCodes = $response->json();
-            return $countryCodesObtained;
-
+            return $this->countryCodes = $response->json();
         } else {
-            $countryCodesObtained = $this->countryCodes = ['MX' => '52', 'US' => '1'];
-            return $countryCodesObtained;
+            return $this->countryCodes = ['MX' => '52', 'US' => '1'];
         }
     }
 }

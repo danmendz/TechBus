@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <!-- Google CSE Script -->
     <script async src="https://cse.google.com/cse.js?cx=b4f2947b021ac4b02"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAg9DSIa6qKKkOUiWhjCqvGu7eFisW7CGE&callback=initMap&v=weekly" defer>
+	</script>
 
     <!-- Styles -->
     <link href="{{ asset('css/general/styles.css') }}" rel="stylesheet">
@@ -105,7 +107,7 @@
             <!-- End Contenido Principal -->
 
             <!-- Contenedor del objeto 3D -->
-            <div class="relative animate__animated" id="container3D" data-animation="animate__fadeInRight">
+            <div class="relative rounded animate__animated" id="container3D" data-animation="animate__fadeInRight">
                 <canvas class="absolute top-0 left-0 w-full h-full"></canvas>
                 <img class="w-full h-full object-cover rounded-md" src="{{ asset('images/enterprise/ADO-font.jpg') }}"
                     alt="Hero Image">
@@ -531,6 +533,15 @@
     </div>
 </section>
 
+<!-- Ubicacion -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h2 class="text-3xl font-bold text-gray-800 text-center">
+        Ubicación
+    </h2>
+
+    <div id="map" class="w-full h-full"></div>
+</section>
+
 @include('utilities.footer')
 
 <!-- Scripts -->
@@ -583,6 +594,7 @@
 
 <script src="./node_modules/preline/dist/preline.js"></script>
 <script type="module" src="{{ asset('js/app/bus-animation.js') }} "></script>
+<script type="module" src="{{ asset('js/app/maps.js') }} "></script>
 
 <!-- Swiper JS -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>

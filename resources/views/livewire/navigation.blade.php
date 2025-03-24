@@ -83,9 +83,15 @@
                         <li class="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 relative">
                             <!-- Imagen del usuario -->
                             <img 
-                                src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?d=mp' }}" 
+                                src="{{ Auth::user()->profile_photo_path 
+                                    ? (Str::startsWith(Auth::user()->profile_photo_path, ['http', 'https']) 
+                                        ? (Str::contains(Auth::user()->profile_photo_path, 'graph.facebook.com') 
+                                            ? Auth::user()->profile_photo_path . '&type=large' 
+                                            : Auth::user()->profile_photo_path) 
+                                        : asset('storage/' . Auth::user()->profile_photo_path)) 
+                                    : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?d=mp' }}" 
                                 class="w-10 h-10 rounded-full object-cover"
-                            >
+                            />
                         
                             <!-- Acordeón de "Mi cuenta" -->
                             <div class="hs-accordion flex-grow" id="account-accordion">
