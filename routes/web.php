@@ -23,19 +23,34 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', ])->group(function () {
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
+    
+    /**
+     * Livewire components
+     */
     Route::post('/update-phone', [UserController::class, 'updatePhone'])->name('update.phone');
+
+    Route::get('/my-tickets', function () {
+        return view('dashboard.ticket-list');
+    })->name('my.tickets');
+
+    Route::get('/buy-tickets', function() {
+        return view('payment.buy-tickets');
+    })->name('buy.tickets');
+
+    /**
+     * Stripe
+     */
+    Route::get('success', [StripeController::class, 'success'])->name('stripe.success');
+    Route::get('cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 });
 
-Route::get('/buy-tickets', function() {
-    return view('payment.buy-tickets');
-})->name('buy.tickets');
 
 /**
- * Google Login
+ * Google autentication
  */
 Route::controller(SocialiteController::class)->group(function() {
     Route::get('/auth/redirection/{provider}', 'authProviderRedirect')->name('auth.redirection');
@@ -43,13 +58,7 @@ Route::controller(SocialiteController::class)->group(function() {
 });
 
 /**
- * Stripe
- */
-Route::get('success', [StripeController::class, 'success'])->name('stripe.success');
-Route::get('cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
-
-/**
- * Livewire
+ * Livewire form
  */
 Route::get('/register-form', RegisterForm::class)->name('register.form');
 
@@ -61,10 +70,8 @@ Route::get('/stepper', function() {
 })->name('stepper');
 
 /**
- * Livewire
+ * Views about us
  */
-// Route::get('/payment-step', PaymentStep::class);
-
 Route::get('/nosotros', function () {
     return view('company.nosotros');
 })->name('nosotros');
@@ -77,14 +84,10 @@ Route::get('/metodo-pago', function () {
     return view('company.metodo-pago');
 })->name('metodo_de _pago');
 
-// routes/web.php
-Route::get('/resultados.html', function () {
-    return view('resultados');
-});
-
-
+/**
+ * DOM form
+ */
 Route::get('/resultados', [ResultadoController::class, 'index']);
-
 Route::get('/formulario', [FormularioController::class, 'showForm'])
     ->middleware('auth') // Protege la ruta para usuarios autenticados
     ->name('formulario');

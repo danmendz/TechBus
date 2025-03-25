@@ -69,9 +69,9 @@ class StripeController extends Controller
             // Limpiar la sesión
             $this->stripeService->clearSession();
             
-            return redirect()->route('dashboard')->with('success', 'Pago procesado correctamente.');
+            return redirect()->route('my.tickets')->with('success', 'Pago procesado correctamente.');
         } else {
-            return redirect()->route('stripe.cancel')->with('error', 'Los datos no se guardaron correctamente.');
+            return redirect()->route('stripe.cancel');
         }
     }
 
@@ -90,6 +90,6 @@ class StripeController extends Controller
      */
     public function cancel()
     {
-        return "cancel";
+        return redirect()->route('my.tickets')->with('error', 'El pago no pudo procesarse correctamente.');
     }
 }

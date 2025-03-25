@@ -20,6 +20,7 @@
     </head>
     <body class="font-sans antialiased">
         <x-banner />
+
         @if (Auth::check() && Auth::user()->phone == null)
             @livewire('phone-modal')
         @endif
