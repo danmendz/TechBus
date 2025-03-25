@@ -45,7 +45,7 @@
                         <div class="grid gap-y-4">
                             <!-- Form Group -->
                             <div>
-                                <label for="email" class="block text-sm mb-2">
+                                <label for="email" class="required block text-sm mb-2">
                                     Correo electrónico
                                 </label>
                                 <div class="relative">
@@ -60,7 +60,7 @@
                             <!-- Form Group -->
                             <div>
                                 <div class="flex justify-between items-center">
-                                    <label for="password" class="block text-sm mb-2">
+                                    <label for="password" class="required block text-sm mb-2">
                                         Contraseña
                                     </label>
                                     @if (Route::has('password.request'))
@@ -92,11 +92,11 @@
                             <!-- Checkbox -->
                             <div class="flex items-center">
                                 <div class="flex">
-                                    <input id="remember-me" name="remember-me" type="checkbox"
+                                    <input id="remember_me" name="remember" type="checkbox"
                                         class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500">
                                 </div>
                                 <div class="ms-3">
-                                    <label for="remember-me" class="text-sm">Recuerdame</label>
+                                    <label for="remember_me" class="text-sm">Recuerdame</label>
                                 </div>
                             </div>
                             <!-- End Checkbox -->

@@ -13,6 +13,7 @@ class PurchaseHistory extends Model
 
     protected $fillable = [
         'id_usuario',
+        'id_corrida',
         'id_payment',
         'id_ticket',
     ];
@@ -33,5 +34,11 @@ class PurchaseHistory extends Model
     public function ticket()
     {
         return $this->belongsTo(Ticket::class, 'id_ticket');
+    }
+
+    // Relación con la corrida
+    public function corrida()
+    {
+        return $this->belongsTo(Corrida::class, 'id_corrida');
     }
 }

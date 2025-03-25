@@ -58,7 +58,7 @@ class StripeController extends Controller
         
         if ($paymentInsert && $ticketInsert) {
             // Guardar en el historial
-            $this->historyService->saveHistory($paymentInsert->id, $ticketInsert->id);
+            $this->historyService->saveHistory($paymentInsert->id, $ticketInsert->id, $ticketInsert->id_corrida);
 
             // Llamar al método generatePdf del PDFController
             $this->pdfController->generatePdf($ticketInsert);

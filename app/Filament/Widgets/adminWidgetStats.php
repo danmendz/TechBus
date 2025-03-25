@@ -10,7 +10,7 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Auth;
 
-class adminWidgetStats extends BaseWidget
+class AdminWidgetStats extends BaseWidget
 {
     public static function canView(): bool
     {

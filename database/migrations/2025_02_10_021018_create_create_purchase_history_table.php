@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('id_usuario');
+            $table->unsignedBigInteger('id_corrida');
             $table->unsignedBigInteger('id_payment');
             $table->unsignedBigInteger('id_ticket');
             $table->timestamps();
 
             $table->foreign('id_usuario')->references('id')->on('users');
+            $table->foreign('id_corrida')->references('id')->on('corridas');
             $table->foreign('id_payment')->references('id')->on('payments');
             $table->foreign('id_ticket')->references('id')->on('tickets');
         });

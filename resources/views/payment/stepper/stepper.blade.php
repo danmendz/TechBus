@@ -38,7 +38,7 @@
             <div data-hs-stepper-content-item='{"isFinal": true}' style="display: none;">
                 <div
                     class="p-4 h-3/5 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-xl">
-                    @include('payment.stripe')
+                    {{-- @include('payment.stripe') --}}
                 </div>
             </div>
             <!-- End Final Content -->

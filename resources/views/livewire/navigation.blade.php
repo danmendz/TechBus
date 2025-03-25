@@ -61,13 +61,17 @@
         <div class="relative flex flex-col h-full max-h-full">
             <div class="px-6 pt-4 flex items-center">
                 <!-- Logo -->
-                <a class="flex-none rounded-xl text-xl inline-block font-semibold focus:outline-none focus:opacity-80 text-wrap"
-                    href="/" aria-label="Preline">
-                    <span class="text-gray-700 dark:text-gray-200">Bienvenido(a), </span>
-                    <span class="text-blue-500 dark:text-blue-400 font-bold text-2xl" x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
-                        x-text="name" x-on:profile-updated.window="name = $event.detail.name">
-                    </span>
-                </a>
+                <div class="max-w-[200px] break-words">
+                    <a class="flex-none rounded-xl text-xl inline-block font-semibold focus:outline-none focus:opacity-80 text-wrap"
+                        href="/" aria-label="Preline">
+                        <span class="text-gray-700 dark:text-gray-200">Bienvenido(a), </span>
+                        <span class="text-blue-500 dark:text-blue-400 font-bold text-2xl break-words"
+                            x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
+                            x-text="name"
+                            x-on:profile-updated.window="name = $event.detail.name">
+                        </span>
+                    </a>
+                </div>                
                 <!-- End Logo -->
 
                 <div class="hidden lg:block ms-2">
@@ -85,13 +89,11 @@
                             <img 
                                 src="{{ Auth::user()->profile_photo_path 
                                     ? (Str::startsWith(Auth::user()->profile_photo_path, ['http', 'https']) 
-                                        ? (Str::contains(Auth::user()->profile_photo_path, 'graph.facebook.com') 
-                                            ? Auth::user()->profile_photo_path . '&type=large' 
-                                            : Auth::user()->profile_photo_path) 
+                                        ? Auth::user()->profile_photo_path 
                                         : asset('storage/' . Auth::user()->profile_photo_path)) 
                                     : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?d=mp' }}" 
                                 class="w-10 h-10 rounded-full object-cover"
-                            />
+                            />                        
                         
                             <!-- Acordeón de "Mi cuenta" -->
                             <div class="hs-accordion flex-grow" id="account-accordion">
