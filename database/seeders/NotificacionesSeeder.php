@@ -15,28 +15,33 @@ class NotificacionesSeeder extends Seeder
     {
         Notificacion::insert([
             [
+                'tipo' => 'incidencia',
                 'estatus_notificacion' => 'cancelado',
-                'motivo' => 'El autobús se ha descompuesto',
+                'descripcion' => 'El autobús se ha descompuesto',
                 'imagen' => 'https://i.ibb.co/fYydz30N/landpage.png'
             ],
             [
+                'tipo' => 'incidencia',
                 'estatus_notificacion' => 'retrasado',
-                'motivo' => 'Condiciones climáticas adversas',
+                'descripcion' => 'Condiciones climáticas adversas',
                 'imagen' => 'https://i.ibb.co/fYydz30N/landpage.png'
             ],
             [
+                'tipo' => 'incidencia',
                 'estatus_notificacion' => 'en curso',
-                'motivo' => 'El autobús ha salido de la terminal',
+                'descripcion' => 'El autobús ha salido de la terminal',
                 'imagen' => 'https://i.ibb.co/fYydz30N/landpage.png'
             ],
             [
+                'tipo' => 'incidencia',
                 'estatus_notificacion' => 'finalizado',
-                'motivo' => 'El viaje ha llegado a su destino',
+                'descripcion' => 'El viaje ha llegado a su destino',
                 'imagen' => 'https://i.ibb.co/fYydz30N/landpage.png'
             ],
             [
+                'tipo' => 'incidencia',
                 'estatus_notificacion' => 'reprogramado',
-                'motivo' => 'Cambio en el horario del viaje',
+                'descripcion' => 'Cambio en el horario del viaje',
                 'imagen' => 'https://i.ibb.co/fYydz30N/landpage.png'
             ],
         ]);        

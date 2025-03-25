@@ -24,8 +24,8 @@ class NotificationService
     private function whatsappPurchaseNotification($userName, $userPhone)
     {
         try {
-            $templateName = 'confirmar_compra';
-            $languageCode = 'es_MX';
+            $templateName = 'confirmacion_compra';
+            $languageCode = 'es';
 
             $parameters = [
                 (string) $userName,

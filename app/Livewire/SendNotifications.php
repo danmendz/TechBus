@@ -3,6 +3,8 @@ namespace App\Livewire;
 
 use App\Mail\NotificationEmail;
 use App\Models\Notificacion;
+use App\Models\Corrida;
+use App\Models\PurchaseHistory;
 use App\Models\User;
 use App\Services\WhatsappService;
 use Illuminate\Support\Facades\Log;
@@ -23,19 +25,50 @@ class SendNotifications extends Component
     public $selectedNotificationId;
     public $notificationForm = [
         'estatus_notificacion' => '',
-        'motivo' => '',
+        'descripcion' => '',
         'imagen' => '',
     ];
 
+    // Nuevas propiedades para corridas
+    public $corridas = [];
+    public $selectedCorridaId;
+    public $selectedCorridaData;
+
     public function mount()
     {
-        $this->users = User::select('id', 'name', 'surnames', 'phone', 'email')->get()->toArray();
+        $this->corridas = Corrida::with(['ruta.origen', 'ruta.destino', 'horario'])->orderBy('fecha', 'desc')->get();
         $this->notifications = Notificacion::all();
     }
 
     public function __construct()
     {
         $this->whatsappService = new WhatsappService();
+    }
+
+    // Método para cargar usuarios basados en la corrida seleccionada
+    public function loadUsersByCorrida()
+    {
+        if ($this->selectedCorridaId) {
+            $this->selectedCorridaData = Corrida::with(['ruta.origen', 'ruta.destino', 'horario'])
+                ->find($this->selectedCorridaId);
+
+            $userIds = PurchaseHistory::where('id_corrida', $this->selectedCorridaId)
+                ->pluck('id_usuario')
+                ->unique()
+                ->toArray();
+
+            $this->users = User::whereIn('id', $userIds)
+                ->select('id', 'name', 'surnames', 'phone', 'email')
+                ->get()
+                ->toArray();
+        } else {
+            $this->users = [];
+        }
+
+        // Limpiar selecciones al cambiar de corrida
+        $this->selectedNumbers = [];
+        $this->selectedFailedNumbers = [];
+        $this->failedNumbers = [];
     }
 
     public function toggleSelectAll()
@@ -56,7 +89,6 @@ class SendNotifications extends Component
         }
     }
 
-    // Se ejecuta cuando cambia el select
     public function loadNotificationData()
     {
         if ($this->selectedNotificationId) {
@@ -64,7 +96,7 @@ class SendNotifications extends Component
             if ($notification) {
                 $this->notificationForm = [
                     'estatus_notificacion' => $notification->estatus_notificacion,
-                    'motivo' => $notification->motivo,
+                    'descripcion' => $notification->descripcion,
                     'imagen' => $notification->imagen,
                 ];
             }
@@ -77,7 +109,7 @@ class SendNotifications extends Component
     {
         $this->notificationForm = [
             'estatus_notificacion' => '',
-            'motivo' => '',
+            'descripcion' => '',
             'imagen' => '',
         ];
     }
@@ -99,12 +131,12 @@ class SendNotifications extends Component
 
                     $parameters = [
                         (string) $user['name'],
-                        'Ciudad de Puebla',
-                        'Ciudad de México',
-                        '2025-01-01',
-                        '17:00',
+                        $this->selectedCorridaData->ruta->origen->nombre ?? 'Ciudad de origen',
+                        $this->selectedCorridaData->ruta->destino->nombre ?? 'Ciudad de destino',
+                        $this->selectedCorridaData->fecha,
+                        $this->selectedCorridaData->horario->hora ?? 'Hora no disponible',
                         $this->notificationForm['estatus_notificacion'],
-                        $this->notificationForm['motivo']
+                        $this->notificationForm['descripcion']
                     ];
 
                     $image = $this->notificationForm['imagen'];

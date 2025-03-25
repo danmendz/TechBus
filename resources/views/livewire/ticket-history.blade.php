@@ -64,7 +64,7 @@
 
                     <div class="mt-4 pt-3 border-t flex justify-between items-center">
                         <span class="text-gray-600 flex items-center">
-                            <x-heroicon-o-credit-card class="w-5 h-5 text-gray-500 mr-1" />
+                            <x-heroicon-o-currency-dollar class="w-5 h-5 text-gray-500 mr-1" />
                             Total:
                         </span>
                         <span class="text-lg font-bold text-green-600">
