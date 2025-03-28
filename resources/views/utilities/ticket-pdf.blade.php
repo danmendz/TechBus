@@ -86,7 +86,7 @@
             <p><strong>Pasajero:</strong> {{ $nombrePasajero }}</p>
             <p><strong>Número de Ticket:</strong> #{{ $numeroTicket }}</p>
             <p><strong>Código de Referencia:</strong> {{ $codigoReferencia }}</p>
-            <p><strong>Número de asiento(s):</strong> {{ $asientos }}</p>
+            <p><strong>Asiento(s):</strong> {{ $asientos }}</p>
         </div>
 
         <!-- Detalles del boleto -->

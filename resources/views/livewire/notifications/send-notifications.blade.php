@@ -1,17 +1,4 @@
 <div class="w-full mx-auto p-6 bg-white shadow-md rounded-lg">
-    <!-- Mensajes de éxito/error -->
-    @if (session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-700 border-l-4 border-green-500 rounded">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="mb-4 p-3 bg-red-100 text-red-700 border-l-4 border-red-500 rounded">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <!-- Contenedor principal con grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Sección izquierda: Selección de corrida, notificación y edición -->

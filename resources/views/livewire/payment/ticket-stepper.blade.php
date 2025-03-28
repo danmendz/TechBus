@@ -1,6 +1,6 @@
 <div>
     {{-- @section('content') --}}
-    <div class="p-6 bg-gray-100 min-h-screen">
+    <div class="p-6 bg-white min-h-screen">
         <!-- Paso 1: Formulario de Búsqueda -->
         @if ($currentStep == 1)
             <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">

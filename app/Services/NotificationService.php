@@ -37,7 +37,7 @@ class NotificationService
             $this->whatsappService->sendMessage($userPhone, $templateName, $parameters, $image, $languageCode);
         } catch (\Exception $e) {
             Log::error("Error enviando mensaje a {$userPhone}: " . $e->getMessage());
-            $this->emailPurchaseNotification();
+            // $this->emailPurchaseNotification();
         }
     }
 

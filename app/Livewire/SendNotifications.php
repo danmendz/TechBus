@@ -1,6 +1,8 @@
 <?php
 namespace App\Livewire;
 
+use App\Mail\IncidenceNotificationEmail;
+use Filament\Notifications\Notification;
 use App\Mail\NotificationEmail;
 use App\Models\Notificacion;
 use App\Models\Corrida;
@@ -33,6 +35,7 @@ class SendNotifications extends Component
     public $corridas = [];
     public $selectedCorridaId;
     public $selectedCorridaData;
+    public $notificationMessage;
 
     public function mount()
     {
@@ -142,11 +145,18 @@ class SendNotifications extends Component
                     $image = $this->notificationForm['imagen'];
 
                     $this->whatsappService->sendMessage($user['phone'], $templateName, $parameters, $image, $languageCode);
-                    session()->flash('message', 'Mensajes enviados correctamente.');
+                    Notification::make()
+                        ->title('Mensajes de Whatsapp enviados correctamente.')
+                        ->success()
+                        ->send();
 
                 } catch (\Exception $e) {
                     $this->failedNumbers[] = $user['id'];
-                    session()->flash('error', "Error enviando mensaje a {$user['phone']}: " . $e->getMessage());
+                    Notification::make()
+                        ->title("Error al enviar mensajes de Whatsapp a {$user['name']} - {$user['phone']}")
+                        ->danger()
+                        ->send();
+                    // session()->flash('error', "Error al enviar mensaje a "."{$user['name']}"." - "."{$user['phone']}");
                 }
             }
         }
@@ -157,17 +167,33 @@ class SendNotifications extends Component
     public function sendMessagesEmail()
     {
         if (empty($this->selectedFailedNumbers)) {
-            session()->flash('error', 'Por favor, selecciona al menos un usuario fallido.');
+            Notification::make()
+                ->title('Error: No hay usuarios seleccionados')
+                ->danger()
+                ->send();
             return;
         }
 
-        $emails = $this->getEmailsFromUserIds($this->selectedFailedNumbers);
-
-        foreach ($emails as $email) {
-            $this->sendEmailNotification($email);
+        foreach ($this->selectedFailedNumbers as $userId) {
+            $user = User::find($userId);
+            if ($user && $user->email) {
+                try {
+                    $this->sendEmailNotification($user->email, $userId);
+                    
+                    Notification::make()
+                        ->title("Email enviado a {$user->email}")
+                        ->success()
+                        ->send();
+                } catch (\Exception $e) {
+                    Log::error("Error enviando email: " . $e->getMessage());
+                    
+                    Notification::make()
+                        ->title("Error al enviar email a {$user->email}")
+                        ->danger()
+                        ->send();
+                }
+            }
         }
-
-        session()->flash('message', 'Correos electrónicos enviados correctamente.');
     }
 
     protected function getEmailsFromUserIds($userIds)
@@ -175,16 +201,31 @@ class SendNotifications extends Component
         return User::whereIn('id', $userIds)->pluck('email')->toArray();
     }
 
-    protected function sendEmailNotification($email)
-    {
-        $messageBody = "Este es un mensaje de prueba para los usuarios.";
-
-        if (!empty($email)) {
-            Mail::to('admin@miempresa.com')
-                ->bcc($email)
-                ->send(new NotificationEmail('Usuario', $messageBody));
-        }
+    // En tu Livewire component
+    protected function sendEmailNotification($email, $userId)
+{
+    if (empty($email)) {
+        return false;
     }
+
+    try {
+        $user = User::findOrFail($userId);
+        $corrida = $this->selectedCorridaData;
+
+        Mail::to($email)->send(
+            new IncidenceNotificationEmail(
+                $user,
+                $corrida,
+                $this->notificationForm
+            )
+        );
+
+        return true;
+    } catch (\Exception $e) {
+        Log::error("Email send failed to {$email}: " . $e->getMessage());
+        return false;
+    }
+}
 
     public function render()
     {

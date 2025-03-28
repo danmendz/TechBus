@@ -90,10 +90,10 @@
                                 src="{{ Auth::user()->profile_photo_path 
                                     ? (Str::startsWith(Auth::user()->profile_photo_path, ['http', 'https']) 
                                         ? Auth::user()->profile_photo_path 
-                                        : asset('storage/' . Auth::user()->profile_photo_path)) 
+                                        : Storage::url(Auth::user()->profile_photo_path)) 
                                     : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim(Auth::user()->email))) . '?d=mp' }}" 
                                 class="w-10 h-10 rounded-full object-cover"
-                            />                        
+                            />                      
                         
                             <!-- Acordeón de "Mi cuenta" -->
                             <div class="hs-accordion flex-grow" id="account-accordion">
