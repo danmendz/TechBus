@@ -117,7 +117,6 @@ class PDFController extends Controller
             'numeroTicket' => $ticket->id,
             'asientos' => implode(', ', array_column($detallesCompra['resumen_boletos'], 'asiento')),
             'metodoPago' => 'Tarjeta de Crédito', // Puedes obtener este dato de otra tabla si es necesario
-            'numeroTransaccion' => '123456789', // Puedes obtener este dato de otra tabla si es necesario
         ];
     }
 

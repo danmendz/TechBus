@@ -67,11 +67,19 @@
                             <x-heroicon-o-currency-dollar class="w-5 h-5 text-gray-500 mr-1" />
                             Total:
                         </span>
-                        <span class="text-lg font-bold text-green-600">
-                            ${{ number_format(array_sum(array_map(function($boleto) use ($detalles) {
-                                return $detalles['precios'][$boleto['tipo_boleto']]['precio_total'];
-                            }, $detalles['resumen_boletos'])), 2) }}
-                        </span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-bold text-green-600">
+                                ${{ number_format(array_sum(array_map(function($boleto) use ($detalles) {
+                                    return $detalles['precios'][$boleto['tipo_boleto']]['precio_total'];
+                                }, $detalles['resumen_boletos'])), 2) }}
+                            </span>
+                            <!-- Botón de descarga -->
+                            <button wire:click="downloadTicket('{{ $ticket->id }}')" 
+                                    class="ml-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition flex items-center">
+                                <x-heroicon-o-arrow-down-tray class="w-4 h-4 mr-1" />
+                                Ticket
+                            </button>
+                        </div>
                     </div>
                 </div>
             @endforeach

@@ -109,7 +109,6 @@
             @endforeach
 
             <p><strong>Método de Pago:</strong> {{ $metodoPago }}</p>
-            <p><strong>Número de Transacción:</strong> {{ $numeroTransaccion }}</p>
             <p><strong>Total:</strong> <span style="font-size: 16px; font-weight: bold;">${{ number_format($precioTotal, 2) }}</span></p>
         </div>
 
