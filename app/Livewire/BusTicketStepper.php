@@ -53,6 +53,40 @@ class BusTicketStepper extends Component
     // Método para avanzar al siguiente paso
     public function nextStep()
     {
+        // Validaciones antes de avanzar
+        if ($this->currentStep == 1) {
+            if (empty($this->origen) || empty($this->destino)) {
+                session()->flash('error', 'Debes seleccionar origen y destino');
+                return;
+            }
+        }
+        
+        if ($this->currentStep == 2) {
+            if (empty($this->corridaSeleccionada)) {
+                session()->flash('error', 'Debes seleccionar una corrida');
+                return;
+            }
+        }
+        
+        if ($this->currentStep == 3) {
+            if (array_sum($this->cantidadBoletos) <= 0) {
+                session()->flash('error', 'Debes seleccionar al menos un boleto');
+                return;
+            }
+        }
+        
+        if ($this->currentStep == 4) {
+            $boletosSeleccionados = array_sum($this->cantidadBoletos);
+            $asientosSeleccionados = count($this->asientosSeleccionados);
+            
+            if ($asientosSeleccionados < $boletosSeleccionados) {
+                session()->flash('error', 'Debes seleccionar asientos para todos los boletos');
+                return;
+            }
+            
+            $this->generarResumenBoletosYAsientos();
+        }
+
         if ($this->currentStep == 4) {
             // Generar el resumen de boletos y asientos antes de avanzar al paso 5
             $this->generarResumenBoletosYAsientos();
@@ -63,7 +97,9 @@ class BusTicketStepper extends Component
     // Método para retroceder al paso anterior
     public function previousStep()
     {
-        $this->currentStep--;
+        if ($this->currentStep > 1) {
+            $this->currentStep--;
+        }
     }
 
     // Método para cargar las corridas disponibles (Paso 1)
@@ -95,6 +131,11 @@ class BusTicketStepper extends Component
     // Método para seleccionar una corrida (Paso 1)
     public function selectCorrida($corridaId)
     {
+        if (empty($corridaId)) {
+            session()->flash('error', 'Debes seleccionar una corrida válida');
+            return;
+        }
+
         $this->corridaSeleccionada = Corrida::find($corridaId);
         $this->resumenCorrida = [
             'origen' => $this->corridaSeleccionada->ruta->origen->nombre,
@@ -112,9 +153,22 @@ class BusTicketStepper extends Component
     // Método para incrementar la cantidad de boletos
     public function incrementarBoleto($tipoBoletoId)
     {
+        if (empty($tipoBoletoId)) {
+            session()->flash('error', 'Tipo de boleto no válido');
+            return;
+        }
+
         if (!isset($this->cantidadBoletos[$tipoBoletoId])) {
             $this->cantidadBoletos[$tipoBoletoId] = 0;
         }
+
+        // Validación para máximo 5 boletos en total (sumando todos los tipos)
+        $totalBoletos = array_sum($this->cantidadBoletos);
+        if ($totalBoletos >= 5) {
+            session()->flash('error', 'No puedes comprar más de 5 boletos en total');
+            return;
+        }
+
         $this->cantidadBoletos[$tipoBoletoId]++;
         $this->calcularPrecioTotal();
     }
@@ -122,6 +176,11 @@ class BusTicketStepper extends Component
     // Método para decrementar la cantidad de boletos
     public function decrementarBoleto($tipoBoletoId)
     {
+        if (empty($tipoBoletoId)) {
+            session()->flash('error', 'Tipo de boleto no válido');
+            return;
+        }
+
         if (isset($this->cantidadBoletos[$tipoBoletoId])) {
             if ($this->cantidadBoletos[$tipoBoletoId] > 0) {
                 $this->cantidadBoletos[$tipoBoletoId]--;
@@ -172,6 +231,11 @@ class BusTicketStepper extends Component
     // Método para seleccionar un asiento (Paso 3)
     public function selectAsiento($asientoId)
     {
+        if (empty($asientoId)) {
+            session()->flash('error', 'Asiento no válido');
+            return;
+        }
+
         // Verificar si el asiento ya está seleccionado
         if (in_array($asientoId, $this->asientosSeleccionados)) {
             // Deseleccionar el asiento
@@ -251,6 +315,14 @@ class BusTicketStepper extends Component
     // Método para confirmar la compra (Paso 4)
     public function confirmarCompra()
     {
+         // Validación final antes de procesar el pago
+            if (empty($this->corridaSeleccionada) || 
+            empty($this->asientosSeleccionados) || 
+            empty($this->resumenBoletos)) {
+            session()->flash('error', 'Completa todos los pasos antes de confirmar');
+            return;
+        }
+
         $this->generarResumenBoletosYAsientos();
         $this->calcularPreciosTotales();
 
@@ -297,6 +369,7 @@ class BusTicketStepper extends Component
             'destinos' => Ubicacion::all(),
             'horarios' => Horario::all(),
             'tiposBoleto' => TipoBoleto::all(),
+            'errors' => session('error'),
         ]);
     }
 }

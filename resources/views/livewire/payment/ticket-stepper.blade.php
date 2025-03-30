@@ -1,4 +1,5 @@
 <div>
+    <x-alpine-notifications />
     <div class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
         <!-- Barra de progreso -->
         <div class="bg-white shadow-sm">
@@ -68,10 +69,14 @@
                             </select>
                         </div>
 
-                        <button wire:click="loadCorridasDisponibles"
-                            class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-blue-600 transition-all shadow-md font-medium">
-                            Buscar Corridas
-                        </button>
+                        <x-filament::button 
+                            wire:click="loadCorridasDisponibles"
+                            icon="heroicon-m-arrow-right"
+                            icon-position="after"
+                            class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-blue-600 transition-all shadow-md font-medium"
+                            >
+                            Siguiente
+                        </x-filament::button>
                     </div>
                 </div>
             @endif
@@ -89,9 +94,6 @@
                                 </svg>
                                 <span>No se encontraron corridas con las características seleccionadas.</span>
                             </div>
-                            <button wire:click="resetStep" class="mt-3 text-blue-600 hover:text-blue-800 text-sm font-medium">
-                                ← Volver a intentar con otros filtros
-                            </button>
                         </div>
                     @else
                         <ul class="mt-6 space-y-3">
@@ -166,115 +168,141 @@
 
             <!-- Paso 4: Selección de Asientos -->
             @if ($currentStep == 4)
-                <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-100">
-                    <h2 class="text-3xl font-bold mb-6 text-center text-blue-800">Selecciona tus Asientos</h2>
-                    
-                    <div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
-                        <div class="flex justify-between items-center">
-                            <strong class="text-lg text-gray-700">Precio Total:</strong>
-                            <span class="text-2xl font-bold text-blue-600">${{ number_format($precioTotal, 2) }}</span>
-                        </div>
-                    </div>
-
-                    <!-- Indicador del boleto actual -->
-                    @if ($boletoActual < array_sum($cantidadBoletos))
-                        @php
-                            $tiposExpandido = [];
-                            foreach ($cantidadBoletos as $tipoId => $cantidad) {
-                                for ($i = 0; $i < $cantidad; $i++) {
-                                    $tiposExpandido[] = $tipoId;
-                                }
-                            }
-                        
-                            $tipoBoletoActual = isset($tiposExpandido[$boletoActual]) ? $tiposBoleto->firstWhere('id', $tiposExpandido[$boletoActual]) : null;
-                        @endphp
-                        @if ($tipoBoletoActual)
-                            <div class="bg-blue-100 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg mb-6 flex items-center">
-                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clip-rule="evenodd" />
-                                </svg>
-                                <span>Seleccionando asiento para el boleto {{ $boletoActual + 1 }} de tipo <strong>{{ $tipoBoletoActual->tipo }}</strong>.</span>
-                            </div>
-                        @endif
-                    @else
-                        <div class="bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Todos los asientos han sido seleccionados.</span>
-                        </div>
-                    @endif
-
-                    <!-- Mensaje de error -->
-                    @if (session()->has('error'))
-                        <div class="bg-red-100 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-                            </svg>
-                            {{ session('error') }}
-                        </div>
-                    @endif
-
-                    <!-- Leyenda de asientos -->
-                    <div class="mb-6 flex flex-wrap gap-3 justify-center">
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-blue-500 rounded mr-1"></div>
-                            <span class="text-xs text-gray-600">Disponible</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-green-500 rounded mr-1"></div>
-                            <span class="text-xs text-gray-600">Seleccionado</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-red-500 rounded mr-1"></div>
-                            <span class="text-xs text-gray-600">Ocupado</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-purple-500 rounded mr-1"></div>
-                            <span class="text-xs text-gray-600">Silla de ruedas</span>
-                        </div>
-                    </div>
-
-                    <!-- Grid de asientos -->
-                    <div class="grid grid-cols-4 gap-3">
-                        @foreach ($asientosDisponibles as $asiento)
-                            @php
-                                $estilo = '';
-                                $tooltip = '';
-                                if ($asiento['estatus_asiento'] === 'ocupado') {
-                                    $estilo = 'bg-red-500 cursor-not-allowed';
-                                    $tooltip = 'Asiento ocupado';
-                                } elseif ($asiento['estatus_asiento'] === 'silla_ruedas') {
-                                    $estilo = 'bg-purple-500 hover:bg-purple-600';
-                                    $tooltip = 'Asiento para silla de ruedas';
-                                } elseif (in_array($asiento['id'], $asientosSeleccionados)) {
-                                    $estilo = 'bg-green-500 hover:bg-green-600';
-                                    $tooltip = 'Asiento seleccionado';
-                                } else {
-                                    $estilo = 'bg-blue-500 hover:bg-blue-600';
-                                    $tooltip = 'Asiento disponible';
-                                }
-                            @endphp
-                            <button wire:click="selectAsiento({{ $asiento['id'] }})"
-                                class="p-4 rounded-lg text-white font-bold {{ $estilo }} transition transform hover:scale-105 relative group"
-                                @if ($asiento['estatus_asiento'] === 'ocupado') disabled @endif
-                                title="{{ $tooltip }}">
-                                {{ $asiento['numero_asiento'] }}
-                                <span class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                    {{ $tooltip }}
-                                </span>
-                            </button>
-                        @endforeach
-                    </div>
-
-                    <!-- Representación del autobús -->
-                    <div class="mt-8 border-2 border-gray-300 rounded-lg p-4 relative">
-                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-gray-500 text-sm">
-                            Parte delantera
-                        </div>
-                        <div class="h-2 bg-gray-200 rounded-full mb-8"></div> <!-- Pasillo -->
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-100">
+                <h2 class="text-3xl font-bold mb-6 text-center text-blue-800">Selecciona tus Asientos</h2>
+                
+                <div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                    <div class="flex justify-between items-center">
+                        <strong class="text-lg text-gray-700">Precio Total:</strong>
+                        <span class="text-2xl font-bold text-blue-600">${{ number_format($precioTotal, 2) }}</span>
                     </div>
                 </div>
+
+                <!-- Indicador del boleto actual -->
+                @if ($boletoActual < array_sum($cantidadBoletos))
+                    @php
+                        $tiposExpandido = [];
+                        foreach ($cantidadBoletos as $tipoId => $cantidad) {
+                            for ($i = 0; $i < $cantidad; $i++) {
+                                $tiposExpandido[] = $tipoId;
+                            }
+                        }
+                    
+                        $tipoBoletoActual = isset($tiposExpandido[$boletoActual]) ? $tiposBoleto->firstWhere('id', $tiposExpandido[$boletoActual]) : null;
+                    @endphp
+                    @if ($tipoBoletoActual)
+                        <div class="bg-blue-100 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg mb-6 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Seleccionando asiento para el boleto {{ $boletoActual + 1 }} de tipo <strong>{{ $tipoBoletoActual->tipo }}</strong>.</span>
+                        </div>
+                    @endif
+                @else
+                    <div class="bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Todos los asientos han sido seleccionados.</span>
+                    </div>
+                @endif
+
+                <!-- Mensaje de error -->
+                @if (session()->has('error'))
+                    <div class="bg-red-100 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                <!-- Leyenda de asientos -->
+                <div class="mb-6 flex flex-wrap gap-3 justify-center">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-blue-500 rounded mr-1"></div>
+                        <span class="text-xs text-gray-600">Disponible</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-green-500 rounded mr-1"></div>
+                        <span class="text-xs text-gray-600">Seleccionado</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-red-500 rounded mr-1"></div>
+                        <span class="text-xs text-gray-600">Ocupado</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-gray-500 rounded mr-1"></div>
+                        <span class="text-xs text-gray-600">No disponible</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-yellow-500 rounded mr-1"></div>
+                        <span class="text-xs text-gray-600">Conductor</span>
+                    </div>
+                </div>
+
+                <!-- Representación del autobús -->
+                <div class="border-4 border-gray-800 rounded-lg p-6 relative bg-gray-100">
+                    <!-- Parte frontal del autobús -->
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-4 text-gray-800 font-bold text-sm">
+                        PARTE DELANTERA
+                    </div>
+                    
+                    <!-- Asiento del conductor -->
+                    <div class="absolute left-6 top-4">
+                        <div class="p-3 rounded-lg bg-yellow-500 text-white font-bold text-center cursor-not-allowed" title="Asiento del conductor">
+                            <x-heroicon-o-user class="w-6 h-6 mx-auto"/>
+                        </div>
+                    </div>
+
+                    <!-- Pasillo central -->
+                    <div class="h-full w-16 bg-gray-300 absolute left-1/2 transform -translate-x-1/2"></div>
+
+                    <!-- Bloques de asientos -->
+                    <div class="flex justify-between h-64">
+                        <!-- Asientos izquierdos (2-2) -->
+                        <div class="w-5/12 flex flex-col justify-between mt-14">
+                            <div class="grid grid-cols-2 gap-3">
+                                @foreach($asientosDisponibles->take(8) as $asiento)
+                                    @if($loop->odd)
+                                        @include('partials.asiento', ['asiento' => $asiento])
+                                    @endif
+                                @endforeach
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                @foreach($asientosDisponibles->slice(8, 8) as $asiento)
+                                    @if($loop->odd)
+                                        @include('partials.asiento', ['asiento' => $asiento])
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Asientos derechos (2-2) -->
+                        <div class="w-5/12 flex flex-col justify-between">
+                            <div class="grid grid-cols-2 gap-3">
+                                @foreach($asientosDisponibles->take(8) as $asiento)
+                                    @if($loop->even)
+                                        @include('partials.asiento', ['asiento' => $asiento])
+                                    @endif
+                                @endforeach
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 mt-4">
+                                @foreach($asientosDisponibles->slice(8, 8) as $asiento)
+                                    @if($loop->even)
+                                        @include('partials.asiento', ['asiento' => $asiento])
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Parte trasera del autobús -->
+                    <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-white px-4 text-gray-800 font-bold text-sm">
+                        PARTE TRASERA
+                    </div>
+                </div>
+            </div>
             @endif
 
             <!-- Paso 5: Resumen de la Compra -->
@@ -327,19 +355,22 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <button wire:click="previousStep" class="flex-1 bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition font-medium flex items-center justify-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                            </svg>
+                        <x-filament::button 
+                            wire:click="previousStep"
+                            icon="heroicon-m-arrow-left"
+                            icon-position="before"
+                            class="flex-1 bg-gray-500 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-400 transition font-medium flex items-center justify-center"
+                            >
                             Volver
-                        </button>
-                        <button wire:click="confirmarCompra"
-                            class="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white px-6 py-3 rounded-lg hover:from-green-700 hover:to-green-600 transition font-medium shadow-md flex items-center justify-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
+                        </x-filament::button>
+                        <x-filament::button 
+                            wire:click="confirmarCompra"
+                            icon="heroicon-m-arrow-right"
+                            icon-position="after"
+                            class="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white px-6 py-3 rounded-lg hover:from-green-700 hover:to-green-600 transition font-medium shadow-md flex items-center justify-center"
+                            >
                             Confirmar Compra
-                        </button>
+                        </x-filament::button>
                     </div>
                 </div>
             @endif
@@ -347,19 +378,23 @@
             <!-- Controles de Navegación -->
             @if ($currentStep > 1 && $currentStep < 5)
                 <div class="flex justify-between mt-8 max-w-2xl mx-auto">
-                    <button wire:click="previousStep" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition font-medium flex items-center">
-                        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                        Anterior
-                    </button>
+                        <x-filament::button 
+                            wire:click="previousStep"
+                            icon="heroicon-m-arrow-left"
+                            icon-position="before"
+                            class="bg-gray-500 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition font-medium flex items-center"
+                            >
+                            Anterior
+                        </x-filament::button>
                     @if ($currentStep < 4 || ($currentStep == 4 && $boletoActual >= array_sum($cantidadBoletos)))
-                        <button wire:click="nextStep" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-medium flex items-center">
+                        <x-filament::button 
+                            wire:click="nextStep"
+                            icon="heroicon-m-arrow-right"
+                            icon-position="after"
+                            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-medium flex items-center"
+                            >
                             Siguiente
-                            <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                        </x-filament::button>
                     @endif
                 </div>
             @endif
