@@ -42,9 +42,8 @@
                     <!-- Form -->
                     <form method="POST" action="{{ route('login') }}"
                         x-data="{ isSubmitting: false }"
-                        @submit.prevent="isSubmitting = true"
-                        @recaptcha-error.window="isSubmitting = false"
-                        x-on:submit.prevent="$dispatch('recaptcha')">
+                        @submit.prevent="isSubmitting = true; $dispatch('recaptcha')"
+                        @recaptcha-error.window="isSubmitting = false">
                         @csrf
 
                         <!-- Google Recaptcha -->

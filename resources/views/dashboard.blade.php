@@ -1,5 +1,5 @@
 <x-app-layout>
 	@section('content')
-		@include('dashboard.overview')
+		@livewire('overview-dashboard')
     @endsection
 </x-app-layout>
