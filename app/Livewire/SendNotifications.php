@@ -203,29 +203,29 @@ class SendNotifications extends Component
 
     // En tu Livewire component
     protected function sendEmailNotification($email, $userId)
-{
-    if (empty($email)) {
-        return false;
+    {
+        if (empty($email)) {
+            return false;
+        }
+
+        try {
+            $user = User::findOrFail($userId);
+            $corrida = $this->selectedCorridaData;
+
+            Mail::to($email)->send(
+                new IncidenceNotificationEmail(
+                    $user,
+                    $corrida,
+                    $this->notificationForm
+                )
+            );
+
+            return true;
+        } catch (\Exception $e) {
+            Log::error("Email send failed to {$email}: " . $e->getMessage());
+            return false;
+        }
     }
-
-    try {
-        $user = User::findOrFail($userId);
-        $corrida = $this->selectedCorridaData;
-
-        Mail::to($email)->send(
-            new IncidenceNotificationEmail(
-                $user,
-                $corrida,
-                $this->notificationForm
-            )
-        );
-
-        return true;
-    } catch (\Exception $e) {
-        Log::error("Email send failed to {$email}: " . $e->getMessage());
-        return false;
-    }
-}
 
     public function render()
     {

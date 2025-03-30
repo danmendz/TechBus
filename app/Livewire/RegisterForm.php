@@ -2,19 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Actions\Fortify\PasswordValidationRules as FortifyPasswordValidationRules;
-use App\Livewire\Forms\RegisterCreateForm;
 use App\Livewire\Forms\RegistrationCreateForm;
-use Illuminate\Support\Facades\Validator;
-use Laravel\Jetstream\Jetstream;
 use Livewire\Component;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
+use App\Rules\Recaptcha;
 use Illuminate\Support\Facades\Http;
-use Laravel\Fortify\Contracts\CreatesNewUsers;
-
 class RegisterForm extends Component
 {
     public int $currentStep = 1;
@@ -57,6 +48,10 @@ class RegisterForm extends Component
     public function submit()
     {
         $user = $this->registerCreate->createUser();
+
+        if ($user) {
+            session()->flash('success', 'Cuenta creada con éxito');
+        }
         return redirect()->route('dashboard');
     }
 }

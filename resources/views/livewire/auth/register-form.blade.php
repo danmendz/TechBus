@@ -246,9 +246,6 @@
                                 <x-input-error for="registerCreate.password_confirmation" />
                             </div>
 
-                            <div x-data x-init="grecaptcha.render($el)" class="g-recaptcha w-full"
-                                data-sitekey="6LdMwvcqAAAAALX85DtatHG0h4V1PmnDITItSqpx"></div>
-
                             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                                 <div class="mt-2">
                                     <x-label for="terms">
@@ -277,6 +274,9 @@
                                 </div>
                             @endif
 
+                            <!-- Google Recaptcha for Livewire-->
+                            <x-recaptcha-livewire action="register" />
+                            
                             <!-- Spinner -->
                             <div class="mx-auto w-1/2 p-4" wire:loading wire:target="submit">
                                 <div class="flex justify-center items-center h-full">
@@ -292,7 +292,9 @@
 
                 <div class="w-full flex justify-between items-center my-3">
                     @if ($currentStep > 1)
-                        <x-filament::button wire:click="decrementStep" icon="heroicon-m-arrow-left"
+                        <x-filament::button 
+                            wire:click="decrementStep" 
+                            icon="heroicon-m-arrow-left"
                             class="ml-5 rounded-full border border-blue-600 bg-blue-600 p-3 text-white hover:bg-blue-500 focus:ring">
                             Atrás
                         </x-filament::button>
@@ -313,8 +315,11 @@
                     @endif
 
                     @if ($currentStep === $totalSteps)
-                        <x-filament::button wire:click="submit"
-                            class="mr-5 py-2 px-4 rounded-lg border border-blue-600 bg-blue-600 text-white hover:bg-transparent hover:text-blue-600 focus:ring">
+                        <x-filament::button 
+                            x-on:click="$dispatch('recaptcha')"
+                            icon="heroicon-m-check-badge"
+                            icon-position="after"
+                            class="mr-4 rounded-full border border-blue-600 bg-blue-600 p-3 text-white hover:bg-blue-500 focus:ring">
                             Registrar
                         </x-filament::button>
                     @endif

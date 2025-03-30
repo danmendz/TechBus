@@ -40,28 +40,15 @@
 
                 <div class="mt-5">
                     <!-- Form -->
-                    <form method="POST" action="{{ route('login') }}" 
-                        x-data="{
-                            execute() {
-                                grecaptcha.ready(() => {
-                                    grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { 
-                                        action: 'login' 
-                                    }).then((token) => {
-                                        this.$refs.recaptchaToken.value = token;
-                                        this.$el.submit();
-                                    }).catch((error) => {
-                                        console.error('reCAPTCHA error:', error);
-                                        this.isSubmitting = false;
-                                    });
-                                });
-                            },
-                            isSubmitting: false
-                        }"
-                        @submit="isSubmitting = true" 
-                        x-on:submit.prevent="execute">
+                    <form method="POST" action="{{ route('login') }}"
+                        x-data="{ isSubmitting: false }"
+                        @submit.prevent="isSubmitting = true"
+                        @recaptcha-error.window="isSubmitting = false"
+                        x-on:submit.prevent="$dispatch('recaptcha')">
                         @csrf
 
-                        <input type="hidden" name="recaptchaToken" x-ref="recaptchaToken">
+                        <!-- Google Recaptcha -->
+                        <x-recaptcha action="login" />
 
                         <div class="grid gap-y-4">
                             <!-- Form Group -->
@@ -128,8 +115,22 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                                Iniciar sesión
+                                    class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                                    :disabled="isSubmitting">
+                                <template x-if="!isSubmitting">
+                                    <span>Iniciar sesión</span>
+                                </template>
+                                <template x-if="isSubmitting">
+                                    <span class="flex items-center">
+                                        <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor"
+                                                d="M4 12a8 8 0 018-8v8H4z"></path>
+                                        </svg>
+                                        Procesando...
+                                    </span>
+                                </template>
                             </button>
                         </div>
                     </form>

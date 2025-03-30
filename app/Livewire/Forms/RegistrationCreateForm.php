@@ -9,8 +9,6 @@ use Filament\Events\Auth\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Jetstream\Jetstream;
-use Livewire\Attributes\Validate;
-use Livewire\Attributes\Rule;
 use Livewire\Form;
 
 class RegistrationCreateForm extends Form
@@ -26,7 +24,7 @@ class RegistrationCreateForm extends Form
     public bool $terms = false;
     public array $countryCodes = [];
     public string $countryCode = '52';
-    public string $recaptcha_token = '';
+    public $recaptchaToken;
 
     public function validateFirstStep()
     {
@@ -43,7 +41,7 @@ class RegistrationCreateForm extends Form
             'email' => 'required|string|email|max:255|unique:users',
             'password' => array_merge($this->passwordRules(), ['required', 'confirmed']),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : [],
-            'recaptcha_token' => ['required', 'string', new Recaptcha()],
+            'recaptchaToken' => ['required', new Recaptcha],
         ]);
     }
 

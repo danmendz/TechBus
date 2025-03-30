@@ -21,11 +21,12 @@
         @livewireStyles
     </head>
     <body>
+        <x-session-alerts />
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
         </div>
 
-        {{-- @stack('scripts') --}}
+        @stack('scripts')
         @livewireScripts
         <script src="./node_modules/preline/dist/preline.js"></script>
         <script src="{{ asset('js/auth/toggle-password.js') }}"></script>
