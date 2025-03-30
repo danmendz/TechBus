@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	const emailInput = document.getElementById("email");
 	const passwordInput = document.getElementById("password");
 	const togglePassword = document.querySelector("#togglePassword");
-	const captchaError = document.getElementById("captchaError");
 
 	// Validación del correo electrónico en tiempo real
 	emailInput.addEventListener("input", function () {
@@ -27,15 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
-  
-	togglePassword.addEventListener("click", function (e) {
-	const type =
-		password.getAttribute("type") === "password" ? "text" : "password";
-		password.setAttribute("type", type);
-		// toggle the eye / eye slash icon
-		this.classList.toggle("bi-eye");
-	});
-
 	// Validación del formulario antes de enviar
 	form.addEventListener("submit", function (event) {
 		let isValid = true;
@@ -45,18 +35,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			emailInput.classList.add("border-red-500");
 		}
 
-		if (passwordInput.value.length < 6) {
+		if (passwordInput.value.length < 8) {
 			isValid = false;
 			passwordInput.classList.add("border-red-500");
 		}
-
-		// if (!grecaptcha.getResponse()) {
-		// 	isValid = false;
-		// 	captchaError.textContent = "Por favor, completa el reCAPTCHA.";
-		// 	captchaError.classList.add("text-red-500", "text-sm");
-		// } else {
-		// 	captchaError.textContent = "";
-		// }
 
 		if (!isValid) {
 			event.preventDefault();

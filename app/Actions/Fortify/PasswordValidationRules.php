@@ -19,6 +19,7 @@ trait PasswordValidationRules
             Password::min(8)
                 ->mixedCase()
                 ->numbers()
+                ->uncompromised()
                 ->symbols(),
             'confirmed',
             function ($attribute, $value, $fail) {

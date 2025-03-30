@@ -16,12 +16,11 @@
         <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm">
             <div class="p-4 sm:p-7">
                 <div class="text-center">
-                    <a 
-                    class="decoration-2 font-medium"
-                    href="/">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <a class="decoration-2 font-medium" href="/">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                        </svg>                                           
+                        </svg>
                     </a>
                     <h1 class="block text-2xl font-bold text-gray-800">Iniciar sesión</h1>
                     <p class="mt-2 text-sm text-gray-600">
@@ -32,15 +31,37 @@
                         </a>
                     </p>
                 </div>
-                
+
                 <x-socialite-auth />
 
-                <div class="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">o</div>
+                <div
+                    class="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
+                    o</div>
 
                 <div class="mt-5">
                     <!-- Form -->
-                    <form method="POST" action="{{ route('login') }}" x-data="{ isSubmitting: false }" @submit="isSubmitting = true">
+                    <form method="POST" action="{{ route('login') }}" 
+                        x-data="{
+                            execute() {
+                                grecaptcha.ready(() => {
+                                    grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { 
+                                        action: 'login' 
+                                    }).then((token) => {
+                                        this.$refs.recaptchaToken.value = token;
+                                        this.$el.submit();
+                                    }).catch((error) => {
+                                        console.error('reCAPTCHA error:', error);
+                                        this.isSubmitting = false;
+                                    });
+                                });
+                            },
+                            isSubmitting: false
+                        }"
+                        @submit="isSubmitting = true" 
+                        x-on:submit.prevent="execute">
                         @csrf
+
+                        <input type="hidden" name="recaptchaToken" x-ref="recaptchaToken">
 
                         <div class="grid gap-y-4">
                             <!-- Form Group -->
@@ -49,8 +70,7 @@
                                     Correo electrónico
                                 </label>
                                 <div class="relative">
-                                    <input type="email" id="email" name="email" autofocus
-                                        autocomplete="off"
+                                    <input type="email" id="email" name="email" autofocus autocomplete="off"
                                         class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                                         required>
                                 </div>
@@ -73,20 +93,17 @@
 
                                 <div class="relative">
                                     <div class="flex items-center mt-1 border rounded-md">
-                                        <input type="password" id="password" name="password"
-                                        autocomplete="off"
-                                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                        required>
-                                        <i class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+                                        <input type="password" id="password" name="password" autocomplete="off"
+                                            class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                            required>
+                                        <i class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword"
+                                            onclick="togglePasswordVisibility()"></i>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
-                            <div>
-                                <div class="g-recaptcha w-full" data-sitekey="6LdMwvcqAAAAALX85DtatHG0h4V1PmnDITItSqpx"></div>
-                                <span id="captchaError" class="error"></span>
-                            </div>
+
                             <!-- End Form Group -->
 
                             <!-- Checkbox -->
@@ -102,8 +119,10 @@
                             <!-- End Checkbox -->
 
                             <!-- Spinner -->
-                            <div class="flex flex-auto flex-col justify-center items-center" x-show="isSubmitting" style="display: none;">
-                                <div class="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
+                            <div class="flex flex-auto flex-col justify-center items-center" x-show="isSubmitting"
+                                style="display: none;">
+                                <div class="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500"
+                                    role="status" aria-label="loading">
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
@@ -119,6 +138,5 @@
                 </div>
             </div>
         </div>
-
     </x-authentication-card>
 </x-guest-layout>

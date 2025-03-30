@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\User;
+use App\Rules\Recaptcha;
 use Filament\Events\Auth\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,6 +26,7 @@ class RegistrationCreateForm extends Form
     public bool $terms = false;
     public array $countryCodes = [];
     public string $countryCode = '52';
+    public string $recaptcha_token = '';
 
     public function validateFirstStep()
     {
@@ -41,6 +43,7 @@ class RegistrationCreateForm extends Form
             'email' => 'required|string|email|max:255|unique:users',
             'password' => array_merge($this->passwordRules(), ['required', 'confirmed']),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : [],
+            'recaptcha_token' => ['required', 'string', new Recaptcha()],
         ]);
     }
 

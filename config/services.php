@@ -52,4 +52,10 @@ return [
         'whatsapp_phone_id' => env('WHATSAPP_PHONE_ID'),
         'whatsapp_version' => env('WHATSAPP_VERSION'),
     ],
+
+    'recaptcha' => [
+         'site_key' => env('RECAPTCHA_SITE_KEY'),
+         'secret_key' => env('RECAPTCHA_SECRET_KEY'),
+         'min_score' => env('RECAPTCHA_MIN_SCORE'),
+     ],
 ];
