@@ -16,23 +16,25 @@ class NotificationService
         $this->whatsappService = $whatsappService;
     }
 
-    public function sendNotifications($userName, $userPhone)
+    public function sendNotifications($userName, $userPhone, $notificationData)
     {
-        $this->whatsappPurchaseNotification($userName, $userPhone);
+        $this->whatsappPurchaseNotification($userName, $userPhone, $notificationData);
     }
 
-    private function whatsappPurchaseNotification($userName, $userPhone)
+    private function whatsappPurchaseNotification($userName, $userPhone, $notificationData)
     {
+        $notificationImage = $notificationData->imagen;
+
         try {
             $templateName = 'confirmacion_compra';
             $languageCode = 'es';
 
             $parameters = [
                 (string) $userName,
-                'ADEO.com'
+                'ADO.com'
             ];
 
-            $image = 'https://i.postimg.cc/zXT4t3jK/Whats-App-Image-2025-03-17-at-5-09-35-PM.jpg';
+            $image = $notificationImage;
 
             $this->whatsappService->sendMessage($userPhone, $templateName, $parameters, $image, $languageCode);
         } catch (\Exception $e) {

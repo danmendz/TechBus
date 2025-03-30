@@ -3,10 +3,12 @@ namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PDFController;
+use App\Models\Notificacion;
 use App\Services\StripeService;
 use App\Services\TicketService;
 use App\Services\NotificationService;
 use App\Services\PurchaseHistoryService;
+use App\Services\SaveIncidenceNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,6 +19,8 @@ class StripeController extends Controller
     protected $historyService;
     protected $notificationService;
     protected $pdfController;
+    protected $incidenceNotificationService;
+    protected $purchaseNotification;
 
     public function __construct(
         StripeService $stripeService,
@@ -24,12 +28,14 @@ class StripeController extends Controller
         PurchaseHistoryService $historyService,
         NotificationService $notificationService,
         PDFController $pdfController,
+        SaveIncidenceNotificationService $incidenceNotificationService,
     ) {
         $this->stripeService = $stripeService;
         $this->ticketService = $ticketService;
         $this->historyService = $historyService;
         $this->notificationService = $notificationService;
         $this->pdfController = $pdfController;
+        $this->incidenceNotificationService = $incidenceNotificationService;
     }
 
     /**
@@ -64,7 +70,10 @@ class StripeController extends Controller
             $this->pdfController->generatePdf($ticketInsert);
 
             // Enviar notificaciones
-            $this->notificationService->sendNotifications($this->getUserName(), $this->getUserPhone());
+            $this->notificationService->sendNotifications($this->getUserName(), $this->getUserPhone(), $this->getNotificationData());
+
+            // Guardar en historial
+            $this->incidenceNotificationService->saveIncidence($this->getPurchaseNotificationId(), $ticketInsert->id_corrida);
     
             // Limpiar la sesión
             $this->stripeService->clearSession();
@@ -85,6 +94,27 @@ class StripeController extends Controller
         return $userPhone;
     }
 
+    protected function getPurchaseNotificationId(): int
+    {
+        $notificationId = (int) config('services.notification.purchase_notification');
+        
+        if ($notificationId === 0) {
+            throw new \RuntimeException('El ID de notificación de compra no está configurado correctamente');
+        }
+        
+        return $notificationId;
+    }
+
+    protected function getNotificationData()
+    {
+        $notificationData = Notificacion::find($this->getPurchaseNotificationId());
+        
+        if (!$notificationData) {
+            throw new \RuntimeException("No se encontró la notificación con ID: {$this->getPurchaseNotificationId()}");
+        }
+        
+        return $notificationData;
+    }
     /**
      * Maneja la respuesta de cancelación de Stripe.
      */

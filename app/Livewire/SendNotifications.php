@@ -8,7 +8,9 @@ use App\Models\Notificacion;
 use App\Models\Corrida;
 use App\Models\PurchaseHistory;
 use App\Models\User;
+use App\Services\SaveIncidenceNotificationService;
 use App\Services\WhatsappService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -16,12 +18,15 @@ use Livewire\Component;
 
 class SendNotifications extends Component
 {
-    public $users = []; // Para almacenar usuarios desde la DB
+    public $users = [];
     public $selectedNumbers = [];
     public $failedNumbers = [];
     public $selectedFailedNumbers = [];
     public $message = '';
+
+    // Services
     protected $whatsappService;
+    protected $incidenceNotificationService;
 
     public $notifications = [];
     public $selectedNotificationId;
@@ -46,6 +51,7 @@ class SendNotifications extends Component
     public function __construct()
     {
         $this->whatsappService = new WhatsappService();
+        $this->incidenceNotificationService = new SaveIncidenceNotificationService();
     }
 
     // Método para cargar usuarios basados en la corrida seleccionada
@@ -132,19 +138,28 @@ class SendNotifications extends Component
                     $templateName = 'notificacion_de_incidencias';
                     $languageCode = 'es';
 
+                    $formattedTime = $this->selectedCorridaData->horario->hora 
+                    ? Carbon::parse($this->selectedCorridaData->horario->hora)->format('H:i') 
+                    : 'Hora no disponible';
+
                     $parameters = [
                         (string) $user['name'],
                         $this->selectedCorridaData->ruta->origen->nombre ?? 'Ciudad de origen',
                         $this->selectedCorridaData->ruta->destino->nombre ?? 'Ciudad de destino',
                         $this->selectedCorridaData->fecha,
-                        $this->selectedCorridaData->horario->hora ?? 'Hora no disponible',
+                        $formattedTime,
                         $this->notificationForm['estatus_notificacion'],
                         $this->notificationForm['descripcion']
                     ];
 
                     $image = $this->notificationForm['imagen'];
 
+                    // Enviar notificaciónde Whatsapp
                     $this->whatsappService->sendMessage($user['phone'], $templateName, $parameters, $image, $languageCode);
+
+                    // Guardar en el historial de incidencias
+                    $this->incidenceNotificationService->saveIncidence($this->selectedNotificationId, $this->selectedCorridaId);
+
                     Notification::make()
                         ->title('Mensajes de Whatsapp enviados correctamente.')
                         ->success()
