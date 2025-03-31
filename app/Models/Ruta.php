@@ -12,7 +12,7 @@ class Ruta extends Model
         'id_origen',
         'id_destino',
         'distancia',
-        'duracion_estimada',
+        'duracion_aproximada',
     ];
 
     public function origen()

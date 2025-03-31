@@ -22,5 +22,10 @@ class FlotaAutobus extends Model
         'numero_asientos',
         'id_categoría',
     ];
+
+    public function categoria()
+    {
+        return $this->belongsTo(CategoriaAutobus::class, 'id_categoría');
+    }
     
 }

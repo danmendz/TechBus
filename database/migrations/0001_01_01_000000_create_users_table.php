@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('auth_provider_id')->nullable();
             $table->string('auth_provider')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();

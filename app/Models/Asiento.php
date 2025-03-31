@@ -9,7 +9,11 @@ class Asiento extends Model
 {
     use HasFactory;
     protected $table = 'asientos';
-    protected $fillable = ['id_autobus', 'numero_asiento', 'estatus_asiento'];
+    protected $fillable = [
+        'numero_asiento',    
+        'estatus_asiento',
+        'id_autobus', 
+    ];
 
     public function autobus() {
         return $this->belongsTo(Autobus::class, 'id_autobus');

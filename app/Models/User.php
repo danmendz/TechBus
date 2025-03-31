@@ -83,6 +83,7 @@ class User extends Authenticatable implements FilamentUser
         'auth_provider',
         'auth_provider_id',
         'profile_photo_path',
+        'is_active',
     ];
 
     /**

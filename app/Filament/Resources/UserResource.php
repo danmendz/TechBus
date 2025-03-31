@@ -6,12 +6,16 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Response;
 
 class UserResource extends Resource
 {
@@ -43,8 +47,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->label('Teléfono')
                     ->type('tel')
-                    ->required()
-                    ->maxLength(10),
+                    ->required(),
                 Forms\Components\Select::make('type')
                     ->label('Tipo')
                     ->options(User::ROLES)
@@ -54,11 +57,11 @@ class UserResource extends Resource
             Forms\Components\Section::make('Datos de acceso')
                 // ->description('Ingresa los datos de acceso')
                 ->schema([
-                Forms\Components\TextInput::make('email')
-                    ->label('Correo')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
+                    Forms\Components\TextInput::make('email')
+                        ->label('Correo')
+                        ->email()
+                        ->required()
+                        ->maxLength(255),
                     Forms\Components\TextInput::make('password')
                         ->label('Contraseña')
                         ->password() 
@@ -68,6 +71,11 @@ class UserResource extends Resource
                         ->dehydrated(fn ($state) => !empty($state)) 
                         ->dehydrateStateUsing(fn ($state) => !empty($state) ? bcrypt($state) : null) 
                         ->helperText('Deja el campo vacío si no deseas cambiar la contraseña.'),
+                    Toggle::make('is_active')
+                        ->label('Usuario activo')
+                        ->onColor('success')
+                        ->offColor('danger')
+                        ->inline(false),
 
                 ])->columns(2),
         ]);
@@ -86,31 +94,17 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Teléfono')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
-                    ->label('Tipo')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Correo')
                     ->searchable(),
-                // Tables\Columns\TextColumn::make('email_verified_at')
-                //     ->dateTime()
-                //     ->sortable(),
-                // Tables\Columns\TextColumn::make('current_team_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // Tables\Columns\TextColumn::make('profile_photo_path')
-                //     ->searchable(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-                // Tables\Columns\TextColumn::make('two_factor_confirmed_at')
-                //     ->dateTime()
-                //     ->sortable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->label('Tipo')
+                    ->searchable(),
+                IconColumn::make('is_active')
+                    ->label('Activo')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle'),
             ])
             ->filters([
                 //
@@ -118,6 +112,7 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
