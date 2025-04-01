@@ -172,8 +172,3 @@
 .card:hover {
   transform: scale(1.05);
 }
-
-#map {
-  height: 100px;
-  width: 100px;
-}

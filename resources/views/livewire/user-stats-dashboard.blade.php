@@ -15,23 +15,15 @@
                         <p class="text-2xl font-semibold text-gray-900 mt-1">{{ $upcomingTripsCount }}</p>
                     </div>
                 </div>
-                <div class="mt-6">
-                    <a href="{{ route('my.tickets') }}" class="text-sm font-medium text-blue-600 hover:text-blue-500 inline-flex items-center">
-                        Ver itinerario
-                        <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
             </div>
         </div>
 
         <!-- Tarjeta de viajes completados -->
-        <div class="bg-gradient-to-br from-green-50 to-white rounded-2xl shadow-sm border border-green-100 overflow-hidden transition-all hover:shadow-md hover:-translate-y-1">
+        <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden transition-all hover:shadow-md hover:-translate-y-1">
             <div class="px-5 py-6">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 bg-green-500/10 rounded-xl p-3">
-                        <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex-shrink-0 bg-blue-500/10 rounded-xl p-3">
+                        <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
@@ -40,23 +32,15 @@
                         <p class="text-2xl font-semibold text-gray-900 mt-1">{{ $completedTripsCount }}</p>
                     </div>
                 </div>
-                <div class="mt-6">
-                    <a href="#" class="text-sm font-medium text-green-600 hover:text-green-500 inline-flex items-center">
-                        Ver historial
-                        <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
             </div>
         </div>
 
         <!-- Tarjeta de favoritos -->
-        <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl shadow-sm border border-purple-100 overflow-hidden transition-all hover:shadow-md hover:-translate-y-1">
+        <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden transition-all hover:shadow-md hover:-translate-y-1">
             <div class="px-5 py-6">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 bg-purple-500/10 rounded-xl p-3">
-                        <svg class="h-8 w-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex-shrink-0 bg-blue-500/10 rounded-xl p-3">
+                        <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                         </svg>
                     </div>
@@ -64,14 +48,6 @@
                         <h3 class="text-sm font-medium text-gray-500">Rutas favoritas</h3>
                         <p class="text-2xl font-semibold text-gray-900 mt-1">{{ $favoriteRoutesCount }}</p>
                     </div>
-                </div>
-                <div class="mt-6">
-                    <a href="#" class="text-sm font-medium text-purple-600 hover:text-purple-500 inline-flex items-center">
-                        Gestionar favoritos
-                        <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
                 </div>
             </div>
         </div>

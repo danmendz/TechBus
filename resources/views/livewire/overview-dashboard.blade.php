@@ -36,16 +36,16 @@
 
                 <!-- Tarjeta Mis tickets -->
                 <a href="{{ route('my.tickets') }}" class="group relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md hover:-translate-y-1">
-                    <div class="absolute inset-0 bg-gradient-to-br from-green-50 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="relative p-6 text-center">
-                        <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-xl bg-green-100 text-green-600 mb-4 transition-all group-hover:bg-green-600 group-hover:text-white">
+                        <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-xl bg-blue-100 text-blue-600 mb-4 transition-all group-hover:bg-blue-600 group-hover:text-white">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path>
                             </svg>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-900 mb-1">Mis tickets</h3>
                         <p class="text-sm text-gray-500">Revisa tus boletos comprados</p>
-                        <div class="mt-4 inline-flex items-center text-sm font-medium text-green-600 group-hover:text-green-700">
+                        <div class="mt-4 inline-flex items-center text-sm font-medium text-blue-600 group-hover:text-blue-700">
                             Ver todos
                             <svg class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -56,16 +56,16 @@
 
                 <!-- Tarjeta Mi perfil -->
                 <a href="{{ route('profile.show') }}" class="group relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md hover:-translate-y-1">
-                    <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="relative p-6 text-center">
-                        <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-xl bg-purple-100 text-purple-600 mb-4 transition-all group-hover:bg-purple-600 group-hover:text-white">
+                        <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-xl bg-blue-100 text-blue-600 mb-4 transition-all group-hover:bg-blue-600 group-hover:text-white">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-900 mb-1">Mi perfil</h3>
                         <p class="text-sm text-gray-500">Actualiza tu información</p>
-                        <div class="mt-4 inline-flex items-center text-sm font-medium text-purple-600 group-hover:text-purple-700">
+                        <div class="mt-4 inline-flex items-center text-sm font-medium text-blue-600 group-hover:text-blue-700">
                             Editar
                             <svg class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -76,16 +76,16 @@
 
                 <!-- Tarjeta Ayuda -->
                 <a href="#" class="group relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md hover:-translate-y-1">
-                    <div class="absolute inset-0 bg-gradient-to-br from-yellow-50 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="relative p-6 text-center">
-                        <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-xl bg-yellow-100 text-yellow-600 mb-4 transition-all group-hover:bg-yellow-500 group-hover:text-white">
+                        <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-xl bg-blue-100 text-blue-600 mb-4 transition-all group-hover:bg-blue-500 group-hover:text-white">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-900 mb-1">Ayuda</h3>
                         <p class="text-sm text-gray-500">Preguntas frecuentes</p>
-                        <div class="mt-4 inline-flex items-center text-sm font-medium text-yellow-600 group-hover:text-yellow-700">
+                        <div class="mt-4 inline-flex items-center text-sm font-medium text-blue-600 group-hover:text-blue-700">
                             Consultar
                             <svg class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
