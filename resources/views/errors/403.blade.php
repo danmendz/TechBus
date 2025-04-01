@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.error')
 
 @section('title', 'Acceso Prohibido')
 
 @section('body')
-    <div class="relative h-screen w-screen overflow-hidden bg-[#d32f2f]">
+    <div class="h-screen w-screen flex items-center justify-center bg-[#d32f2f]">
         <div class="absolute inset-0 z-0 flex items-center justify-center">
             <img src="{{ asset('images/error/403-forbidden.png') }}" alt="Background" 
                  class="h-64 w-64 object-contain" />

@@ -40,11 +40,7 @@
             @endif
 
             <main>
-                @isset($slot)
-                    {{ $slot }}
-                @else
-                    @yield('body')
-                @endisset
+                {{ $slot }}
             </main>
         </div>
 

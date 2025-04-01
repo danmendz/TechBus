@@ -45,16 +45,13 @@ class FortifyServiceProvider extends ServiceProvider
                         return redirect('/login');
                     }
 
-                    switch ($user->type) {
-                        case 'admin':
-                        case 'operativo':
-                        case 'conductor':
-                            return redirect()->intended('/gestion');
-                        case 'cliente':
-                            return redirect()->intended(route('dashboard'));
-                        default:
-                            return redirect('/');
+                    if ($user->isAdmin() || $user->isOperativo() || $user->isConductor()) {
+                        return redirect()->intended('/gestion');
+                    } elseif ($user->isCliente()) {
+                        return redirect()->intended(route('dashboard'));
                     }
+
+                    return redirect('/');
                 }
             };
         });
@@ -72,16 +69,13 @@ class FortifyServiceProvider extends ServiceProvider
                         return redirect('/login');
                     }
 
-                    switch ($user->type) {
-                        case 'admin':
-                            case 'operativo':
-                            case 'conductor':
-                            return redirect()->intended('/gestion');
-                        case 'cliente':
-                            return redirect()->intended(route('dashboard'));
-                        default:
-                            return redirect('/');
+                    if ($user->isAdmin() || $user->isOperativo() || $user->isConductor()) {
+                        return redirect()->intended('/gestion');
+                    } elseif ($user->isCliente()) {
+                        return redirect()->intended(route('dashboard'));
                     }
+
+                    return redirect('/');
                 }
             };
         });

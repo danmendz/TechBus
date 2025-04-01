@@ -60,7 +60,7 @@
 
                     <!-- Dropdown -->
                     <div class="hs-dropdown [--strategy:static] md:[--strategy:fixed] [--adaptive:none] [--is-collapse:true] md:[--is-collapse:false] "
-                        href="/acerca-de">
+                        href="/options">
                         <button id="hs-header-classic-dropdown" type="button"
                             class="hs-dropdown-toggle w-full p-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
                             aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
@@ -108,91 +108,81 @@
                     <!-- End Dropdown -->
 
                     <!-- Dropdown Account -->
-                    <div
-                        class="hs-dropdown [--strategy:static] md:[--strategy:fixed] [--adaptive:none] [--is-collapse:true] md:[--is-collapse:false] ">
-
-                        @if (Route::has('login'))
-                            @auth
-                                @if (auth()->user()->type === 'admin')
-                                    <a href="{{ url('/gestion') }}"
-                                        class="inline-flex py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500">
-                                        Mi panel
-                                    </a>
-                                @elseif(auth()->user()->type === 'operativo')
-                                    <a href="{{ url('/gestion') }}"
-                                        class="inline-flex py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500">
-                                        Mi panel
-                                    </a>
-                                @elseif(auth()->user()->type === 'conductor')
-                                    <a href="{{ url('/gestion') }}"
-                                        class="inline-flex py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500">
-                                        Mi panel
-                                    </a>
-                                @else
-                                    <a href="{{ route('dashboard') }}"
-                                        class="inline-flex py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500">
-                                        Mi panel
-                                    </a>
-                                @endif
+                    @if (Route::has('login'))
+                        @auth
+                            @if (auth()->user()->isAdmin() || auth()->user()->isOperativo() || auth()->user()->isConductor())
+                                <a href="{{ url('/gestion') }}"
+                                    class="inline-flex py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor"
+                                        class="shrink-0 size-5 me-3 md:me-2 block md:hidden">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                    </svg>
+                                    Mi panel
+                                </a>
                             @else
-                                <!-- Dropdown -->
-                                <div
-                                    class="hs-dropdown [--strategy:static] md:[--strategy:fixed] [--adaptive:none] [--is-collapse:true] md:[--is-collapse:false] ">
-                                    <button id="classic-dropdown-account-options" type="button"
-                                        class="hs-dropdown-toggle w-full p-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
-                                        aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor"
-                                            class="shrink-0 size-5 me-3 md:me-2 block md:hidden">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor"
-                                            class="shrink-0 size-5 me-3 md:me-2 block">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                                        </svg>
-                                        Cuenta
-                                        <svg class="hs-dropdown-open:-rotate-180 md:hs-dropdown-open:rotate-0 duration-300 shrink-0 size-4 ms-auto md:ms-1"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="m6 9 6 6 6-6" />
-                                        </svg>
-                                    </button>
+                                <a href="{{ route('dashboard') }}"
+                                    class="inline-flex py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor"
+                                        class="shrink-0 size-5 me-3 md:me-2 block md:hidden">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                    </svg>
+                                    Mi panel
+                                </a>
+                            @endif
+                        @else
+                            <div class="hs-dropdown [--strategy:static] md:[--strategy:fixed] [--adaptive:none] [--is-collapse:true] md:[--is-collapse:false]"
+                                href="/options">
+                                <button id="hs-header-classic-dropdown" type="button"
+                                    class="hs-dropdown-toggle w-full p-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
+                                    aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor"
+                                        class="shrink-0 size-5 me-3 md:me-2 block md:hidden">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                    </svg>
+                                    Cuenta
+                                    <svg class="hs-dropdown-open:-rotate-180 md:hs-dropdown-open:rotate-0 duration-300 shrink-0 size-4 ms-auto md:ms-1"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6" />
+                                    </svg>
+                                </button>
 
-                                    <div class="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] md:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 relative w-full md:w-52 hidden z-10 top-full ps-7 md:ps-0 md:bg-white md:rounded-lg md:shadow-md before:absolute before:-top-4 before:start-0 before:w-full before:h-5 md:after:hidden after:absolute after:top-1 after:start-[18px] after:w-0.5 after:h-[calc(100%-0.25rem)] after:bg-gray-100"
-                                        role="menu" aria-orientation="vertical"
-                                        aria-labelledby="classic-dropdown-account-options">
-                                        <div class="py-1 md:px-1 space-y-0.5">
-                                            <a href="/login"
-                                                class="inline-flex py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                    class="shrink-0 size-5 me-3 md:me-2 block">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                </svg>
-                                                Iniciar sesión
-                                            </a>
-                                            <a href="/register-form"
-                                                class="inline-flex py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                    class="shrink-0 size-5 me-3 md:me-2 block">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
-                                                </svg>
-                                                Regístrate
-                                            </a>
-                                        </div>
+                                <div class="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] md:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 relative w-full md:w-52 hidden z-10 top-full ps-7 md:ps-0 md:bg-white md:rounded-lg md:shadow-md before:absolute before:-top-4 before:start-0 before:w-full before:h-5 md:after:hidden after:absolute after:top-1 after:start-[18px] after:w-0.5 after:h-[calc(100%-0.25rem)] after:bg-gray-100"
+                                    role="menu" aria-orientation="vertical" aria-labelledby="hs-header-classic-dropdown">
+                                    <div class="py-1 md:px-1 space-y-0.5">
+                                        <a class="py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
+                                            href="/login">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor"
+                                                class="shrink-0 size-4 me-3 md:me-2 block md:hidden">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                            </svg>
+                                            Iniciar sesión
+                                        </a>
+                                        <a class="py-1.5 px-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500"
+                                            href="/register-form">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor"
+                                                class="shrink-0 size-4 me-3 md:me-2 block md:hidden">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+                                            </svg>
+                                            Regístrarse
+                                        </a>
                                     </div>
                                 </div>
-                                <!-- End Dropdown -->
-                            @endauth
-                        @endif
-                    </div>
+                            </div>
+                        @endauth
+                    @endif
+                    <!-- End Dropdown -->
 
                     <!-- Barra de búsqueda de Google -->
                     <div class="gcse-search" id="google-search-button"></div>
