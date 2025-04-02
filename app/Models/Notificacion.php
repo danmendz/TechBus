@@ -16,5 +16,10 @@ class Notificacion extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['estatus_notificacion', 'motivo', 'imagen'];
+    protected $fillable = [
+        'tipo',
+        'estatus_notificacion',
+        'descripcion',
+        'imagen',
+    ];
 }

@@ -15,6 +15,8 @@ class Ruta extends Model
         'duracion_aproximada',
     ];
 
+    protected $with = ['origen', 'destino'];
+
     public function origen()
     {
         return $this->belongsTo(Ubicacion::class, 'id_origen');

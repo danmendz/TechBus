@@ -20,7 +20,7 @@ class CorridaSeeder extends Seeder
                 'id_horario' => 1,
                 'fecha' => '2025-02-20',
                 'is_ida_vuelta' => false,
-                'estatus_corrida' => 'programado'
+                'estatus_corrida' => 'programada'
             ],
             [
                 'id_ruta' => 2,

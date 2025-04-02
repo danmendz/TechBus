@@ -1,21 +1,16 @@
 <div class="max-w-6xl mx-auto p-4 sm:p-6">
     @if($tickets->isEmpty())
-        <div class="flex flex-col items-center justify-center min-h-[50vh] text-center py-12 px-4">
-            <div class="relative w-72 h-72 mb-6">
-                <img src="{{ asset('images/utilities/empty-car.png') }}" alt="Sin tickets" class="w-full h-full object-contain">
-                <div class="absolute -bottom-2 -right-2 bg-blue-100 rounded-full p-4 animate-bounce">
-                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
-                    </svg>
-                </div>
+        <div class="flex flex-col items-center justify-center min-h-[50vh] text-center py-12 px-6 bg-gray-50 rounded-lg shadow-lg">
+            <div class="relative w-64 h-64 mb-6 mr-24 flex justify-start">
+                <img src="{{ asset('images/utilities/empty-car.png') }}" alt="Sin tickets" class="w-full h-full object-contain opacity-80">
             </div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-2">¡No hay tickets aún!</h3>
-            <p class="text-gray-600 max-w-md mb-6">Explora nuestras rutas disponibles y reserva tu próximo viaje con comodidad.</p>
-            <a href="{{ route('buy.tickets') }}" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg shadow-md hover:from-blue-700 hover:to-blue-600 transition-all font-medium flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-3">¡No hay tickets aún!</h3>
+            <p class="text-gray-500 text-lg max-w-md mb-6">Explora nuestras rutas disponibles y reserva tu próximo viaje con facilidad y comodidad.</p>
+            <a href="{{ route('buy.tickets') }}" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-600 transition-all font-medium flex items-center justify-center space-x-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                 </svg>
-                Buscar viajes
+                <span>Buscar viajes</span>
             </a>
         </div>
     @else

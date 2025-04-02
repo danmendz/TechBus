@@ -31,18 +31,30 @@ class UbicacionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('estado')
+                Forms\Components\TextInput::make('nombre')
+                    ->label('Nombre')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('calle')
+                    ->label('Calle')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('numero')
+                    ->label('Número')
+                    ->required()
+                    ->maxLength(20),
+                Forms\Components\TextInput::make('ciudad')
+                    ->label('Ciudad')
                     ->required()
                     ->maxLength(100),
-                Forms\Components\TextInput::make('ciudad')
+                Forms\Components\TextInput::make('estado')
+                    ->label('Estado')
                     ->required()
-                    ->maxLength(200),
-                Forms\Components\TextInput::make('municipio')
+                    ->maxLength(100),
+                Forms\Components\TextInput::make('codigo_postal')
+                    ->label('Código Postal')
                     ->required()
-                    ->maxLength(200),
-                Forms\Components\TextInput::make('nombre_ubicacion')
-                    ->required()
-                    ->maxLength(300),
+                    ->maxLength(10),
             ]);
     }
 
@@ -50,26 +62,36 @@ class UbicacionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('estado')
+                Tables\Columns\TextColumn::make('nombre')
+                    ->label('Nombre')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('calle')
+                    ->label('Calle')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('numero')
+                    ->label('Número')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('ciudad')
+                    ->label('Ciudad')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('municipio')
+                Tables\Columns\TextColumn::make('estado')
+                    ->label('Estado')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('nombre_ubicacion')
+                Tables\Columns\TextColumn::make('codigo_postal')
+                    ->label('Código Postal')
                     ->searchable(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Fecha de Creación')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Última Actualización')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),

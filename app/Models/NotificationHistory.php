@@ -16,13 +16,11 @@ class NotificationHistory extends Model
         'id_corrida',
     ];
 
-    // Relación con la corrida
     public function notificacion()
     {
         return $this->belongsTo(Notificacion::class, 'id_notificacion');
     }
 
-    // Relación con la corrida
     public function corrida()
     {
         return $this->belongsTo(Corrida::class, 'id_corrida');
