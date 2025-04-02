@@ -40,15 +40,17 @@ class FortifyServiceProvider extends ServiceProvider
                 public function toResponse($request)
                 {
                     $user = $request->user();
-                    
+            
                     if (!$user) {
-                        return redirect('/login');
+                        return redirect(route('login'));
                     }
 
-                    if ($user->isAdmin() || $user->isOperativo() || $user->isConductor()) {
-                        return redirect()->intended('/gestion');
-                    } elseif ($user->isCliente()) {
-                        return redirect()->intended(route('dashboard'));
+                    if ($user->isAdmin() || $user->isConductor() || $user->isOperativo()) {
+                        return redirect('/gestion');
+                    }
+
+                    if ($user->isCliente()) {
+                        return redirect(route('dashboard'));
                     }
 
                     return redirect('/');
@@ -66,13 +68,15 @@ class FortifyServiceProvider extends ServiceProvider
                     $user = $request->user();
                     
                     if (!$user) {
-                        return redirect('/login');
+                        return redirect(route('login'));
                     }
 
-                    if ($user->isAdmin() || $user->isOperativo() || $user->isConductor()) {
-                        return redirect()->intended('/gestion');
-                    } elseif ($user->isCliente()) {
-                        return redirect()->intended(route('dashboard'));
+                    if ($user->isAdmin() || $user->isConductor() || $user->isOperativo()) {
+                        return redirect('/gestion');
+                    }
+
+                    if ($user->isCliente()) {
+                        return redirect(route('dashboard'));
                     }
 
                     return redirect('/');
@@ -133,7 +137,6 @@ class FortifyServiceProvider extends ServiceProvider
             'recaptchaToken' => ['required', new Recaptcha],
         ]);
 
-        // Validación adicional: verificar si el dominio de email es válido
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             $domain = explode('@', $request->email)[1] ?? '';
             if (!checkdnsrr($domain, 'MX')) {

@@ -24,7 +24,8 @@ class Navigation extends Component
             'dashboard' => 'Panel',
             'profile' => 'Perfil',
             'settings' => 'Configuración',
-            'buy-tickets' => 'Comprar boletos'
+            'buy' => 'Comprar boletos',
+            'my' => 'Mis boletos',
         ];
 
         // Obtiene el nombre de la ruta actual

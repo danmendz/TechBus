@@ -38,32 +38,30 @@ class User extends Authenticatable implements FilamentUser
         self::ROL_CLIENTE => 'Cliente',
     ];
 
-    // ||
-
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->isAdmin() || $this->isConductor() || $this->isOperativo();
     }
 
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->type === self::ROL_ADMINISTRADOR;
 
     }
 
-    public function isOperativo()
+    public function isOperativo(): bool
     {
         return $this->type === self::ROL_OPERATIVO;
 
     }
 
-    public function isConductor()
+    public function isConductor(): bool
     {
         return $this->type === self::ROL_CONDUCTOR;
 
     }
 
-    public function isCliente()
+    public function isCliente(): bool
     {
         return $this->type === self::ROL_CLIENTE;
 
