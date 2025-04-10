@@ -58,7 +58,7 @@
                                 <div class="relative">
                                     <input type="email" id="email" name="email" autofocus autocomplete="off"
                                         class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                        required>
+                                        required placeholder="Ejemplo@gmail.com">
                                 </div>
                             </div>
                             <!-- End Form Group -->
@@ -81,7 +81,7 @@
                                     <div class="flex items-center mt-1 border rounded-md">
                                         <input type="password" id="password" name="password" autocomplete="off"
                                             class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                            required>
+                                            required placeholder="Ingresa tu contraseña">
                                         <i class="bi bi-eye-slash cursor-pointer px-3 text-gray-500" id="togglePassword"
                                             onclick="togglePasswordVisibility()"></i>
                                     </div>
@@ -121,12 +121,6 @@
                                 </template>
                                 <template x-if="isSubmitting">
                                     <span class="flex items-center">
-                                        <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                            viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor"
-                                                d="M4 12a8 8 0 018-8v8H4z"></path>
-                                        </svg>
                                         Procesando...
                                     </span>
                                 </template>

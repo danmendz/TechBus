@@ -9,45 +9,57 @@ use Filament\Events\Auth\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Jetstream\Jetstream;
+use Livewire\Attributes\Rule;
 use Livewire\Form;
 
 class RegistrationCreateForm extends Form
 {
     use PasswordValidationRules;
-    
-    public string $name = '';
-    public string $surnames = '';
-    public string $phone = '';
-    public string $email = '';
-    public string $password = '';
-    public string $password_confirmation = '';
-    public bool $terms = false;
+
+    #[Rule('required|string|min:4|max:10')]
+    public $name = '';
+
+    #[Rule('required|string|min:4|max:20')]
+    public $surnames = '';
+
+    #[Rule('required|string|digits:10')]
+    public $phone = '';
+
+    #[Rule('required|string|email|max:50|unique:users')]
+    public $email = '';
+        
+    #[Rule('required|string|confirmed')]
+    public $password = '';
+
+    public $password_confirmation = '';    
     public array $countryCodes = [];
     public string $countryCode = '52';
+    public bool $terms = false;
     public $recaptchaToken;
 
-    public function validateFirstStep()
+    public function rules()
     {
-        $this->validate([
-            'name' => 'required|string|min:5|max:255',
-            'surnames' => 'required|string|min:5|max:255',
-            'phone' => 'required|string|digits:10',
-        ]);
-    }
-
-    public function validateSecondStep()
-    {
-        $this->validate([
-            'email' => 'required|string|email|max:255|unique:users',
+        return [
             'password' => array_merge($this->passwordRules(), ['required', 'confirmed']),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : [],
-            'recaptchaToken' => ['required', new Recaptcha],
-        ]);
+            'recaptchaToken' => ['required', new Recaptcha()],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'surnames.required' => 'El campo apellidos es obligatorio.',
+            'surnames.min' => 'El apellido debe tener al menos :min caracteres.',
+            'surnames.max' => 'El apellido no puede superar los :max caracteres.',
+            'surnames.string' => 'El apellido debe ser una cadena de texto válida.',
+            'terms.required' => 'Debes aceptar los términos y condiciones.',
+        ];
     }
 
     public function createUser()
     {
-        $this->validateSecondStep();
+        $this->validate();
         
         $user = User::create([
             'name' => $this->name,

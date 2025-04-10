@@ -8,8 +8,6 @@ use App\Rules\Recaptcha;
 use Illuminate\Support\Facades\Http;
 class RegisterForm extends Component
 {
-    public int $currentStep = 1;
-    public int $totalSteps = 2;
     public RegistrationCreateForm $registerCreate;
 
     public function mount()
@@ -26,23 +24,6 @@ class RegisterForm extends Component
     public function render()
     {
         return view('livewire.auth.register-form');
-    }
-
-    public function incrementStep()
-    {
-        try {
-            $this->registerCreate->validateFirstStep();
-            $this->currentStep++;
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // throw $e;
-            session()->flash('error', 'No se pudo registrar los datos. Por favor, inténtelo de nuevo.');
-            return redirect()->route('register.form');
-        }
-    }
-
-    public function decrementStep()
-    {
-        $this->currentStep--;
     }
 
     public function submit()
