@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Validation\ValidationException;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
@@ -11,12 +12,8 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
-use Laravel\Fortify\Actions\AttemptToAuthenticate;
-use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Contracts\LoginResponse as ContractsLoginResponse;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginResponse;
@@ -29,59 +26,52 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->registerLoginResponse();
-        $this->registerTwoFactorResponse();
-    }
+        // Redirección de usuarios sin autenticación de dos factores
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+            public function toResponse($request)
+            {
+                return $this->redirectBasedOnRole();
+            }
 
-    protected function registerLoginResponse(): void
-    {
-        $this->app->singleton(LoginResponse::class, function () {
-            return new class implements LoginResponse {
-                public function toResponse($request)
-                {
-                    $user = $request->user();
-            
-                    if (!$user) {
-                        return redirect(route('login'));
-                    }
+            private function redirectBasedOnRole()
+            {
+                $usertype = Auth::user()->type;
 
-                    if ($user->isAdmin() || $user->isConductor() || $user->isOperativo()) {
-                        return redirect('/gestion');
-                    }
-
-                    if ($user->isCliente()) {
-                        return redirect(route('dashboard'));
-                    }
-
-                    return redirect('/');
+                switch ($usertype) {
+                    case 'admin':
+                        return redirect()->to('/gestion');
+                    case 'operativo':
+                        return redirect()->to('/gestion'); 
+                    case 'conductor':
+                        return redirect()->to('/gestion'); 
+                    case 'cliente':
+                        return redirect()->route('dashboard');
+                    default:
+                        return redirect()->back();
                 }
-            };
+            }
         });
-    }
 
-    protected function registerTwoFactorResponse(): void
-    {
-        $this->app->singleton(TwoFactorLoginResponse::class, function () {
-            return new class implements TwoFactorLoginResponse {
-                public function toResponse($request)
-                {
-                    $user = $request->user();
-                    
-                    if (!$user) {
-                        return redirect(route('login'));
-                    }
+        // Redirección de usuarios con autenticación de dos factores
+        $this->app->instance(TwoFactorLoginResponse::class, new class implements TwoFactorLoginResponse {
+            public function toResponse($request)
+            {
+                return $this->redirectBasedOnRole();
+            }
 
-                    if ($user->isAdmin() || $user->isConductor() || $user->isOperativo()) {
-                        return redirect('/gestion');
-                    }
+            private function redirectBasedOnRole()
+            {
+                $usertype = Auth::user()->type;
 
-                    if ($user->isCliente()) {
-                        return redirect(route('dashboard'));
-                    }
-
-                    return redirect('/');
+                switch ($usertype) {
+                    case 'admin':
+                        return redirect()->to('/gestion'); 
+                    case 'cliente':
+                        return redirect()->route('dashboard');
+                    default:
+                        return redirect()->back();
                 }
-            };
+            }
         });
     }
 
@@ -95,24 +85,14 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        $this->configureRateLimiting();
+        RateLimiter::for('login', function (Request $request) {
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
-        Fortify::authenticateUsing(function (Request $request) {
-            $this->validateLoginRequest($request);
+            return Limit::perMinute(3)->by($throttleKey);
+        });
 
-            $user = Auth::guard('web')->attempt(
-                $request->only(Fortify::username(), 'password'),
-                $request->filled('remember')
-            ) ? Auth::guard('web')->user() : null;
-
-            if ($user && !$user->is_active) {
-                Auth::logout();
-                throw ValidationException::withMessages([
-                    Fortify::username() => __('Tu cuenta está desactivada.'),
-                ]);
-            }
-
-            return $user;
+        RateLimiter::for('two-factor', function (Request $request) {
+            return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
     }
 
