@@ -35,4 +35,32 @@ return [
         ],
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+        'search_engine' => env('GOOGLE_RESEARCH_ENGINE'),
+    ],
+
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT_URI'),
+    ],
+
+    'whatsapp' => [
+        'whatsapp_tk' => env('WHATSAPP_TK'),
+        'whatsapp_phone_id' => env('WHATSAPP_PHONE_ID'),
+        'whatsapp_version' => env('WHATSAPP_VERSION'),
+    ],
+
+    'recaptcha' => [
+         'site_key' => env('RECAPTCHA_SITE_KEY'),
+         'secret_key' => env('RECAPTCHA_SECRET_KEY'),
+         'min_score' => env('RECAPTCHA_MIN_SCORE'),
+    ],
+
+    'notification' => [
+         'purchase_notification' => env('PURCHASE_NOTIFICATION'),
+    ],
 ];

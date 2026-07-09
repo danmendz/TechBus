@@ -1,3 +1,8 @@
-# Terms of Service
+# Términos del servicio
 
-Edit this file to define the terms of service for your application.
+1. Esta aplicación es para uso de los pasajeros de las marcas ADO, AU, y OCC.
+2. Esta aplicación tiene como propósito brindar una referencia de tiempos de traslado, así como trayectos de los autobuses de las marcas mencionadas anteriormente, de origen a destino, sin que implique compromiso u obligación de tiempos de llegada de los vehículos. “La empresa”, no ofrece garantía explícita o implícita y se reserva el derecho de modificar la información aquí contenida, cuando lo estime conveniente y sin previo aviso, pudiendo incluso limitar o no permitir el acceso a dicha información.
+3. “La empresa” no asume compromiso, ni obligación sobre tiempos de llegada de los autobuses, por lo que cualquier reclamación en relación al tiempo que refiera la aplicación no genera obligación de compensación en ningún sentido al pasajero. 
+4. “La empresa” no asume responsabilidad por fallas en la comunicación de internet, ya sea de la propia empresa, o del usuario que esté consultando sus tiempos de trayecto.
+5. “La empresa” no asume responsabilidad alguna que derive del intercambio de información electrónica entre usuarios de Internet y no adquiere ninguna responsabilidad por causa de problemas técnicos que se pudieran producir en equipos informáticos que se utilicen durante la conexión a la red de Internet, ya sea a través de esta aplicación o de otras.
+6. Al acceder a esta aplicación usted reconoce haber leído y entendido sus contenidos y manifiesta estar de acuerdo con los mismos.

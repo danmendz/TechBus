@@ -20,8 +20,15 @@
     <body class="font-sans antialiased">
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+        @if (Auth::check() && Auth::user()->phone == null)
+            @livewire('phone-modal')
+        @endif
+        
+        <div class="min-h-screen bg-white">
+            {{-- @livewire('navigation-menu') --}}
+            @auth
+                <livewire:navigation />
+            @endauth
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -32,14 +39,15 @@
                 </header>
             @endif
 
-            <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>
         </div>
 
         @stack('modals')
-
+        
         @livewireScripts
+        <script src="./node_modules/preline/dist/preline.js"></script>
+        <script src="{{ asset('js/auth/toggle-password.js') }}"></script>
     </body>
 </html>

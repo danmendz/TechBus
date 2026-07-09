@@ -16,11 +16,23 @@ trait PasswordValidationRules
         return [
             'required',
             'string',
-            Password::min(8),
-                // ->mixedCase()
-                // ->numbers()
-                // ->symbols(),
+            Password::min(8)
+                ->mixedCase()
+                ->numbers()
+                ->uncompromised()
+                ->symbols(),
             'confirmed',
+            function ($attribute, $value, $fail) {
+                // Validación de números consecutivos
+                if (preg_match('/012|123|234|345|456|567|678|789|890|1234|2345|3456|4567|5678|6789/', $value)) {
+                    $fail('La contraseña no puede contener números consecutivos.');
+                }
+    
+                // Validación de letras consecutivas
+                if (preg_match('/abcdefghijklmnopqrstuvwxyz|zyxwvutsrqponmlkjihgfedcba/', $value)) {
+                    $fail('La contraseña no puede contener letras consecutivas.');
+                }
+            },
         ];
     }
 }

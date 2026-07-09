@@ -2,16 +2,22 @@
 
 namespace App\Providers;
 
+use Illuminate\Validation\ValidationException;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Rules\Recaptcha;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Laravel\Fortify\Contracts\LoginResponse as ContractsLoginResponse;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\TwoFactorLoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -20,7 +26,53 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Redirección de usuarios sin autenticación de dos factores
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+            public function toResponse($request)
+            {
+                return $this->redirectBasedOnRole();
+            }
+
+            private function redirectBasedOnRole()
+            {
+                $usertype = Auth::user()->type;
+
+                switch ($usertype) {
+                    case 'admin':
+                        return redirect()->to('/gestion');
+                    case 'operativo':
+                        return redirect()->to('/gestion'); 
+                    case 'conductor':
+                        return redirect()->to('/gestion'); 
+                    case 'cliente':
+                        return redirect()->route('dashboard');
+                    default:
+                        return redirect()->back();
+                }
+            }
+        });
+
+        // Redirección de usuarios con autenticación de dos factores
+        $this->app->instance(TwoFactorLoginResponse::class, new class implements TwoFactorLoginResponse {
+            public function toResponse($request)
+            {
+                return $this->redirectBasedOnRole();
+            }
+
+            private function redirectBasedOnRole()
+            {
+                $usertype = Auth::user()->type;
+
+                switch ($usertype) {
+                    case 'admin':
+                        return redirect()->to('/gestion'); 
+                    case 'cliente':
+                        return redirect()->route('dashboard');
+                    default:
+                        return redirect()->back();
+                }
+            }
+        });
     }
 
     /**
@@ -42,5 +94,36 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
+    }
+
+    protected function configureRateLimiting(): void
+    {
+        RateLimiter::for('login', function (Request $request) {
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+
+            return Limit::perMinute(3)->by($throttleKey);
+        });
+
+        RateLimiter::for('two-factor', function (Request $request) {
+            return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        });
+    }
+
+    protected function validateLoginRequest(Request $request): void
+    {
+        $request->validate([
+            Fortify::username() => 'required|string',
+            'password' => 'required|string',
+            'recaptchaToken' => ['required', new Recaptcha],
+        ]);
+
+        if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            $domain = explode('@', $request->email)[1] ?? '';
+            if (!checkdnsrr($domain, 'MX')) {
+                throw ValidationException::withMessages([
+                    Fortify::username() => __('El dominio de tu correo electrónico no es válido.'),
+                ]);
+            }
+        }
     }
 }
